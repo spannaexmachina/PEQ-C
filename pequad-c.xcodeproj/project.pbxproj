@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4C814B181E9323DD00DCABBF /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C814B171E9323DD00DCABBF /* main.c */; };
+		4C814B211E93241100DCABBF /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C814B1F1E93241100DCABBF /* SDL2_image.framework */; };
+		4C814B221E93241100DCABBF /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C814B201E93241100DCABBF /* SDL2.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +27,8 @@
 /* Begin PBXFileReference section */
 		4C814B141E9323DD00DCABBF /* pequad-c */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "pequad-c"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C814B171E9323DD00DCABBF /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		4C814B1F1E93241100DCABBF /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../../../../Library/Frameworks/SDL2_image.framework; sourceTree = "<group>"; };
+		4C814B201E93241100DCABBF /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +36,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4C814B211E93241100DCABBF /* SDL2_image.framework in Frameworks */,
+				4C814B221E93241100DCABBF /* SDL2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,6 +49,7 @@
 			children = (
 				4C814B161E9323DD00DCABBF /* pequad-c */,
 				4C814B151E9323DD00DCABBF /* Products */,
+				4C814B1E1E93241000DCABBF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,6 +67,15 @@
 				4C814B171E9323DD00DCABBF /* main.c */,
 			);
 			path = "pequad-c";
+			sourceTree = "<group>";
+		};
+		4C814B1E1E93241000DCABBF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4C814B1F1E93241100DCABBF /* SDL2_image.framework */,
+				4C814B201E93241100DCABBF /* SDL2.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -218,6 +234,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = 672898JJ45;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -226,6 +246,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = 672898JJ45;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(USER_LIBRARY_DIR)/Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
