@@ -12,10 +12,8 @@
 int main(int argc, char* argv[])
 {
     PEQ_DATA data;
-    //SDL_Renderer *renderer = 0;
-    //SDL_Window *window = 0;
     
-    pop_main_data(&data/*, renderer, window*/);
+    pop_main_data(&data);
     printf("* Pequad-C *\nWarming up...\n");
     
     for (data.is_running = PEQ_init(&data); data.is_running != 0; PEQ_cycle(&data)) {

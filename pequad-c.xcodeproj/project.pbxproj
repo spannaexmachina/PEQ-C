@@ -9,13 +9,11 @@
 /* Begin PBXBuildFile section */
 		4C16A87C1E93640100CECFAE /* PEQ_texture_manager.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C16A87A1E93640100CECFAE /* PEQ_texture_manager.c */; };
 		4C2BFA751E94F6BB005EB071 /* PEQ_colour.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C2BFA741E94F6BB005EB071 /* PEQ_colour.c */; };
+		4C72C3141E97B069004C32B4 /* PEQ_geometry.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C72C3121E97B069004C32B4 /* PEQ_geometry.c */; };
 		4C814B181E9323DD00DCABBF /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C814B171E9323DD00DCABBF /* main.c */; };
-		4CCAFD1F1E93562C0006FF26 /* point2D.c in Sources */ = {isa = PBXBuildFile; fileRef = 4CCAFD1D1E93562C0006FF26 /* point2D.c */; };
 		4CCAFD221E935CD90006FF26 /* PEQ_engine.c in Sources */ = {isa = PBXBuildFile; fileRef = 4CCAFD201E935CD90006FF26 /* PEQ_engine.c */; };
 		CF1CE2971E976CD400865147 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1CE2951E976CD400865147 /* SDL2_image.framework */; };
 		CF1CE2981E976CD400865147 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1CE2961E976CD400865147 /* SDL2.framework */; };
-		CF1CE29B1E97931800865147 /* circle.c in Sources */ = {isa = PBXBuildFile; fileRef = CF1CE2991E97931800865147 /* circle.c */; };
-		CF1CE29E1E979C8E00865147 /* radius.c in Sources */ = {isa = PBXBuildFile; fileRef = CF1CE29C1E979C8E00865147 /* radius.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -36,18 +34,14 @@
 		4C2BFA731E94F13A005EB071 /* PEQ_colour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEQ_colour.h; sourceTree = "<group>"; };
 		4C2BFA741E94F6BB005EB071 /* PEQ_colour.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PEQ_colour.c; sourceTree = "<group>"; };
 		4C2BFA761E9500ED005EB071 /* PEQ_SETTINGS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEQ_SETTINGS.h; sourceTree = "<group>"; };
+		4C72C3121E97B069004C32B4 /* PEQ_geometry.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PEQ_geometry.c; sourceTree = "<group>"; };
+		4C72C3131E97B069004C32B4 /* PEQ_geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEQ_geometry.h; sourceTree = "<group>"; };
 		4C814B141E9323DD00DCABBF /* pequad-c */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "pequad-c"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C814B171E9323DD00DCABBF /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		4CCAFD1D1E93562C0006FF26 /* point2D.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = point2D.c; sourceTree = "<group>"; };
-		4CCAFD1E1E93562C0006FF26 /* point2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = point2D.h; sourceTree = "<group>"; };
 		4CCAFD201E935CD90006FF26 /* PEQ_engine.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PEQ_engine.c; sourceTree = "<group>"; };
 		4CCAFD211E935CD90006FF26 /* PEQ_engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEQ_engine.h; sourceTree = "<group>"; };
 		CF1CE2951E976CD400865147 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../../../../../Library/Frameworks/SDL2_image.framework; sourceTree = "<group>"; };
 		CF1CE2961E976CD400865147 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
-		CF1CE2991E97931800865147 /* circle.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = circle.c; sourceTree = "<group>"; };
-		CF1CE29A1E97931800865147 /* circle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = circle.h; sourceTree = "<group>"; };
-		CF1CE29C1E979C8E00865147 /* radius.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = radius.c; sourceTree = "<group>"; };
-		CF1CE29D1E979C8E00865147 /* radius.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = radius.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,8 +78,6 @@
 			isa = PBXGroup;
 			children = (
 				4C814B171E9323DD00DCABBF /* main.c */,
-				4CCAFD1D1E93562C0006FF26 /* point2D.c */,
-				4CCAFD1E1E93562C0006FF26 /* point2D.h */,
 				4CCAFD201E935CD90006FF26 /* PEQ_engine.c */,
 				4CCAFD211E935CD90006FF26 /* PEQ_engine.h */,
 				4C16A87A1E93640100CECFAE /* PEQ_texture_manager.c */,
@@ -93,10 +85,8 @@
 				4C2BFA731E94F13A005EB071 /* PEQ_colour.h */,
 				4C2BFA741E94F6BB005EB071 /* PEQ_colour.c */,
 				4C2BFA761E9500ED005EB071 /* PEQ_SETTINGS.h */,
-				CF1CE2991E97931800865147 /* circle.c */,
-				CF1CE29A1E97931800865147 /* circle.h */,
-				CF1CE29C1E979C8E00865147 /* radius.c */,
-				CF1CE29D1E979C8E00865147 /* radius.h */,
+				4C72C3121E97B069004C32B4 /* PEQ_geometry.c */,
+				4C72C3131E97B069004C32B4 /* PEQ_geometry.h */,
 			);
 			path = "pequad-c";
 			sourceTree = "<group>";
@@ -168,11 +158,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4CCAFD1F1E93562C0006FF26 /* point2D.c in Sources */,
+				4C72C3141E97B069004C32B4 /* PEQ_geometry.c in Sources */,
 				4C814B181E9323DD00DCABBF /* main.c in Sources */,
 				4C16A87C1E93640100CECFAE /* PEQ_texture_manager.c in Sources */,
-				CF1CE29B1E97931800865147 /* circle.c in Sources */,
-				CF1CE29E1E979C8E00865147 /* radius.c in Sources */,
 				4CCAFD221E935CD90006FF26 /* PEQ_engine.c in Sources */,
 				4C2BFA751E94F6BB005EB071 /* PEQ_colour.c in Sources */,
 			);

@@ -7,8 +7,7 @@
 //
 
 #include "PEQ_engine.h"
-#include "circle.h"
-#include "radius.h"
+
 
 
 int get_window_mode(PEQ_WINDOW_MODE w_mode)
@@ -62,39 +61,6 @@ int PEQ_handle_events(PEQ_DATA *data)
     return 0;
 }
 
-void PEQ_draw_line(SDL_Renderer *r, COLOUR_NAME colour, point2D p1, point2D p2)
-{
-    PEQ_COLOUR c = get_colour(colour);
-    
-    SDL_SetRenderDrawColor(r, c.r, c.g, c.b, c.a);
-    SDL_RenderDrawLine(r, p1.x, p1.y, p2.x, p2.y);
-}
-
-void PEQ_draw_rect(SDL_Renderer *r, COLOUR_NAME colour, point2D p, int width, int height)
-{
-    PEQ_COLOUR c = get_colour(colour);
-    SDL_Rect rect;
-    
-    SDL_SetRenderDrawColor(r, c.r, c.g, c.b, c.a);
-    rect.x = p.x;
-    rect.y = p.y;
-    rect.w = width;
-    rect.h = height;
-    SDL_RenderDrawRect(r, &rect);
-}
-
-//////////working
-void PEQ_draw_all_2D(SDL_Renderer *r, PEQ_2D_graphic *objects[])
-{
-    int i;
-    for (i = 0; i != '\0'; i++) {
-        if (objects[i] == PEQ_RECT) {
-            PEQ_draw_rect(r, objects[i]->rect.colour, objects[i]->rect.p, objects[i]->rect.width, objects[i]->rect.height);
-        }
-    }
-}
-
-
 int PEQ_render(PEQ_DATA *data)
 {
     SDL_SetRenderDrawColor(data->renderer, data->r_colour.r, data->r_colour.g,data->r_colour.b, data->r_colour.a);
@@ -145,7 +111,7 @@ int PEQ_cycle(PEQ_DATA *data)
     return 0;
 }
 
-int pop_main_data(PEQ_DATA *data/*, SDL_Renderer *r, SDL_Window */)
+int pop_main_data(PEQ_DATA *data)
 {
     data->frame_start = data->frame_time = data->is_running = 0;
     data->renderer = 0;

@@ -15,7 +15,7 @@
 #include "PEQ_texture_manager.h"
 #include "PEQ_colour.h"
 #include "PEQ_SETTINGS.h"
-#include "point2D.h"
+#include "PEQ_geometry.h"
 
 
 
@@ -74,11 +74,7 @@ typedef struct data {
     PEQ_2D_graphic twoD_objects[];
 } PEQ_DATA;
 
-//todo move shapes
-void PEQ_draw_line(SDL_Renderer *r, COLOUR_NAME colour, point2D p1, point2D p2);
 
-void PEQ_draw_rect(SDL_Renderer *r, COLOUR_NAME colour, point2D p, int width, int height);
-void PEQ_draw_all_2D(SDL_Renderer *r, PEQ_2D_graphic *objects[]);
 /**
  * \brief returns an SDL window mode based on PEQ enum
  *
@@ -138,11 +134,9 @@ int load_texture_manager(PEQ_DATA *data);
 /**
  * \brief populates a PEQ_DATA struct
  * \param data PEQ_DATA type pointer to populate
- * \param r SDL_Renderer type pointer
- * \param w SDL_Window type pointer
  * \returns 0 success;
  */
-int pop_main_data(PEQ_DATA *data/*, SDL_Renderer *r, SDL_Window */);
+int pop_main_data(PEQ_DATA *data);
 
 
 
