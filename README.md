@@ -1,2 +1,4 @@
 # pequad-c
-Graphical applciation engine
+C Graphical applciation engine
+
+currently in development.
