@@ -14,6 +14,8 @@
 		4CCAFD221E935CD90006FF26 /* PEQ_engine.c in Sources */ = {isa = PBXBuildFile; fileRef = 4CCAFD201E935CD90006FF26 /* PEQ_engine.c */; };
 		CF1CE2971E976CD400865147 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1CE2951E976CD400865147 /* SDL2_image.framework */; };
 		CF1CE2981E976CD400865147 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1CE2961E976CD400865147 /* SDL2.framework */; };
+		CF1CE29B1E97931800865147 /* circle.c in Sources */ = {isa = PBXBuildFile; fileRef = CF1CE2991E97931800865147 /* circle.c */; };
+		CF1CE29E1E979C8E00865147 /* radius.c in Sources */ = {isa = PBXBuildFile; fileRef = CF1CE29C1E979C8E00865147 /* radius.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -42,6 +44,10 @@
 		4CCAFD211E935CD90006FF26 /* PEQ_engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEQ_engine.h; sourceTree = "<group>"; };
 		CF1CE2951E976CD400865147 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../../../../../Library/Frameworks/SDL2_image.framework; sourceTree = "<group>"; };
 		CF1CE2961E976CD400865147 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
+		CF1CE2991E97931800865147 /* circle.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = circle.c; sourceTree = "<group>"; };
+		CF1CE29A1E97931800865147 /* circle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = circle.h; sourceTree = "<group>"; };
+		CF1CE29C1E979C8E00865147 /* radius.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = radius.c; sourceTree = "<group>"; };
+		CF1CE29D1E979C8E00865147 /* radius.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = radius.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +93,10 @@
 				4C2BFA731E94F13A005EB071 /* PEQ_colour.h */,
 				4C2BFA741E94F6BB005EB071 /* PEQ_colour.c */,
 				4C2BFA761E9500ED005EB071 /* PEQ_SETTINGS.h */,
+				CF1CE2991E97931800865147 /* circle.c */,
+				CF1CE29A1E97931800865147 /* circle.h */,
+				CF1CE29C1E979C8E00865147 /* radius.c */,
+				CF1CE29D1E979C8E00865147 /* radius.h */,
 			);
 			path = "pequad-c";
 			sourceTree = "<group>";
@@ -161,6 +171,8 @@
 				4CCAFD1F1E93562C0006FF26 /* point2D.c in Sources */,
 				4C814B181E9323DD00DCABBF /* main.c in Sources */,
 				4C16A87C1E93640100CECFAE /* PEQ_texture_manager.c in Sources */,
+				CF1CE29B1E97931800865147 /* circle.c in Sources */,
+				CF1CE29E1E979C8E00865147 /* radius.c in Sources */,
 				4CCAFD221E935CD90006FF26 /* PEQ_engine.c in Sources */,
 				4C2BFA751E94F6BB005EB071 /* PEQ_colour.c in Sources */,
 			);

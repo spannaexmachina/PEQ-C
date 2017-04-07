@@ -20,6 +20,8 @@ int main(int argc, char* argv[])
     
     for (data.is_running = PEQ_init(&data); data.is_running != 0; PEQ_cycle(&data)) {
         }
+
+    
     
     PEQ_clean(&data);
     SDL_Quit();

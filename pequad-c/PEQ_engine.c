@@ -7,6 +7,8 @@
 //
 
 #include "PEQ_engine.h"
+#include "circle.h"
+#include "radius.h"
 
 
 int get_window_mode(PEQ_WINDOW_MODE w_mode)
@@ -80,6 +82,7 @@ void PEQ_draw_rect(SDL_Renderer *r, COLOUR_NAME colour, point2D p, int width, in
     rect.h = height;
     SDL_RenderDrawRect(r, &rect);
 }
+
 //////////working
 void PEQ_draw_all_2D(SDL_Renderer *r, PEQ_2D_graphic *objects[])
 {
