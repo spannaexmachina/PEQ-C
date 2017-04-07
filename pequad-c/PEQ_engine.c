@@ -28,12 +28,12 @@ int PEQ_init(PEQ_DATA *data)
             printf("Window initialised!\n");
             if ((data->renderer = SDL_CreateRenderer(data->window, -1, 0))) {
                 printf("Renderer initialised!\ninitialising PEQ texture manager\n");
-                if (load_texture_manager(data) != 0) {
+                //if (load_texture_manager(data) != 0) {
                     printf("success!\nPEQ initialised initialised!\nInitialisation complete!\ndrawing window...\n");
                     if (data->r_colour.name != TRANSPARENT && !(SDL_SetRenderDrawColor(data->renderer, data->r_colour.r, data->r_colour.g, data->r_colour.b, data->r_colour.a))) {
                             return 1;
-                    } else
-                        printf("Renderer colour error; colour %u not recognised or is illegal\n", data->r_colour.name);
+                   // } else
+                        //printf("Renderer colour error; colour %u not recognised or is illegal\n", data->r_colour.name);
                 } else
                     printf("Failed to initialise PEQ texture manager\n");
             } else
