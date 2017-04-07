@@ -15,6 +15,7 @@
 #include "PEQ_texture_manager.h"
 #include "PEQ_colour.h"
 #include "PEQ_SETTINGS.h"
+#include "point2D.h"
 
 
 
@@ -23,6 +24,36 @@ typedef enum window {
     RESIZABLE,                  /**< Open in a resizable window */
     FULLSCREEN                  /**< Open in fullscreen */
 } PEQ_WINDOW_MODE;
+
+typedef enum {
+    PEQ_RECT,
+    PEQ_LINE,
+    PEQ_POINT
+} PEQ_2Dtype;
+
+typedef union {
+    struct rect {
+        int         ID;
+        PEQ_2Dtype  type;
+        COLOUR_NAME colour;
+        point2D     p;
+        int         width,
+                    height;
+    } rect;
+    struct line {
+        int         ID;
+        PEQ_2Dtype  type;
+        COLOUR_NAME colour;
+        point2D     p1,
+                    p2;
+    } line;
+    struct point {
+        int           ID;
+        PEQ_2Dtype    type;
+        COLOUR_NAME   colour;
+        point2D       p;
+    } point;
+} PEQ_2D_graphic;
 
 typedef struct data {
     SDL_Renderer *renderer;     /**< pointer to application renderer */
@@ -39,11 +70,15 @@ typedef struct data {
     char title[20];             /**< application title, used for window title, etc. */
     PEQ_COLOUR r_colour;        /**< background render colour (set in precompiler) */
     PEQ_WINDOW_MODE window_mode;/**< window mode (set at precompile) */
-    PEQ_TEXTURE_MAP texture_manager; /**< stores textures to be used */
+    PEQ_TEXTURE texture_manager[5]; /**< stores textures to be used */
+    PEQ_2D_graphic twoD_objects[];
 } PEQ_DATA;
 
-//todo move drawline
-void PEQ_draw_line(SDL_Renderer *r, COLOUR_NAME colour, int x1, int x2, int y1, int y2);
+//todo move shapes
+void PEQ_draw_line(SDL_Renderer *r, COLOUR_NAME colour, point2D p1, point2D p2);
+
+void PEQ_draw_rect(SDL_Renderer *r, COLOUR_NAME colour, point2D p, int width, int height);
+void PEQ_draw_all_2D(SDL_Renderer *r, PEQ_2D_graphic *objects[]);
 /**
  * \brief returns an SDL window mode based on PEQ enum
  *
@@ -91,6 +126,10 @@ int PEQ_clean(PEQ_DATA *data);
 int PEQ_cycle(PEQ_DATA *data);
 
 /**
+ */
+int PEQ_update(PEQ_DATA *data);
+
+/**
  *
  *
  */
@@ -103,7 +142,7 @@ int load_texture_manager(PEQ_DATA *data);
  * \param w SDL_Window type pointer
  * \returns 0 success;
  */
-int pop_main_data(PEQ_DATA *data, SDL_Renderer *r, SDL_Window *w);
+int pop_main_data(PEQ_DATA *data/*, SDL_Renderer *r, SDL_Window */);
 
 
 

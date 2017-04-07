@@ -15,7 +15,7 @@ point2D result_add_points(point2D p1, point2D p2)
     return p1;
 }
 
-point2D makepoint(double x, double y)
+point2D makepoint(int x, int y)
 {
     point2D temp;
     
@@ -35,5 +35,3 @@ void subtractpoints(point2D *dest, point2D *src)
     dest->x -= src->x;
     dest->y -= src->y;
 }
-
-

@@ -13,13 +13,13 @@
 #include "math.h"
 
 typedef struct {
-    double x;
-    double y;
+    int x;
+    int y;
 } point2D;
 
 point2D result_add_points(point2D p1, point2D p2);
 void addpoints(point2D *dest, point2D *src);
 void subtractpoints(point2D *dest, point2D *src);
-point2D makepoint(double x, double y);
+point2D makepoint(int x, int y);
 
 #endif /* point2D_h */
