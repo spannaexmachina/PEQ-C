@@ -20,6 +20,14 @@ int get_window_mode(PEQ_WINDOW_MODE w_mode)
     }
 }
 
+int PEQ_rand(int min, int max)
+{
+    if (min < max)
+        return (rand() % (max - min)) + min;
+    else
+        return 0;
+}
+
 int PEQ_init(PEQ_DATA *data)
 {
     printf("initialising SDL...\n");
@@ -29,12 +37,12 @@ int PEQ_init(PEQ_DATA *data)
             printf("Window initialised!\n");
             if ((data->renderer = SDL_CreateRenderer(data->window, -1, 0))) {
                 printf("Renderer initialised!\ninitialising PEQ texture manager\n");
-                //if (load_texture_manager(data) != 0) {
+                if (load_texture_manager(data) != 0) {
                     printf("success!\nPEQ initialised initialised!\nInitialisation complete!\ndrawing window...\n");
                     if (data->r_colour.name != TRANSPARENT && !(SDL_SetRenderDrawColor(data->renderer, data->r_colour.r, data->r_colour.g, data->r_colour.b, data->r_colour.a))) {
                             return 1;
-                   // } else
-                        //printf("Renderer colour error; colour %u not recognised or is illegal\n", data->r_colour.name);
+                    } else
+                        printf("Renderer colour error; colour %u not recognised or is illegal\n", data->r_colour.name);
                 } else
                     printf("Failed to initialise PEQ texture manager\n");
             } else
@@ -65,12 +73,21 @@ int PEQ_render(PEQ_DATA *data)
 {
     SDL_SetRenderDrawColor(data->renderer, data->r_colour.r, data->r_colour.g,data->r_colour.b, data->r_colour.a);
     SDL_RenderClear(data->renderer);
-    //PEQ_TEXTURE *text = PEQ_get_texture("assets/rider.bmp", "rider", data->renderer);
-   // PEQ_draw(text, 100, 100, 0, 0, data->renderer, SDL_FLIP_NONE);
+    
+    // new dynamic shape
+    PEQ_2D_shape r1 = PEQ_get_rect(makepoint(100, 100), 200, 400, WHITE);
+    PEQ_2D_shape l1 = PEQ_get_line(makepoint(50, 500), makepoint(600, 50), RED);
+    
+     PEQ_draw_texture(data->renderer, &data->texture_bank[0], PEQ_rand(0, WINDOW_WIDTH), PEQ_rand(0, WINDOW_HEIGHT), data->texture_bank[0].w, data->texture_bank[0].h, SDL_FLIP_NONE);
+    
+    PEQ_draw_shape(data->renderer, &r1);
+    PEQ_draw_shape(data->renderer, &l1);
     
     PEQ_draw_line(data->renderer, WHITE, makepoint(100, 100), makepoint(200, 200));
     PEQ_draw_rect(data->renderer, RED, makepoint(200, 200), 150, 200);
     PEQ_draw_rect(data->renderer, RED, makepoint(200, 200), 200, 200);
+    
+   
     
     //printf("frame time: %u\n", data->frame_time); //print frame time debug
     
@@ -93,6 +110,8 @@ int PEQ_clean(PEQ_DATA *data)
 int PEQ_update(PEQ_DATA *data)
 {
     PEQ_handle_events(data);
+    
+    
     
     return 0;
 }
@@ -122,7 +141,7 @@ int pop_main_data(PEQ_DATA *data)
     data->win_height = WINDOW_HEIGHT;
     data->win_width = WINDOW_WIDTH;
     strcpy(data->title, WINDOW_TITLE);
-    data->x = WINDOW_X;
+    data->x = WINDOW_WIDTH;
     data->y = WINDOW_Y;
     data->window_mode = WINDOW_MODE;
     return 0;
@@ -134,16 +153,15 @@ int load_texture_manager(PEQ_DATA *data)
     int count = 1;
     char tempfilename[100];
     char temptextureID[20];
-    strcpy(tempfilename, "assets/rider.bmp");
-    strcpy(temptextureID, "rider");
+    strcpy(tempfilename, "assets/images/darkstar.png");
+    strcpy(temptextureID, "darkstar");
     
     for (int i = 0; i < count; i++) {
         printf("entered texture loop\n");
-        //data->texture_manager[i].texture = NULL;
-        strcpy(data->texture_manager[i].filename, tempfilename);
-        strcpy(data->texture_manager[i].textureID, temptextureID);
-        PEQ_load_texture(data->renderer, &data->texture_manager[i]);
+        strcpy(data->texture_bank[i].filename, tempfilename);
+        strcpy(data->texture_bank[i].textureID, temptextureID);
+        PEQ_load_texture(data->renderer, &data->texture_bank[i]);
     }
     
-    return 0;
+    return 1;
 }
