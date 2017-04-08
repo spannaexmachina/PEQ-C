@@ -15,12 +15,8 @@ int main(int argc, char* argv[])
     
     pop_main_data(&data);
     printf("* Pequad-C *\nWarming up...\n");
-    
-    for (data.is_running = PEQ_init(&data); data.is_running != 0; PEQ_cycle(&data)) {
-        }
-
-    
-    
+    for (data.is_running = PEQ_init(&data); data.is_running != 0; PEQ_cycle(&data))
+        ;
     PEQ_clean(&data);
     SDL_Quit();
     

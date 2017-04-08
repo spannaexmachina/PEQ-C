@@ -87,7 +87,7 @@ void PEQ_draw_shape(SDL_Renderer *r, PEQ_2D_shape *shape);
 
 
 
-//circl e
+//circle
 circle makecircle(point2D pt, radius r);
 point2D ClosestPoint(point2D FromPoint, radius r);
 
