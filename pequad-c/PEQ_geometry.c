@@ -138,4 +138,23 @@ void PEQ_draw_rect(SDL_Renderer *r, COLOUR_NAME colour, point2D p, int width, in
     SDL_RenderDrawRect(r, &rect);
 }
 
+void PEQ_draw_circle(SDL_Renderer *r, COLOUR_NAME colour, SDL_Point center, float rad)
+{
+    PEQ_COLOUR c = get_colour(colour);
+    SDL_SetRenderDrawColor(r, c.r, c.g, c.b, c.a);
+    
+    for (float w = 0; w < rad * 2; w++)
+    {
+        for (float h = 0; h < rad * 2; h++)
+        {
+            float dx = rad - w; // horizontal offset
+            float dy = rad - h; // vertical offset
+            if ((dx*dx + dy*dy) <= (rad * rad))
+            {
+            SDL_RenderDrawPoint(r, center.x + dx, center.y + dy);
+            }
+        }
+    }
+}
+
 
