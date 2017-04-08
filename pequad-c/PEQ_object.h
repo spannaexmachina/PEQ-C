@@ -36,4 +36,6 @@ typedef union
     
 } PEQ_OBJECT;
 
+void obj_fade(PEQ_OBJECT *object, Uint8 speed);
+
 #endif /* PEQ_object_h */

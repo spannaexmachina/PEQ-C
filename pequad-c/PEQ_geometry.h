@@ -60,25 +60,25 @@ typedef struct {
 typedef union {
     struct rect {
         PEQ_shape_type  type;
-        COLOUR_NAME     colour;
+        PEQ_COLOUR     colour;
         point2D         p;
         int             width,
                         height;
     } rect;
     struct line {
         PEQ_shape_type  type;
-        COLOUR_NAME     colour;
+        PEQ_COLOUR    colour;
         point2D         p1,
                         p2;
     } line;
     struct point {
         PEQ_shape_type  type;
-        COLOUR_NAME     colour;
+        PEQ_COLOUR     colour;
         point2D         p;
     } point;
     struct circle {
         PEQ_shape_type type;
-        COLOUR_NAME colour;
+        PEQ_COLOUR colour;
         SDL_Point center;
         float rad;
     }circle;
@@ -148,10 +148,10 @@ point2D makepoint(int x, int y);
 SDL_Point makeSDLpoint(int x, int y);
 
 //drawing
-void PEQ_draw_line(SDL_Renderer *r, COLOUR_NAME colour, point2D p1, point2D p2);
-void PEQ_draw_rect(SDL_Renderer *r, COLOUR_NAME colour, point2D p, int width, int height);
-void PEQ_draw_circle(SDL_Renderer *r, COLOUR_NAME colour, SDL_Point center, float rad);
-void PEQ_draw_point(SDL_Renderer *r, COLOUR_NAME colour, point2D p);
+void PEQ_draw_line(SDL_Renderer *r, PEQ_COLOUR c, point2D p1, point2D p2);
+void PEQ_draw_rect(SDL_Renderer *r, PEQ_COLOUR c, point2D p, int width, int height);
+void PEQ_draw_circle(SDL_Renderer *r, PEQ_COLOUR c, SDL_Point center, float rad);
+void PEQ_draw_point(SDL_Renderer *r, PEQ_COLOUR c, point2D p);
 
 
 

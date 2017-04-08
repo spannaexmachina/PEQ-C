@@ -29,5 +29,6 @@ PEQ_COLOUR PEQ_rand_colour(int alpha)
     c.r = PEQ_rand(0, 255);
     c.g = PEQ_rand(0, 255);
     c.b = PEQ_rand(0, 255);
+    c.name = RANDOM;
     return c;
 }

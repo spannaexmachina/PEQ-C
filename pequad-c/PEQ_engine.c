@@ -68,18 +68,18 @@ int PEQ_render(PEQ_DATA *data)
     SDL_RenderClear(data->renderer);
     
     
-    
+    //darkstar
     PEQ_draw_texture(data->renderer, &data->texture_bank[0], PEQ_rand(0, WINDOW_WIDTH), PEQ_rand(0, WINDOW_HEIGHT), data->texture_bank[0].w, data->texture_bank[0].h, SDL_FLIP_NONE);
     
     
-
+    //cosmic rain
     for (int i = 0; i < 100; i++) {
         data->object_bank[4].graphic.shape = PEQ_get_point(makepoint(PEQ_rand(0, WINDOW_WIDTH), PEQ_rand(0, WINDOW_HEIGHT)), PEQ_rand(0, 3));
         PEQ_draw_shape(data->renderer, &data->object_bank[4].graphic.shape);
     }
     
     //new kind of array call
-    for (int i = 0; i < 7; i++)
+    for (int i = 0; i < 8; i++)
         PEQ_draw_shape(data->renderer, &data->object_bank[i].graphic.shape);
    
     
@@ -104,8 +104,8 @@ int PEQ_update(PEQ_DATA *data)
 {
     PEQ_handle_events(data);
     
-    data->object_bank[0].graphic.shape.rect.colour = RANDOM;
-    data->object_bank[1].graphic.shape.rect.colour = RANDOM;
+    data->object_bank[0].graphic.shape.rect.colour = PEQ_rand_colour(255);
+    data->object_bank[1].graphic.shape.rect.colour = PEQ_rand_colour(0);
     
     
     if (data->object_bank[0].graphic.shape.rect.p.x + data->object_bank[0].graphic.shape.rect.width < WINDOW_WIDTH)
@@ -115,9 +115,8 @@ int PEQ_update(PEQ_DATA *data)
     }
     data->object_bank[0].graphic.shape.rect.p.x += data->object_bank[0].graphic.acc.x;
     
-    
-    
-    
+    obj_fade(&data->object_bank[7], 5);
+    printf("a value: %u\n", data->object_bank[7].graphic.shape.circle.colour.a);
     
     return 0;
 }
@@ -144,6 +143,7 @@ void load_objects(PEQ_DATA *data)
     data->object_bank[1].graphic.shape = PEQ_get_rect(makepoint(100, 100), 200, 400, PEQ_rand(0, 5));
     data->object_bank[2].graphic.shape = PEQ_get_line(makepoint(50, 500), makepoint(600, 50), RED);
     data->object_bank[7].graphic.shape = PEQ_get_circ(RED, makeSDLpoint(100, 100), 50);
+    data->object_bank[7].graphic.type = GRAPHIC;
     data->object_bank[4].graphic.shape = PEQ_get_point(makepoint(PEQ_rand(0, WINDOW_WIDTH), PEQ_rand(0, WINDOW_HEIGHT)), PEQ_rand(0, 3));
     data->object_bank[5].graphic.shape = PEQ_get_line(makepoint(100, 100), makepoint(200, 200), WHITE);
     data->object_bank[6].graphic.shape = PEQ_get_rect(makepoint(200, 200), 150, 200, RED);
