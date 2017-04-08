@@ -80,6 +80,7 @@ typedef union {
         PEQ_shape_type type;
         COLOUR_NAME colour;
         SDL_Point center;
+        float rad;
     }circle;
 } PEQ_2D_shape;
 
@@ -87,10 +88,9 @@ typedef union {
 PEQ_2D_shape PEQ_get_rect(point2D p, int width, int height, COLOUR_NAME c);
 PEQ_2D_shape PEQ_get_line(point2D p1, point2D p2, COLOUR_NAME c);
 PEQ_2D_shape PEQ_get_point(point2D p, COLOUR_NAME c);
+PEQ_2D_shape PEQ_get_circ(COLOUR_NAME c, SDL_Point center, float rad);
 
 void PEQ_draw_shape(SDL_Renderer *r, PEQ_2D_shape *shape);
-
-
 
 //circle
 circle makecircle(point2D pt, radius r);
@@ -131,6 +131,17 @@ void subtractpoints(point2D *dest, point2D src);
  * \returns a point2D with passed in x and y coordinates
  */
 point2D makepoint(int x, int y);
+
+
+
+/**
+ *\generated SDL Point for circles
+ * \param x x coordinate
+ * \param y y coordinate
+ * \returns an SDL point with passed in x and y coordinates
+ */
+
+SDL_Point makeSDLpoint(int x, int y);
 
 //drawing
 void PEQ_draw_line(SDL_Renderer *r, COLOUR_NAME colour, point2D p1, point2D p2);

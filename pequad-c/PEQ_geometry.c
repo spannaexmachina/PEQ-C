@@ -49,11 +49,10 @@ PEQ_2D_shape PEQ_get_circ(COLOUR_NAME c, SDL_Point center, float rad)
     t.circle.type = PEQ_CIRCLE;
     t.circle.colour = c;
     t.circle.center = center;
-    
+    t.circle.rad = rad;
     return t;
 }
 
-}
 
 void PEQ_draw_shape(SDL_Renderer *r, PEQ_2D_shape *shape)
 {
@@ -99,6 +98,15 @@ point2D result_add_points(point2D p1, point2D p2)
 point2D makepoint(int x, int y)
 {
     point2D temp;
+    
+    temp.x = x;
+    temp.y = y;
+    return temp;
+}
+
+SDL_Point makeSDLpoint(int x, int y)
+{
+    SDL_Point temp;
     
     temp.x = x;
     temp.y = y;
