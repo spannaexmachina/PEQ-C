@@ -82,8 +82,7 @@ int PEQ_render(PEQ_DATA *data)
     PEQ_draw_texture(data->renderer, &data->texture_bank[0], PEQ_rand(0, WINDOW_WIDTH), PEQ_rand(0, WINDOW_HEIGHT), data->texture_bank[0].w, data->texture_bank[0].h, SDL_FLIP_NONE);
     
     PEQ_draw_shape(data->renderer, &r1);
-    PEQ_draw_shape(data->renderer, &r2);
-    PEQ_draw_shape(data->renderer, &r3);
+  
     PEQ_draw_shape(data->renderer, &l1);
     PEQ_draw_shape(data->renderer, &c1);
     
