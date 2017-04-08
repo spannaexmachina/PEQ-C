@@ -42,8 +42,11 @@ typedef struct data {
     char title[20];             /**< application title, used for window title, etc. */
     PEQ_COLOUR r_colour;        /**< background render colour (set in precompiler) */
     PEQ_WINDOW_MODE window_mode;/**< window mode (set at precompile) */
-    PEQ_TEXTURE texture_manager[5]; /**< stores textures to be used */
+    PEQ_TEXTURE texture_bank[5]; /**< stores textures to be used */
 } PEQ_DATA;
+
+//random int generator
+int PEQ_rand(int min, int max);
 
 /**
  * \brief returns an SDL window mode based on PEQ enum

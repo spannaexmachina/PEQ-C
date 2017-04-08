@@ -30,7 +30,7 @@ int PEQ_load_texture(SDL_Renderer *r, PEQ_TEXTURE *t);
 
 //void PEQ_draw(SDL_Texture *texture, int x, int y, int width, int height, SDL_Renderer *r, SDL_RendererFlip flip_flag);
 
-void PEQ_draw(SDL_Renderer *r, PEQ_TEXTURE *t, int draw_x, int draw_y, int draw_width, int draw_height, SDL_RendererFlip flip_flag);
+void PEQ_draw_texture(SDL_Renderer *r, PEQ_TEXTURE *t, int draw_x, int draw_y, int draw_width, int draw_height, SDL_RendererFlip flip_flag);
 
 
 #endif /* PEQ_texture_manager_h */

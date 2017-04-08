@@ -29,13 +29,13 @@ int PEQ_load_texture(SDL_Renderer *r, PEQ_TEXTURE *t)
     return -1;
 }
 
-void PEQ_draw(SDL_Renderer *r, PEQ_TEXTURE *t, int draw_x, int draw_y, int draw_width, int draw_height, SDL_RendererFlip flip_flag)
+void PEQ_draw_texture(SDL_Renderer *r, PEQ_TEXTURE *t, int draw_x, int draw_y, int draw_width, int draw_height, SDL_RendererFlip flip_flag)
 {
     SDL_Rect src_r, dest_r;
     
     src_r.x = src_r.y = 0;  //always zero for full image render
-    src_r.w = t->w;   //load preset width
-    src_r.h = t->h;   //preset height
+    src_r.w = t->w;         //load preset width
+    src_r.h = t->h;         //preset height
     dest_r.x = draw_x;
     dest_r.y = draw_y;
     dest_r.w = draw_width;
@@ -43,21 +43,6 @@ void PEQ_draw(SDL_Renderer *r, PEQ_TEXTURE *t, int draw_x, int draw_y, int draw_
     SDL_RenderCopyEx(r, t->texture, &src_r, &dest_r, 0, 0, flip_flag);
     
 }
-
-/*
-void PEQ_draw(SDL_Texture *texture, int x, int y, int width, int height, SDL_Renderer *r, SDL_RendererFlip flip_flag)
-{
-    SDL_Rect src_r, dest_r;
-    
-    src_r.x = src_r.y = 0;
-    src_r.w = dest_r.w = width;
-    src_r.h = dest_r.h = height;
-    dest_r.x = x;
-    dest_r.y = y;
-    
-    SDL_RenderCopyEx(r, texture, &src_r, &dest_r, 0, 0, flip_flag);
-}
- */
 
 //todo drawframe
 

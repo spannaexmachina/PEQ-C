@@ -20,6 +20,14 @@ int get_window_mode(PEQ_WINDOW_MODE w_mode)
     }
 }
 
+int PEQ_rand(int min, int max)
+{
+    if (min < max)
+        return (rand() % (max - min)) + min;
+    else
+        return 0;
+}
+
 int PEQ_init(PEQ_DATA *data)
 {
     printf("initialising SDL...\n");
@@ -70,7 +78,7 @@ int PEQ_render(PEQ_DATA *data)
     PEQ_2D_shape r1 = PEQ_get_rect(makepoint(100, 100), 200, 400, WHITE);
     PEQ_2D_shape l1 = PEQ_get_line(makepoint(50, 500), makepoint(600, 50), RED);
     
-     PEQ_draw(data->renderer, &data->texture_manager[0], 300, 150, data->texture_manager[0].w, data->texture_manager[0].h, SDL_FLIP_NONE);
+     PEQ_draw_texture(data->renderer, &data->texture_bank[0], PEQ_rand(0, WINDOW_WIDTH), PEQ_rand(0, WINDOW_HEIGHT), data->texture_bank[0].w, data->texture_bank[0].h, SDL_FLIP_NONE);
     
     PEQ_draw_shape(data->renderer, &r1);
     PEQ_draw_shape(data->renderer, &l1);
@@ -133,7 +141,7 @@ int pop_main_data(PEQ_DATA *data)
     data->win_height = WINDOW_HEIGHT;
     data->win_width = WINDOW_WIDTH;
     strcpy(data->title, WINDOW_TITLE);
-    data->x = WINDOW_X;
+    data->x = WINDOW_WIDTH;
     data->y = WINDOW_Y;
     data->window_mode = WINDOW_MODE;
     return 0;
@@ -150,9 +158,9 @@ int load_texture_manager(PEQ_DATA *data)
     
     for (int i = 0; i < count; i++) {
         printf("entered texture loop\n");
-        strcpy(data->texture_manager[i].filename, tempfilename);
-        strcpy(data->texture_manager[i].textureID, temptextureID);
-        PEQ_load_texture(data->renderer, &data->texture_manager[i]);
+        strcpy(data->texture_bank[i].filename, tempfilename);
+        strcpy(data->texture_bank[i].textureID, temptextureID);
+        PEQ_load_texture(data->renderer, &data->texture_bank[i]);
     }
     
     return 1;
