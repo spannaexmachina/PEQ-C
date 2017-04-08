@@ -42,13 +42,13 @@ PEQ_2D_shape PEQ_get_point(point2D p, COLOUR_NAME c)
     return t;
 }
 
-void PEQ_draw_shape(SDL_Renderer *r, PEQ_2D_shape shape)
+void PEQ_draw_shape(SDL_Renderer *r, PEQ_2D_shape *shape)
 {
-    if (shape.line.type == PEQ_LINE)
-        PEQ_draw_line(r, shape.line.colour, shape.line.p1, shape.line.p2);
-    else if (shape.rect.type == PEQ_RECT)
-        PEQ_draw_rect(r, shape.rect.colour, shape.rect.p, shape.rect.width, shape.rect.height);
-    else if (shape.point.type == PEQ_LINE)
+    if (shape->line.type == PEQ_LINE)
+        PEQ_draw_line(r, shape->line.colour, shape->line.p1, shape->line.p2);
+    else if (shape->rect.type == PEQ_RECT)
+        PEQ_draw_rect(r, shape->rect.colour, shape->rect.p, shape->rect.width, shape->rect.height);
+    else if (shape->point.type == PEQ_LINE)
         //todo add point draw
         return;
     
@@ -138,15 +138,4 @@ void PEQ_draw_rect(SDL_Renderer *r, COLOUR_NAME colour, point2D p, int width, in
     SDL_RenderDrawRect(r, &rect);
 }
 
-/*
-void PEQ_draw_all_2D(SDL_Renderer *r, PEQ_2D_graphic *objects[])
-{
-    int i;
-    for (i = 0; i != '\0'; i++) {
-        if (objects[i] == PEQ_RECT) {
-            PEQ_draw_rect(r, objects[i]->rect.colour, objects[i]->rect.p, objects[i]->rect.width, objects[i]->rect.height);
-        }
-    }
-}
- 
- */
+

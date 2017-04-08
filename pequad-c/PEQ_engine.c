@@ -69,8 +69,8 @@ int PEQ_render(PEQ_DATA *data)
     // new dynamic shape
     PEQ_2D_shape r1 = PEQ_get_rect(makepoint(100, 100), 200, 400, WHITE);
     PEQ_2D_shape l1 = PEQ_get_line(makepoint(50, 500), makepoint(600, 50), RED);
-    PEQ_draw_shape(data->renderer, r1);
-    PEQ_draw_shape(data->renderer, l1);
+    PEQ_draw_shape(data->renderer, &r1);
+    PEQ_draw_shape(data->renderer, &l1);
     
     PEQ_draw_line(data->renderer, WHITE, makepoint(100, 100), makepoint(200, 200));
     PEQ_draw_rect(data->renderer, RED, makepoint(200, 200), 150, 200);
@@ -97,6 +97,8 @@ int PEQ_clean(PEQ_DATA *data)
 int PEQ_update(PEQ_DATA *data)
 {
     PEQ_handle_events(data);
+    
+    
     
     return 0;
 }

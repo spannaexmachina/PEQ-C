@@ -83,7 +83,9 @@ PEQ_2D_shape PEQ_get_rect(point2D p, int width, int height, COLOUR_NAME c);
 PEQ_2D_shape PEQ_get_line(point2D p1, point2D p2, COLOUR_NAME c);
 PEQ_2D_shape PEQ_get_point(point2D p, COLOUR_NAME c);
 
-void PEQ_draw_shape(SDL_Renderer *r, PEQ_2D_shape shape);
+void PEQ_draw_shape(SDL_Renderer *r, PEQ_2D_shape *shape);
+
+
 
 //circl e
 circle makecircle(point2D pt, radius r);
