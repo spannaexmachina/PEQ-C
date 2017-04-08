@@ -18,7 +18,10 @@ typedef enum {
     BLACK,
     WHITE,
     RED,
-    TRANSPARENT
+    BLUE,
+    GREEN,
+    TRANSPARENT,
+    RANDOM
 } COLOUR_NAME;
 
 /**

@@ -55,42 +55,46 @@ typedef struct {
 /**
  * \brief union for storing a type of 2D graphic
  *
- * \note avaliable shapes: rect; line; point;
+ * \note avaliable shapes: rect; line; point; circle
  */
 typedef union {
     struct rect {
         PEQ_shape_type  type;
-        COLOUR_NAME     colour;
+        PEQ_COLOUR     colour;
         point2D         p;
         int             width,
                         height;
     } rect;
     struct line {
         PEQ_shape_type  type;
-        COLOUR_NAME     colour;
+        PEQ_COLOUR    colour;
         point2D         p1,
                         p2;
     } line;
     struct point {
         PEQ_shape_type  type;
-        COLOUR_NAME     colour;
+        PEQ_COLOUR     colour;
         point2D         p;
     } point;
     struct circle {
         PEQ_shape_type type;
-        COLOUR_NAME colour;
+        PEQ_COLOUR colour;
         SDL_Point center;
         float rad;
     }circle;
 } PEQ_2D_shape;
 
-//variable shape functions
+//variable shape create
 PEQ_2D_shape PEQ_get_rect(point2D p, int width, int height, COLOUR_NAME c);
 PEQ_2D_shape PEQ_get_line(point2D p1, point2D p2, COLOUR_NAME c);
 PEQ_2D_shape PEQ_get_point(point2D p, COLOUR_NAME c);
 PEQ_2D_shape PEQ_get_circ(COLOUR_NAME c, SDL_Point center, float rad);
 
+//var shape draw
 void PEQ_draw_shape(SDL_Renderer *r, PEQ_2D_shape *shape);
+
+//update variable shapes function
+void scale_shape(PEQ_2D_shape s, float scaler);
 
 //circle
 circle makecircle(point2D pt, radius r);
@@ -144,9 +148,10 @@ point2D makepoint(int x, int y);
 SDL_Point makeSDLpoint(int x, int y);
 
 //drawing
-void PEQ_draw_line(SDL_Renderer *r, COLOUR_NAME colour, point2D p1, point2D p2);
-void PEQ_draw_rect(SDL_Renderer *r, COLOUR_NAME colour, point2D p, int width, int height);
-void PEQ_draw_circle(SDL_Renderer *r, COLOUR_NAME colour, SDL_Point center, float rad);
+void PEQ_draw_line(SDL_Renderer *r, PEQ_COLOUR c, point2D p1, point2D p2);
+void PEQ_draw_rect(SDL_Renderer *r, PEQ_COLOUR c, point2D p, int width, int height);
+void PEQ_draw_circle(SDL_Renderer *r, PEQ_COLOUR c, SDL_Point center, float rad);
+void PEQ_draw_point(SDL_Renderer *r, PEQ_COLOUR c, point2D p);
 
 
 

@@ -8,7 +8,6 @@
 
 #include "PEQ_texture_manager.h"
 
-//PEQ_TEXTURE PEQ_get_texture(char filename[], char ID[], SDL_Renderer *r)
 void PEQ_load_texture(SDL_Renderer *r, PEQ_TEXTURE *t)
 {
     SDL_Surface* tempsurface;
@@ -23,9 +22,9 @@ void PEQ_load_texture(SDL_Renderer *r, PEQ_TEXTURE *t)
             return;
         }
     }
-    
     printf("skipped: %s. ERROR: %s\n", t->textureID, SDL_GetError());
     return;
+        
 }
 
 void PEQ_draw_texture(SDL_Renderer *r, PEQ_TEXTURE *t, int draw_x, int draw_y, int draw_width, int draw_height, SDL_RendererFlip flip_flag)
@@ -41,6 +40,19 @@ void PEQ_draw_texture(SDL_Renderer *r, PEQ_TEXTURE *t, int draw_x, int draw_y, i
     dest_r.h = draw_height;
     SDL_RenderCopyEx(r, t->texture, &src_r, &dest_r, 0, 0, flip_flag);
     
+}
+
+PEQ_TEXTURE PEQ_get_texture(SDL_Renderer *r, char name[], char filename[], point2D p, SDL_RendererFlip flip_flag)
+{
+    PEQ_TEXTURE t;
+    
+    t.position.x = p.x;
+    t.position.y = p.y;
+    strcpy(t.textureID, name);
+    strcpy(t.filename, filename);
+    t.flip_flag = flip_flag;
+    PEQ_load_texture(r, &t);
+    return t;
 }
 
 //todo drawframe

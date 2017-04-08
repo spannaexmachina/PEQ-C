@@ -16,19 +16,23 @@
 #include <SDL2_image/SDL_image.h>
 #include <string.h>
 #include "PEQ_SETTINGS.h"
+#include "PEQ_geometry.h"
 
 typedef struct {
     char textureID[50];                 /**< unique ID for texure */
     char filename[255];                 /**< unique filename for texure */
     int  w,
          h;
+    point2D position;
     SDL_Texture *texture;
+    SDL_RendererFlip flip_flag;
 } PEQ_TEXTURE;
 
 
 void PEQ_load_texture(SDL_Renderer *r, PEQ_TEXTURE *t);
 
-//void PEQ_draw(SDL_Texture *texture, int x, int y, int width, int height, SDL_Renderer *r, SDL_RendererFlip flip_flag);
+PEQ_TEXTURE PEQ_get_texture(SDL_Renderer *r, char name[], char filename[], point2D p, SDL_RendererFlip flip_flag);
+
 
 void PEQ_draw_texture(SDL_Renderer *r, PEQ_TEXTURE *t, int draw_x, int draw_y, int draw_width, int draw_height, SDL_RendererFlip flip_flag);
 
