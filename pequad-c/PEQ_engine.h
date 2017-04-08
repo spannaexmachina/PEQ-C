@@ -25,35 +25,7 @@ typedef enum window {
     FULLSCREEN                  /**< Open in fullscreen */
 } PEQ_WINDOW_MODE;
 
-typedef enum {
-    PEQ_RECT,
-    PEQ_LINE,
-    PEQ_POINT
-} PEQ_2Dtype;
 
-typedef union {
-    struct rect {
-        int         ID;
-        PEQ_2Dtype  type;
-        COLOUR_NAME colour;
-        point2D     p;
-        int         width,
-                    height;
-    } rect;
-    struct line {
-        int         ID;
-        PEQ_2Dtype  type;
-        COLOUR_NAME colour;
-        point2D     p1,
-                    p2;
-    } line;
-    struct point {
-        int           ID;
-        PEQ_2Dtype    type;
-        COLOUR_NAME   colour;
-        point2D       p;
-    } point;
-} PEQ_2D_graphic;
 
 typedef struct data {
     SDL_Renderer *renderer;     /**< pointer to application renderer */
@@ -71,9 +43,7 @@ typedef struct data {
     PEQ_COLOUR r_colour;        /**< background render colour (set in precompiler) */
     PEQ_WINDOW_MODE window_mode;/**< window mode (set at precompile) */
     PEQ_TEXTURE texture_manager[5]; /**< stores textures to be used */
-    PEQ_2D_graphic twoD_objects[];
 } PEQ_DATA;
-
 
 /**
  * \brief returns an SDL window mode based on PEQ enum

@@ -8,6 +8,53 @@
 
 #include "PEQ_geometry.h"
 
+//variable shapes
+PEQ_2D_shape PEQ_get_rect(point2D p, int width, int height, COLOUR_NAME c)
+{
+    PEQ_2D_shape t;
+    
+    t.rect.type = PEQ_RECT;
+    t.rect.colour = c;
+    t.rect.p = p;
+    t.rect.width = width;
+    t.rect.height = height;
+    return t;
+}
+
+PEQ_2D_shape PEQ_get_line(point2D p1, point2D p2, COLOUR_NAME c)
+{
+    PEQ_2D_shape t;
+    
+    t.line.type = PEQ_LINE;
+    t.line.colour = c;
+    t.line.p1 = p1;
+    t.line.p2 = p2;
+    return t;
+}
+
+PEQ_2D_shape PEQ_get_point(point2D p, COLOUR_NAME c)
+{
+    PEQ_2D_shape t;
+    
+    t.point.type = PEQ_POINT;
+    t.point.colour = c;
+    t.point.p = p;
+    return t;
+}
+
+void PEQ_draw_shape(SDL_Renderer *r, PEQ_2D_shape shape)
+{
+    if (shape.line.type == PEQ_LINE)
+        PEQ_draw_line(r, shape.line.colour, shape.line.p1, shape.line.p2);
+    else if (shape.rect.type == PEQ_RECT)
+        PEQ_draw_rect(r, shape.rect.colour, shape.rect.p, shape.rect.width, shape.rect.height);
+    else if (shape.point.type == PEQ_LINE)
+        //todo add point draw
+        return;
+    
+    //todo add circle etc.
+}
+
 //circle
 circle makecircle(point2D p, radius r)
 {

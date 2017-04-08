@@ -25,6 +25,16 @@
 #include <math.h>
 
 /**
+ * flags for PEQ shapes
+ */
+typedef enum {
+    PEQ_RECT,
+    PEQ_LINE,
+    PEQ_POINT,
+    PEQ_CIRCLE
+} PEQ_shape_type;
+
+/**
  * \brief structure representing a 2D point.
  */
 typedef struct {
@@ -42,7 +52,40 @@ typedef struct {
     radius r;
 } circle;
 
-//circle
+/**
+ * \brief union for storing a type of 2D graphic
+ *
+ * \note avaliable shapes: rect; line; point;
+ */
+typedef union {
+    struct rect {
+        PEQ_shape_type  type;
+        COLOUR_NAME     colour;
+        point2D         p;
+        int             width,
+                        height;
+    } rect;
+    struct line {
+        PEQ_shape_type  type;
+        COLOUR_NAME     colour;
+        point2D         p1,
+                        p2;
+    } line;
+    struct point {
+        PEQ_shape_type  type;
+        COLOUR_NAME     colour;
+        point2D         p;
+    } point;
+} PEQ_2D_shape;
+
+//variable shape functions
+PEQ_2D_shape PEQ_get_rect(point2D p, int width, int height, COLOUR_NAME c);
+PEQ_2D_shape PEQ_get_line(point2D p1, point2D p2, COLOUR_NAME c);
+PEQ_2D_shape PEQ_get_point(point2D p, COLOUR_NAME c);
+
+void PEQ_draw_shape(SDL_Renderer *r, PEQ_2D_shape shape);
+
+//circl e
 circle makecircle(point2D pt, radius r);
 point2D ClosestPoint(point2D FromPoint, radius r);
 
