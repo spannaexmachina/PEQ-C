@@ -45,8 +45,7 @@ typedef struct data {
     char title[20];             /**< application title, used for window title, etc. */
     PEQ_COLOUR r_colour;        /**< background render colour (set in precompiler) */
     PEQ_WINDOW_MODE window_mode;/**< window mode (set at precompile) */
-    PEQ_TEXTURE texture_bank[5]; /**< stores textures to be used */
-    PEQ_OBJECT object_bank[10];
+    PEQ_OBJECT object_bank[10]; /**< stores objects */
 } PEQ_DATA;
 
 
@@ -100,12 +99,6 @@ int PEQ_cycle(PEQ_DATA *data);
 /**
  */
 int PEQ_update(PEQ_DATA *data);
-
-/**
- *
- *
- */
-int load_texture_bank(PEQ_DATA *data);
 
 /**
  * \brief populates a PEQ_DATA struct
