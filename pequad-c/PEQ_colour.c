@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include "PEQ_colour.h"
+#include "PEQ_utility.h"
 
 int load_in_colour(PEQ_COLOUR *dest, COLOUR_NAME name)
 {
@@ -27,6 +28,7 @@ PEQ_COLOUR get_colour(COLOUR_NAME name)
         case BLUE:        t.r = t.g = 0; t.b = t.a = 255;       break;
         case GREEN:       t.a = t.g =  255; t.b = t.r = 0;      break;
         case TRANSPARENT: t.r = t.g = t.b = t.a = 0;            break;
+        case RANDOM:      return PEQ_rand_colour(255);          break;
         default: break;
     }
     return t;

@@ -16,6 +16,8 @@
 #include "PEQ_colour.h"
 #include "PEQ_SETTINGS.h"
 #include "PEQ_geometry.h"
+#include "PEQ_object.h"
+#include "PEQ_utility.h"
 
 
 
@@ -24,6 +26,7 @@ typedef enum window {
     RESIZABLE,                  /**< Open in a resizable window */
     FULLSCREEN                  /**< Open in fullscreen */
 } PEQ_WINDOW_MODE;
+
 
 
 
@@ -43,10 +46,10 @@ typedef struct data {
     PEQ_COLOUR r_colour;        /**< background render colour (set in precompiler) */
     PEQ_WINDOW_MODE window_mode;/**< window mode (set at precompile) */
     PEQ_TEXTURE texture_bank[5]; /**< stores textures to be used */
+    PEQ_OBJECT object_bank[10];
 } PEQ_DATA;
 
-//random int generator
-int PEQ_rand(int min, int max);
+
 
 /**
  * \brief returns an SDL window mode based on PEQ enum
@@ -110,6 +113,9 @@ int load_texture_bank(PEQ_DATA *data);
  * \returns 0 success;
  */
 int pop_main_data(PEQ_DATA *data);
+
+
+void load_objects(PEQ_DATA *data);
 
 
 

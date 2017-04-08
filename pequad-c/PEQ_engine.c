@@ -20,14 +20,6 @@ int get_window_mode(PEQ_WINDOW_MODE w_mode)
     }
 }
 
-int PEQ_rand(int min, int max)
-{
-    if (min < max)
-        return (rand() % (max - min)) + min;
-    else
-        return 0;
-}
-
 int PEQ_init(PEQ_DATA *data)
 {
     printf("initialising SDL...\n");
@@ -38,6 +30,7 @@ int PEQ_init(PEQ_DATA *data)
             if ((data->renderer = SDL_CreateRenderer(data->window, -1, 0))) {
                 printf("Renderer initialised!\ninitialising PEQ texture bank\n");
                 if (load_texture_bank(data) != 0) {
+                    load_objects(data);
                     printf("initialisation complete!\nrunning...\n*\n\n");
                     if (data->r_colour.name != TRANSPARENT && !(SDL_SetRenderDrawColor(data->renderer, data->r_colour.r, data->r_colour.g, data->r_colour.b, data->r_colour.a))) {
                             return 1;
@@ -74,29 +67,21 @@ int PEQ_render(PEQ_DATA *data)
     SDL_SetRenderDrawColor(data->renderer, data->r_colour.r, data->r_colour.g,data->r_colour.b, data->r_colour.a);
     SDL_RenderClear(data->renderer);
     
-    // new dynamic shape
-    PEQ_2D_shape r1 = PEQ_get_rect(makepoint(100, 100), 200, 400, PEQ_rand(0, 5));
-    PEQ_2D_shape l1 = PEQ_get_line(makepoint(50, 500), makepoint(600, 50), RED);
-    PEQ_2D_shape c1 = PEQ_get_circ(RED, makeSDLpoint(100, 100), 50);
-    PEQ_2D_shape p1 = PEQ_get_point(makepoint(PEQ_rand(0, WINDOW_WIDTH), PEQ_rand(0, WINDOW_HEIGHT)), PEQ_rand(0, 3));
+    
     
     PEQ_draw_texture(data->renderer, &data->texture_bank[0], PEQ_rand(0, WINDOW_WIDTH), PEQ_rand(0, WINDOW_HEIGHT), data->texture_bank[0].w, data->texture_bank[0].h, SDL_FLIP_NONE);
     
     
-    PEQ_draw_line(data->renderer, WHITE, makepoint(100, 100), makepoint(200, 200));
-    PEQ_draw_rect(data->renderer, RED, makepoint(200, 200), 150, 200);
-    PEQ_draw_rect(data->renderer, RED, makepoint(200, 200), 200, 200);
-    PEQ_draw_shape(data->renderer, &l1);
-    PEQ_draw_shape(data->renderer, &r1);
-    PEQ_draw_shape(data->renderer, &c1);
+
     for (int i = 0; i < 100; i++) {
-        p1 = PEQ_get_point(makepoint(PEQ_rand(0, WINDOW_WIDTH), PEQ_rand(0, WINDOW_HEIGHT)), PEQ_rand(0, 3));
-        PEQ_draw_shape(data->renderer, &p1);
+        data->object_bank[4].graphic.shape = PEQ_get_point(makepoint(PEQ_rand(0, WINDOW_WIDTH), PEQ_rand(0, WINDOW_HEIGHT)), PEQ_rand(0, 3));
+        PEQ_draw_shape(data->renderer, &data->object_bank[4].graphic.shape);
     }
-    PEQ_draw_shape(data->renderer, &c1);
-   
     
-    //printf("frame time: %u\n", data->frame_time); //print frame time debug
+    //new kind of array call
+    for (int i = 0; i < 7; i++)
+        PEQ_draw_shape(data->renderer, &data->object_bank[i].graphic.shape);
+   
     
     SDL_RenderPresent(data->renderer);
     SDL_Delay(100);
@@ -119,6 +104,19 @@ int PEQ_update(PEQ_DATA *data)
 {
     PEQ_handle_events(data);
     
+    data->object_bank[0].graphic.shape.rect.colour = RANDOM;
+    data->object_bank[1].graphic.shape.rect.colour = RANDOM;
+    
+    
+    if (data->object_bank[0].graphic.shape.rect.p.x + data->object_bank[0].graphic.shape.rect.width < WINDOW_WIDTH)
+        data->object_bank[0].graphic.acc.x++;
+    else {
+        data->object_bank[0].graphic.acc.x = 0;
+    }
+    data->object_bank[0].graphic.shape.rect.p.x += data->object_bank[0].graphic.acc.x;
+    
+    
+    
     
     
     return 0;
@@ -138,6 +136,21 @@ int PEQ_cycle(PEQ_DATA *data)
     return 0;
 }
 
+
+//load objects in here:
+void load_objects(PEQ_DATA *data)
+{
+    data->object_bank[0].graphic.shape = PEQ_get_rect(makepoint(110, 100), 200, 400, PEQ_rand(0, 5));
+    data->object_bank[1].graphic.shape = PEQ_get_rect(makepoint(100, 100), 200, 400, PEQ_rand(0, 5));
+    data->object_bank[2].graphic.shape = PEQ_get_line(makepoint(50, 500), makepoint(600, 50), RED);
+    data->object_bank[7].graphic.shape = PEQ_get_circ(RED, makeSDLpoint(100, 100), 50);
+    data->object_bank[4].graphic.shape = PEQ_get_point(makepoint(PEQ_rand(0, WINDOW_WIDTH), PEQ_rand(0, WINDOW_HEIGHT)), PEQ_rand(0, 3));
+    data->object_bank[5].graphic.shape = PEQ_get_line(makepoint(100, 100), makepoint(200, 200), WHITE);
+    data->object_bank[6].graphic.shape = PEQ_get_rect(makepoint(200, 200), 150, 200, RED);
+    data->object_bank[3].graphic.shape = PEQ_get_rect(makepoint(200, 200), 200, 200, RED);
+}
+
+
 int pop_main_data(PEQ_DATA *data)
 {
     data->frame_start = data->frame_time = data->is_running = 0;
@@ -155,6 +168,7 @@ int pop_main_data(PEQ_DATA *data)
     return 0;
 }
 
+//load textures in here:
 int load_texture_bank(PEQ_DATA *data)
 {
     //todo read from file!

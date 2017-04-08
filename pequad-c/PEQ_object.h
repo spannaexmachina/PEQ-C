@@ -1,0 +1,39 @@
+//
+//  PEQ_object.h
+//  pequad-c
+//
+//  Created by Michael Holmes on 8/4/17.
+//  Copyright © 2017 Michael Holmes. All rights reserved.
+//
+
+#ifndef PEQ_object_h
+#define PEQ_object_h
+
+#include <stdio.h>
+#include "PEQ_geometry.h"
+#include "PEQ_texture_manager.h"
+#include "PEQ_utility.h"
+
+typedef enum
+{
+    GRAPHIC,
+    TEXTURE,
+} PEQ_OBJECT_TYPE;
+
+typedef union
+{
+    struct graphic {
+        PEQ_OBJECT_TYPE type;
+        PEQ_2D_shape shape;
+        point2D acc;
+    } graphic;
+    
+    struct texture {
+        PEQ_OBJECT_TYPE type;
+        PEQ_TEXTURE texture;
+        point2D acc;
+    } texture;
+    
+} PEQ_OBJECT;
+
+#endif /* PEQ_object_h */
