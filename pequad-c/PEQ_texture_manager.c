@@ -23,9 +23,9 @@ void PEQ_load_texture(SDL_Renderer *r, PEQ_TEXTURE *t)
             return;
         }
     }
-    
     printf("skipped: %s. ERROR: %s\n", t->textureID, SDL_GetError());
     return;
+        
 }
 
 void PEQ_draw_texture(SDL_Renderer *r, PEQ_TEXTURE *t, int draw_x, int draw_y, int draw_width, int draw_height, SDL_RendererFlip flip_flag)

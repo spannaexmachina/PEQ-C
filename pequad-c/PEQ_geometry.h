@@ -55,7 +55,7 @@ typedef struct {
 /**
  * \brief union for storing a type of 2D graphic
  *
- * \note avaliable shapes: rect; line; point;
+ * \note avaliable shapes: rect; line; point; circle
  */
 typedef union {
     struct rect {
