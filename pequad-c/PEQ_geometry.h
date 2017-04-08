@@ -131,7 +131,6 @@ point2D makepoint(int x, int y);
 void PEQ_draw_line(SDL_Renderer *r, COLOUR_NAME colour, point2D p1, point2D p2);
 void PEQ_draw_rect(SDL_Renderer *r, COLOUR_NAME colour, point2D p, int width, int height);
 
-//void PEQ_draw_all_2D(SDL_Renderer *r, PEQ_2D_graphic *objects[]);
 
 
 #endif /* PEQ_geometry_h */
