@@ -26,7 +26,7 @@ typedef struct {
 } PEQ_TEXTURE;
 
 
-int PEQ_load_texture(SDL_Renderer *r, PEQ_TEXTURE *t);
+void PEQ_load_texture(SDL_Renderer *r, PEQ_TEXTURE *t);
 
 //void PEQ_draw(SDL_Texture *texture, int x, int y, int width, int height, SDL_Renderer *r, SDL_RendererFlip flip_flag);
 

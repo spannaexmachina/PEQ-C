@@ -102,7 +102,7 @@ int PEQ_update(PEQ_DATA *data);
  *
  *
  */
-int load_texture_manager(PEQ_DATA *data);
+int load_texture_bank(PEQ_DATA *data);
 
 /**
  * \brief populates a PEQ_DATA struct
