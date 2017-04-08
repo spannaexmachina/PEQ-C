@@ -84,13 +84,17 @@ typedef union {
     }circle;
 } PEQ_2D_shape;
 
-//variable shape functions
+//variable shape create
 PEQ_2D_shape PEQ_get_rect(point2D p, int width, int height, COLOUR_NAME c);
 PEQ_2D_shape PEQ_get_line(point2D p1, point2D p2, COLOUR_NAME c);
 PEQ_2D_shape PEQ_get_point(point2D p, COLOUR_NAME c);
 PEQ_2D_shape PEQ_get_circ(COLOUR_NAME c, SDL_Point center, float rad);
 
+//var shape draw
 void PEQ_draw_shape(SDL_Renderer *r, PEQ_2D_shape *shape);
+
+//update variable shapes function
+void scale_shape(PEQ_2D_shape s, float scaler);
 
 //circle
 circle makecircle(point2D pt, radius r);

@@ -88,7 +88,6 @@ int PEQ_render(PEQ_DATA *data)
     PEQ_draw_line(data->renderer, WHITE, makepoint(100, 100), makepoint(200, 200));
     PEQ_draw_rect(data->renderer, RED, makepoint(200, 200), 150, 200);
     PEQ_draw_rect(data->renderer, RED, makepoint(200, 200), 200, 200);
-    PEQ_draw_circle(data->renderer, RED, makeSDLpoint(100, 100), PEQ_rand(5, 50));
    
     
     //printf("frame time: %u\n", data->frame_time); //print frame time debug

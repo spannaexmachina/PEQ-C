@@ -62,7 +62,13 @@ void PEQ_draw_shape(SDL_Renderer *r, PEQ_2D_shape *shape)
         PEQ_draw_rect(r, shape->rect.colour, shape->rect.p, shape->rect.width, shape->rect.height);
     else if (shape->point.type == PEQ_POINT)
         PEQ_draw_point(r, shape->point.colour, shape->point.p);
-    //todo add circle etc.
+    else if (shape->point.type == PEQ_CIRCLE)
+        PEQ_draw_circle(r, shape->circle.colour, shape->circle.center, shape->circle.rad);  //todo convert to point2D at some point****
+}
+//variable shape functions
+void scale_shape(PEQ_2D_shape s, float scaler)
+{
+    
 }
 
 //circle
