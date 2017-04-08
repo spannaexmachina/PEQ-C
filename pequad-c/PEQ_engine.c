@@ -75,24 +75,31 @@ int PEQ_render(PEQ_DATA *data)
     SDL_RenderClear(data->renderer);
     
     // new dynamic shape
-    PEQ_2D_shape r1 = PEQ_get_rect(makepoint(100, 100), 200, 400, WHITE);
+    PEQ_2D_shape r1 = PEQ_get_rect(makepoint(100, 100), 200, 400, PEQ_rand(0, 5));
     PEQ_2D_shape l1 = PEQ_get_line(makepoint(50, 500), makepoint(600, 50), RED);
-    PEQ_2D_shape c1 = PEQ_get_circ(RED,makeSDLpoint(100, 100), 500);
+    PEQ_2D_shape c1 = PEQ_get_circ(RED, makeSDLpoint(100, 100), 50);
+    PEQ_2D_shape p1 = PEQ_get_point(makepoint(PEQ_rand(0, WINDOW_WIDTH), PEQ_rand(0, WINDOW_HEIGHT)), PEQ_rand(0, 3));
     
     PEQ_draw_texture(data->renderer, &data->texture_bank[0], PEQ_rand(0, WINDOW_WIDTH), PEQ_rand(0, WINDOW_HEIGHT), data->texture_bank[0].w, data->texture_bank[0].h, SDL_FLIP_NONE);
     
-    PEQ_draw_shape(data->renderer, &r1);
-    PEQ_draw_shape(data->renderer, &l1);
-    PEQ_draw_shape(data->renderer, &c1);
     
     PEQ_draw_line(data->renderer, WHITE, makepoint(100, 100), makepoint(200, 200));
     PEQ_draw_rect(data->renderer, RED, makepoint(200, 200), 150, 200);
     PEQ_draw_rect(data->renderer, RED, makepoint(200, 200), 200, 200);
+    PEQ_draw_shape(data->renderer, &l1);
+    PEQ_draw_shape(data->renderer, &r1);
+    PEQ_draw_shape(data->renderer, &c1);
+    for (int i = 0; i < 100; i++) {
+        p1 = PEQ_get_point(makepoint(PEQ_rand(0, WINDOW_WIDTH), PEQ_rand(0, WINDOW_HEIGHT)), PEQ_rand(0, 3));
+        PEQ_draw_shape(data->renderer, &p1);
+    }
+    PEQ_draw_shape(data->renderer, &c1);
    
     
     //printf("frame time: %u\n", data->frame_time); //print frame time debug
     
     SDL_RenderPresent(data->renderer);
+    SDL_Delay(100);
     return 0;
 }
 
