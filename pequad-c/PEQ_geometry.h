@@ -76,6 +76,11 @@ typedef union {
         COLOUR_NAME     colour;
         point2D         p;
     } point;
+    struct circle {
+        PEQ_shape_type type;
+        COLOUR_NAME colour;
+        SDL_Point center;
+    }circle;
 } PEQ_2D_shape;
 
 //variable shape functions

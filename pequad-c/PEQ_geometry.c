@@ -42,6 +42,19 @@ PEQ_2D_shape PEQ_get_point(point2D p, COLOUR_NAME c)
     return t;
 }
 
+PEQ_2D_shape PEQ_get_circ(COLOUR_NAME c, SDL_Point center, float rad)
+{
+    PEQ_2D_shape t;
+    
+    t.circle.type = PEQ_CIRCLE;
+    t.circle.colour = c;
+    t.circle.center = center;
+    
+    return t;
+}
+
+}
+
 void PEQ_draw_shape(SDL_Renderer *r, PEQ_2D_shape *shape)
 {
     if (shape->line.type == PEQ_LINE)
