@@ -61,9 +61,7 @@ void PEQ_draw_shape(SDL_Renderer *r, PEQ_2D_shape *shape)
     else if (shape->rect.type == PEQ_RECT)
         PEQ_draw_rect(r, shape->rect.colour, shape->rect.p, shape->rect.width, shape->rect.height);
     else if (shape->point.type == PEQ_POINT)
-        
-        return;
-    
+        PEQ_draw_point(r, shape->point.colour, shape->point.p);
     //todo add circle etc.
 }
 
@@ -176,6 +174,14 @@ void PEQ_draw_circle(SDL_Renderer *r, COLOUR_NAME colour, SDL_Point center, floa
             }
         }
     }
+}
+
+void PEQ_draw_point(SDL_Renderer *r, COLOUR_NAME colour, point2D p)
+{
+    PEQ_COLOUR c = get_colour(colour);
+    SDL_SetRenderDrawColor(r, c.r, c.g, c.b, c.a);
+    
+    SDL_RenderDrawPoint(r, p.x, p.y);
 }
 
 

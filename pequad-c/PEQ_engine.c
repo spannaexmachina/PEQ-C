@@ -38,7 +38,7 @@ int PEQ_init(PEQ_DATA *data)
             if ((data->renderer = SDL_CreateRenderer(data->window, -1, 0))) {
                 printf("Renderer initialised!\ninitialising PEQ texture bank\n");
                 if (load_texture_bank(data) != 0) {
-                    printf("initialisation complete!\nrunning...\n");
+                    printf("initialisation complete!\nrunning...\n*\n\n");
                     if (data->r_colour.name != TRANSPARENT && !(SDL_SetRenderDrawColor(data->renderer, data->r_colour.r, data->r_colour.g, data->r_colour.b, data->r_colour.a))) {
                             return 1;
                     } else
@@ -152,18 +152,20 @@ int pop_main_data(PEQ_DATA *data)
 int load_texture_bank(PEQ_DATA *data)
 {
     //todo read from file!
+    
     int count = 1;
     char tempfilename[100];
     char temptextureID[20];
+    
+    printf("\n*loading textures...\n");
     strcpy(tempfilename, "assets/images/darkstar.png");
     strcpy(temptextureID, "darkstar");
     
     for (int i = 0; i < count; i++) {
-        printf("entered texture loop\n");
         strcpy(data->texture_bank[i].filename, tempfilename);
         strcpy(data->texture_bank[i].textureID, temptextureID);
         PEQ_load_texture(data->renderer, &data->texture_bank[i]);
     }
-    
+    printf("finished loading textures.\n");
     return 1;
 }

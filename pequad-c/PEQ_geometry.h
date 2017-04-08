@@ -147,6 +147,7 @@ SDL_Point makeSDLpoint(int x, int y);
 void PEQ_draw_line(SDL_Renderer *r, COLOUR_NAME colour, point2D p1, point2D p2);
 void PEQ_draw_rect(SDL_Renderer *r, COLOUR_NAME colour, point2D p, int width, int height);
 void PEQ_draw_circle(SDL_Renderer *r, COLOUR_NAME colour, SDL_Point center, float rad);
+void PEQ_draw_point(SDL_Renderer *r, COLOUR_NAME colour, point2D p);
 
 
 
