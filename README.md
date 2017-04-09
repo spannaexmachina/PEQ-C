@@ -1,4 +1,5 @@
-# pequad-c
-C Graphical application engine
+# PEQ-C
+PEQ-C ("peeksee") is a graphical application or game engine written explicity for C implementation.
 
-currently in development.
+Currently in development.
+
