@@ -18,6 +18,13 @@
 #include "PEQ_SETTINGS.h"
 #include "PEQ_geometry.h"
 
+
+/*!
+ * @typedef PEQ_TEXTURE
+ * @brief information for a texture type
+ * @field textureID unique name for the texture
+ *
+ */
 typedef struct {
     char textureID[50];                 /**< unique ID for texure */
     char filename[255];                 /**< unique filename for texure */

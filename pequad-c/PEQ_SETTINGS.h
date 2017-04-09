@@ -15,7 +15,7 @@
 #define WINDOW_HEIGHT      480
 #define WINDOW_TITLE       "Pequod-C"
 #define BACKGROUND_COLOUR  BLACK
-#define WINDOW_MODE        RESIZABLE
+#define WINDOW_MODE        WINDOW
 #define FPS_DEF            60
 #define DELAY_TIME_DEF     1000.0f / FPS_DEF
 #define MAX_TEXTURE        100
