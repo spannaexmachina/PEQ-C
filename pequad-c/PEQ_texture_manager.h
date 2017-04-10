@@ -9,7 +9,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2_image/SDL_image.h>
 #include <string.h>
-#include "PEQ_SETTINGS.h"
 #include "PEQ_geometry.h"
 
 

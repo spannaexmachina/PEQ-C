@@ -8,7 +8,6 @@
 #include <string.h>
 #include "PEQ_texture_manager.h"
 #include "PEQ_colour.h"
-#include "PEQ_SETTINGS.h"
 #include "PEQ_geometry.h"
 #include "PEQ_object.h"
 #include "PEQ_utility.h"
