@@ -52,13 +52,8 @@ extern PEQ_DATA m_data;
 
 int main(int argc, char* argv[])
 {
-    //PEQ_DATA data;
-    m_data.PEQ_init();
     
-
-    pop_main_data(&m_data);
-    printf("* Pequod-C *\nWarming up...\n");
-    for (m_data.window_d.is_running = PEQ_init(/*&data*/); data.is_running != 0; PEQ_cycle(/*&data*/))
+    for (m_data.window_d.is_running = m_data.PEQ_init(); PEQ_init(); m_data.window_d.is_running != 0; PEQ_cycle())
         ;
     PEQ_clean(/*&data*/);
     

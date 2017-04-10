@@ -13,50 +13,71 @@
 // application data file
 PEQ_DATA m_data;
 
-//random seed
-int r_seed;
 
-/*
-int get_window_mode(PEQ_WINDOW_MODE w_mode)
+
+
+static void set_window_mode(PEQ_WINDOW_MODE m)
 {
-    switch (w_mode) {
-        case RESIZABLE: return SDL_WINDOW_RESIZABLE; break;
-        case FULLSCREEN: return SDL_WINDOW_FULLSCREEN; break;
-        case WINDOW: return SDL_WINDOW_SHOWN; break;
-        default: return SDL_WINDOW_SHOWN; break;
+    int r;
+    switch (m) {
+        case RESIZABLE: r = SDL_WINDOW_RESIZABLE; break;
+        case FULLSCREEN: r = SDL_WINDOW_FULLSCREEN; break;
+        case WINDOW: r = SDL_WINDOW_SHOWN; break;
+        default: r = SDL_WINDOW_SHOWN; break;
     }
+    m_data.window_d.window_mode = r;
 }
- */
 
 
-int PEQ_init()
+
+qbool PEQ_init()
 {
-    
-    
-    printf("initialising SDL...\n");
-    if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
-        printf("SDL initialised!\n");
-        if ((m_data.window_d.window = SDL_CreateWindow(m_data.window_d.title, m_data.window_d.x, m_data.window_d.y, m_data.window_d.width, m_data.window_d.height, m_data.window_d.window_mode))) {
-            printf("Window initialised!\n");
-            if ((m_data.renderer = SDL_CreateRenderer(m_data.window_d.window, -1, 0))) {
-                printf("Renderer initialised!\nloading objects...\n");
-                TTF_Init(); //init text api
-                load_objects(&m_data); //FIXME: phase out
-                printf("initialisation complete!\nrunning...\n*\n\n");
-                if (m_data.window_d.colour.name != TRANSPARENT && !(SDL_SetRenderDrawColor(m_data.renderer, m_data.window_d.colour.r, m_data.window_d.colour.g, m_data.window_d.colour.b, m_data.window_d.colour.a))) {
-                    return 1;
+    if (m_data.is_loaded == FALSE) {         //if renderer isn't yet active
+        printf("* Pequod-C *\nWarming up...\n");
+        set_window_mode(WINDOW_MODE);
+        m_data.frame_rate.frame_time = 0;
+        m_data.frame_rate.frame_start = 0;
+        m_data.window_d.is_running = 0;
+        m_data.window_d.colour = get_colour(BACKGROUND_COLOUR);
+        m_data.frame_rate.FPS = FPS_DEF;
+        m_data.frame_rate.delay_time = DELAY_TIME_DEF;
+        m_data.window_d.height = WINDOW_HEIGHT;
+        m_data.window_d.width = WINDOW_WIDTH;
+        strcpy(m_data.window_d.title, WINDOW_TITLE);
+        m_data.window_d.x = WINDOW_X;
+        m_data.window_d.y = WINDOW_Y;
+        
+        m_data.is_loaded = TRUE;    //set to true
+        
+        if (!m_data.window_d.is_running) { //if window isn't already running
+            srand(SDL_GetTicks()); //seed random number based on milliseconds passed since init
+            printf("initialising SDL...\n");
+            if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
+            printf("SDL initialised!\n");
+                if ((m_data.window_d.window = SDL_CreateWindow(m_data.window_d.title, m_data.window_d.x, m_data.window_d.y, m_data.window_d.width, m_data.window_d.height, m_data.window_d.window_mode))) {
+                    printf("Window initialised!\n");
+                    if ((m_data.renderer = SDL_CreateRenderer(m_data.window_d.window, -1, 0))) {
+                        printf("Renderer initialised!\nloading objects...\n");
+                        TTF_Init(); //init text api
+                        load_objects(&m_data); //FIXME: phase out
+                        printf("initialisation complete!\nrunning...\n*\n\n");
+                        if (m_data.window_d.colour.name != TRANSPARENT && !(SDL_SetRenderDrawColor(m_data.renderer, m_data.window_d.colour.r, m_data.window_d.colour.g, m_data.window_d.colour.b, m_data.window_d.colour.a))) {
+                            return 1;
+                        } else
+                            printf("Renderer colour error; colour %u not recognised or is illegal\n", m_data.window_d.colour.name);
+                    } else
+                        printf("Renderer failed to initialise; ERROR: %s\n", SDL_GetError());
                 } else
-                    printf("Renderer colour error; colour %u not recognised or is illegal\n", m_data.window_d.colour.name);
+                    printf("Window failed to initialise; ERROR: %s\n", SDL_GetError());
             } else
-                printf("Renderer failed to initialise; ERROR: %s\n", SDL_GetError());
+                printf("SDL failed to initialise; ERROR: %s\n", SDL_GetError());
         } else
-            printf("Window failed to initialise; ERROR: %s\n", SDL_GetError());
-    } else
-        printf("SDL failed to initialise; ERROR: %s\n", SDL_GetError());
+            printf("cannot init; PEQ already running!\n");
+    }
     return 0;
 }
 
-int PEQ_handle_events()
+qbool PEQ_handle_events()
 {
     SDL_Event e;
     if (SDL_PollEvent(&e)) {
@@ -71,14 +92,23 @@ int PEQ_handle_events()
     return 0;
 }
 
-int PEQ_render()
+void PEQ_clear_render()
 {
-    SDL_SetRenderDrawColor(data->renderer, data->r_colour.r, data->r_colour.g,data->r_colour.b, data->r_colour.a);
-    SDL_RenderClear(data->renderer);
-    
-    
-    
-    PEQ_draw_obj(data->renderer, &data->object_bank[8]);
+    if (m_data.renderer != 0) {
+    SDL_SetRenderDrawColor(m_data.renderer, m_data.window_d.colour.r, m_data.window_d.colour.g, m_data.window_d.colour.b, m_data.window_d.colour.a);
+    SDL_RenderClear(m_data.renderer);
+    } else
+        printf("no renderer!; init PEQ before rendering\n");
+}
+
+void PEQ_draw_render()
+{
+    SDL_RenderPresent(m_data.renderer);
+}
+
+qbool PEQ_render()
+{
+    PEQ_draw_obj(m_data.renderer, m_data.object_bank[8]);
     
     //cosmic rain
     for (int i = 0; i < 100; i++) {
@@ -90,13 +120,11 @@ int PEQ_render()
     for (int i = 0; i < 8; i++)
         PEQ_draw_shape(data->renderer, &data->object_bank[i].graphic.shape);
    
-    
-    SDL_RenderPresent(data->renderer);
     SDL_Delay(100);
     return 0;
 }
 
-int PEQ_clean(PEQ_DATA *data)
+qbool PEQ_clean(PEQ_DATA *data)
 {
     printf("cleaning...\n");
     SDL_DestroyRenderer(data->renderer);
@@ -111,7 +139,7 @@ int PEQ_clean(PEQ_DATA *data)
     return 0;
 }
 
-int PEQ_update()
+qbool PEQ_update()
 {
     PEQ_handle_events(data);
     
@@ -139,7 +167,7 @@ int PEQ_update()
     return 0;
 }
 
-int PEQ_cycle(PEQ_DATA *data)
+qbool PEQ_cycle(PEQ_DATA *data)
 {
     data->frame_start = SDL_GetTicks();
     
@@ -155,7 +183,7 @@ int PEQ_cycle(PEQ_DATA *data)
 
 
 //load objects in here:
-void load_objects(PEQ_DATA *data)
+qbool load_objects(PEQ_DATA *data)
 {
     //todo load from file
     int count = 9;
@@ -178,8 +206,8 @@ void load_objects(PEQ_DATA *data)
     }
 }
 
-
-int pop_main_data()
+/*
+qbool pop_main_data()
 {
     m_data.window_d.window_mode = WINDOW_MODE;
     data->frame_start = data->frame_time = data->is_running = 0;
@@ -196,3 +224,4 @@ int pop_main_data()
     data->window_mode = WINDOW_MODE;
     return 0;
 }
+ */

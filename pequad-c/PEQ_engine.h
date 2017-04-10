@@ -14,11 +14,6 @@
 #include "PEQ_utility.h"
 #include "PEQ_text.h"
 
-//window masks
-#define RESIZABLE   SDL_WINDOW_RESIZABLE
-#define FULLSCREEN  SDL_WINDOW_FULLSCREEN
-#define WINDOW      SDL_WINDOW_SHOWN
-
 //window settings
 #define WINDOW_X           100
 #define WINDOW_Y           100
@@ -40,11 +35,11 @@
  * mostly used for passing into low level SDL window functions
  */
 
-//typedef enum window {
-//    WINDOW,                     /**< Open in a fixed size window  */
- //   RESIZABLE,                  /**< Open in a resizable window */
- // / FULLSCREEN                  /**< Open in fullscreen */
-//} PEQ_WINDOW_MODE;
+typedef enum window {
+    WINDOW,                     /**< Open in a fixed size window  */
+   RESIZABLE,                  /**< Open in a resizable window */
+  FULLSCREEN                  /**< Open in fullscreen */
+} PEQ_WINDOW_MODE;
 
 
 
@@ -71,38 +66,40 @@
  */
 typedef struct data {
     
-    //PEQ default fields
+    qbool is_loaded;
     SDL_Renderer *renderer;     /**< pointer to application renderer */
-
+    
     
     
     struct {
         SDL_Window *window;             /**< pointer to application window */
         PEQ_COLOUR colour;            /**< background render colour (set in precompiler) */
-        SDL_WindowEventID window_mode;    /**< window mode (set at precompile) */
+        int window_mode;            /**< window mode (set at precompile) */
         char title[20];                 /**< application title, used for window title, etc. */
         qbool is_running;               /**< is the application running; 0 false */
         int x,                          /**< application window x coordinate (set in precompile) */
             y,
             height,                     /**< application window height (set in precompile) */
-            width,                      /**< application window width (set in precompile) */
-            FPS,                        /**< application frames per second (set in precompile) */
-            delay_time;                 /**< application delay time (set in precompile) */
-
+            width;                     /**< application window width (set in precompile) */
     } window_d;                         /**< application window y coordinate (set in precompile) */
     
+    struct {
+        Uint32 frame_start,                 /**< used to track starting frame rate */
+               frame_time;
+        int     FPS,                        /**< application frames per second (set in precompile) */
+                delay_time;                 /**< application delay time (set in precompile) */
+    } frame_rate;                                   /**< used to track frame rate speed after loop */
     
-    Uint32 frame_start,                 /**< used to track starting frame rate */
-           frame_time;                  /**< used to track frame rate speed after loop */
     
-    //static funcions
-    void (*PEQ_init)();
+    qbool (*PEQ_init)();
     
     //public
-    void (*PEQ_handle_events)();
-    void (*PEQ_update)();
-    void (*PEQ_render)();
-    void (*PEQ_clean)();
+    qbool (*PEQ_handle_events)();
+    qbool (*PEQ_update)();
+    void (*PEQ_clear_render)();
+    void (*PEQ_draw_render)();
+    qbool (*PEQ_render)();
+    qbool (*PEQ_clean)();
     
     PEQ_OBJECT object_bank[10]; /*FIXME: phase out*/
     
@@ -128,7 +125,10 @@ typedef struct data {
  * @param data PEQ_DATA type pointer
  * @return 1 pass, 0 fail
  */
-int PEQ_init();
+qbool PEQ_init();
+
+void PEQ_clear_render();
+void PEQ_draw_render();
 
 /**
  * @brief primary engine loop for handling events
@@ -138,7 +138,7 @@ int PEQ_init();
  * @warning PEQ CORE FUNCTION
  * @return 0 success
  */
-int PEQ_handle_events();
+qbool PEQ_handle_events();
 
 /**
  * @brief primary engine loop for rendering
@@ -147,7 +147,7 @@ int PEQ_handle_events();
  * @param data PEQ_DATA type pointer
  * @return 0 success
  */
-int PEQ_render();
+qbool PEQ_render();
 
 /**
  * @brief destroys application
@@ -155,7 +155,7 @@ int PEQ_render();
 * @warning PEQ CORE FUNCTION
  * @return 0 success; -1 fail
  */
-int PEQ_clean();
+qbool PEQ_clean();
 
 /**
  * @brief primary control loop
@@ -167,7 +167,7 @@ int PEQ_clean();
  * @param data PEQ_DATA type pointer
  * @return 0 success; -1 fail
  */
-int PEQ_cycle(PEQ_DATA *data);
+qbool PEQ_cycle(PEQ_DATA *data);
 
 /**
  * @brief main update loop
@@ -177,7 +177,7 @@ int PEQ_cycle(PEQ_DATA *data);
  * @param data PEQ_DATA type pointer
  * @return 0 success
  */
-int PEQ_update();
+qbool PEQ_update();
 
 /**
  * @brief populates a PEQ_DATA struct
@@ -185,7 +185,7 @@ int PEQ_update();
  * @warning PEQ CORE FUNCTION
  * @return 0 success;
  */
-int pop_main_data();
+qbool pop_main_data();
 
 /**
  * @brief loads objects into PEQ_data
