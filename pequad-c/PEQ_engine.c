@@ -68,7 +68,7 @@ qbool PEQ_init()
                         printf("initialisation complete!\nrunning...\n*\n\n");
                         if (m_data.window_d.colour.name != TRANSPARENT && !(SDL_SetRenderDrawColor(m_data.renderer, m_data.window_d.colour.r, m_data.window_d.colour.g, m_data.window_d.colour.b, m_data.window_d.colour.a))) {
                             m_data.window_d.is_running = TRUE;
-                            return 1;
+                            return TRUE;
                         } else
                             printf("Renderer colour error; colour %u not recognised or is illegal\n", m_data.window_d.colour.name);
                     } else
@@ -80,7 +80,7 @@ qbool PEQ_init()
         } else
             printf("cannot init; PEQ already running!\n");
     }
-    return 0;
+    return FALSE;
 }
 
 qbool PEQ_handle_events()
@@ -193,22 +193,7 @@ qbool PEQ_update()
     return 0;
 }
 
-/*
-qbool PEQ_cycle(PEQ_DATA *data)
-{
-    m_data.frame_rate.frame_start = SDL_GetTicks();
-    
-    PEQ_update(data);
-    PEQ_render(data);
-    
-    m_data.frame_rate.frame_time = SDL_GetTicks() - m_data.frame_rate.frame_start;
-    if (m_data.frame_rate.frame_start < m_data.frame_rate.delay_time)
-        SDL_Delay((int)m_data.frame_rate.delay_time - m_data.frame_rate.frame_time);
-    
-    return 0;
-}
 
- */
 
 //load objects in here:
 qbool load_objects()
@@ -234,23 +219,3 @@ qbool load_objects()
     }
     return 0;
 }
-
-/*
-qbool pop_main_data()
-{
-    m_data.window_d.window_mode = WINDOW_MODE;
-    data->frame_start = data->frame_time = data->is_running = 0;
-    data->renderer = 0;
-    data->window = 0;
-    data->r_colour = get_colour(BACKGROUND_COLOUR);
-    data->FPS = FPS_DEF;
-    data->delay_time = DELAY_TIME_DEF;
-    data->win_height = WINDOW_HEIGHT;
-    data->win_width = WINDOW_WIDTH;
-    strcpy(data->title, WINDOW_TITLE);
-    data->x = WINDOW_WIDTH;
-    data->y = WINDOW_Y;
-    data->window_mode = WINDOW_MODE;
-    return 0;
-}
- */

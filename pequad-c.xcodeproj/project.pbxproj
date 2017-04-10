@@ -37,7 +37,6 @@
 		4C16A87B1E93640100CECFAE /* PEQ_texture_manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEQ_texture_manager.h; sourceTree = "<group>"; };
 		4C2BFA731E94F13A005EB071 /* PEQ_colour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEQ_colour.h; sourceTree = "<group>"; };
 		4C2BFA741E94F6BB005EB071 /* PEQ_colour.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PEQ_colour.c; sourceTree = "<group>"; };
-		4C2BFA761E9500ED005EB071 /* PEQ_SETTINGS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEQ_SETTINGS.h; sourceTree = "<group>"; };
 		4C72C3121E97B069004C32B4 /* PEQ_geometry.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PEQ_geometry.c; sourceTree = "<group>"; };
 		4C72C3131E97B069004C32B4 /* PEQ_geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEQ_geometry.h; sourceTree = "<group>"; };
 		4C814B141E9323DD00DCABBF /* pequad-c */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "pequad-c"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,6 +68,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4C5D10FB1E9B50E300108CD3 /* PEQ-C */ = {
+			isa = PBXGroup;
+			children = (
+				4CCAFD201E935CD90006FF26 /* PEQ_engine.c */,
+				4CCAFD211E935CD90006FF26 /* PEQ_engine.h */,
+				4C16A87A1E93640100CECFAE /* PEQ_texture_manager.c */,
+				4C16A87B1E93640100CECFAE /* PEQ_texture_manager.h */,
+				4C2BFA731E94F13A005EB071 /* PEQ_colour.h */,
+				4C2BFA741E94F6BB005EB071 /* PEQ_colour.c */,
+				4C72C3121E97B069004C32B4 /* PEQ_geometry.c */,
+				4C72C3131E97B069004C32B4 /* PEQ_geometry.h */,
+				4CA78BFE1E98E7C900D23403 /* PEQ_object.c */,
+				4CA78BFF1E98E7C900D23403 /* PEQ_object.h */,
+				4CA78C011E98E9C800D23403 /* PEQ_utility.c */,
+				4CA78C021E98E9C800D23403 /* PEQ_utility.h */,
+				4CCBDFA71E9A69D60067B153 /* PEQ_text.c */,
+				4CCBDFA81E9A69D60067B153 /* PEQ_text.h */,
+			);
+			name = "PEQ-C";
+			sourceTree = "<group>";
+		};
 		4C814B0B1E9323DD00DCABBF = {
 			isa = PBXGroup;
 			children = (
@@ -90,21 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				4C814B171E9323DD00DCABBF /* main.c */,
-				4CCAFD201E935CD90006FF26 /* PEQ_engine.c */,
-				4CCAFD211E935CD90006FF26 /* PEQ_engine.h */,
-				4C16A87A1E93640100CECFAE /* PEQ_texture_manager.c */,
-				4C16A87B1E93640100CECFAE /* PEQ_texture_manager.h */,
-				4C2BFA731E94F13A005EB071 /* PEQ_colour.h */,
-				4C2BFA741E94F6BB005EB071 /* PEQ_colour.c */,
-				4C2BFA761E9500ED005EB071 /* PEQ_SETTINGS.h */,
-				4C72C3121E97B069004C32B4 /* PEQ_geometry.c */,
-				4C72C3131E97B069004C32B4 /* PEQ_geometry.h */,
-				4CA78BFE1E98E7C900D23403 /* PEQ_object.c */,
-				4CA78BFF1E98E7C900D23403 /* PEQ_object.h */,
-				4CA78C011E98E9C800D23403 /* PEQ_utility.c */,
-				4CA78C021E98E9C800D23403 /* PEQ_utility.h */,
-				4CCBDFA71E9A69D60067B153 /* PEQ_text.c */,
-				4CCBDFA81E9A69D60067B153 /* PEQ_text.h */,
+				4C5D10FB1E9B50E300108CD3 /* PEQ-C */,
 			);
 			path = "pequad-c";
 			sourceTree = "<group>";

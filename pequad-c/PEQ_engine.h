@@ -26,8 +26,6 @@
 #define MAX_TEXTURE        100
 
 
-#define pset(set,send) set = send
-
 #define CHECK_INIT if(m_data.is_loaded == FALSE){m_data.window_d.is_running = PEQ_init();}
 
 /**
@@ -143,16 +141,6 @@ qbool PEQ_render();
  */
 qbool PEQ_clean();
 
-/**
- * @brief primary control loop
- * @par handles framerate control and application loop.
- * any tasks added here will run each frame.
- * render, update, etc.
- * @warning PEQ CORE FUNCTION
- * @param data PEQ_DATA type pointer
- * @return 0 success; -1 fail
- */
-qbool PEQ_cycle();
 
 /**
  * @brief main update loop
