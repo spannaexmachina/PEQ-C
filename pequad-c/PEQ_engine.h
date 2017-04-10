@@ -96,7 +96,7 @@ typedef struct data {
     
 } PEQ_DATA;
 
-
+qbool PEQ_exit_request();
 
 /**
  * @brief returns an SDL window mode based on PEQ enum

@@ -48,13 +48,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-extern PEQ_DATA m_data;
-
 int main(int argc, char* argv[])
 {
     PEQ_init();
     
-    while (m_data.window_d.is_running != 0) {
+    while (PEQ_exit_request() != 0) {
         PEQ_clear_render();
         
         PEQ_update();
