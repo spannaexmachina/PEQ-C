@@ -32,7 +32,7 @@ typedef union
 /**
  * \brief fades objects
  */
-boolean obj_fade(PEQ_OBJECT *object, Uint8 speed);
+qbool obj_fade(PEQ_OBJECT *object, Uint8 speed);
 
 void PEQ_draw_obj(SDL_Renderer *r, PEQ_OBJECT *o);
 

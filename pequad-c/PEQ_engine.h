@@ -91,7 +91,7 @@ typedef struct data {
     } frame_rate;                                   /**< used to track frame rate speed after loop */
     
     
-    qbool (*PEQ_init)();
+    void (*PEQ_init)(void);
     
     //public
     qbool (*PEQ_handle_events)();
@@ -167,7 +167,7 @@ qbool PEQ_clean();
  * @param data PEQ_DATA type pointer
  * @return 0 success; -1 fail
  */
-qbool PEQ_cycle(PEQ_DATA *data);
+qbool PEQ_cycle();
 
 /**
  * @brief main update loop
@@ -193,7 +193,7 @@ qbool pop_main_data();
  * @param data PEQ_DATA type pointer to populate
  * @warning PEQ CORE FUNCTION
  */
-void load_objects(PEQ_DATA *data);
+qbool load_objects();
 
 
 

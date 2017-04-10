@@ -47,6 +47,8 @@ qbool PEQ_init()
         m_data.window_d.x = WINDOW_X;
         m_data.window_d.y = WINDOW_Y;
         
+        
+        
         m_data.is_loaded = TRUE;    //set to true
         
         if (!m_data.window_d.is_running) { //if window isn't already running
@@ -94,6 +96,9 @@ qbool PEQ_handle_events()
 
 void PEQ_clear_render()
 {
+    //start frame counter
+    m_data.frame_rate.frame_start = SDL_GetTicks();
+    
     if (m_data.renderer != 0) {
     SDL_SetRenderDrawColor(m_data.renderer, m_data.window_d.colour.r, m_data.window_d.colour.g, m_data.window_d.colour.b, m_data.window_d.colour.a);
     SDL_RenderClear(m_data.renderer);
@@ -104,32 +109,37 @@ void PEQ_clear_render()
 void PEQ_draw_render()
 {
     SDL_RenderPresent(m_data.renderer);
+    
+    //calculate frame rate after render
+    m_data.frame_rate.frame_time = SDL_GetTicks() - m_data.frame_rate.frame_start;
+    if (m_data.frame_rate.frame_start < m_data.frame_rate.delay_time)
+        SDL_Delay((int)m_data.frame_rate.delay_time - m_data.frame_rate.frame_time);
 }
 
 qbool PEQ_render()
 {
-    PEQ_draw_obj(m_data.renderer, m_data.object_bank[8]);
+    PEQ_draw_obj(m_data.renderer, &m_data.object_bank[8]);
     
     //cosmic rain
     for (int i = 0; i < 100; i++) {
-        data->object_bank[4].graphic.shape = PEQ_get_point(makepoint(PEQ_rand(0, WINDOW_WIDTH), PEQ_rand(0, WINDOW_HEIGHT)), PEQ_rand(0, 3));
-        PEQ_draw_shape(data->renderer, &data->object_bank[4].graphic.shape);
+        m_data.object_bank[4].graphic.shape = PEQ_get_point(makepoint(PEQ_rand(0, WINDOW_WIDTH), PEQ_rand(0, WINDOW_HEIGHT)), PEQ_rand(0, 3));
+        PEQ_draw_shape(m_data.renderer, &m_data.object_bank[4].graphic.shape);
     }
     
     //new kind of array call
     for (int i = 0; i < 8; i++)
-        PEQ_draw_shape(data->renderer, &data->object_bank[i].graphic.shape);
+        PEQ_draw_shape(m_data.renderer, &m_data.object_bank[i].graphic.shape);
    
     SDL_Delay(100);
     return 0;
 }
 
-qbool PEQ_clean(PEQ_DATA *data)
+qbool PEQ_clean()
 {
     printf("cleaning...\n");
-    SDL_DestroyRenderer(data->renderer);
+    SDL_DestroyRenderer(m_data.renderer);
     printf("renderer destroyed!\n");
-    SDL_DestroyWindow(data->window);
+    SDL_DestroyWindow(m_data.window_d.window);
     printf("window destroyed!\n");
     printf("cleaning SDL_TTF...\n");
     TTF_Quit();
@@ -141,69 +151,72 @@ qbool PEQ_clean(PEQ_DATA *data)
 
 qbool PEQ_update()
 {
-    PEQ_handle_events(data);
+    PEQ_handle_events();
     
     //update random colours
-    data->object_bank[0].graphic.shape.rect.colour = PEQ_rand_colour(255);
-    data->object_bank[1].graphic.shape.rect.colour = PEQ_rand_colour(0);
+    m_data.object_bank[0].graphic.shape.rect.colour = PEQ_rand_colour(255);
+    m_data.object_bank[1].graphic.shape.rect.colour = PEQ_rand_colour(0);
     
     //move rectangle
-    if (data->object_bank[0].graphic.shape.rect.p.x + data->object_bank[0].graphic.shape.rect.width < WINDOW_WIDTH)
-        data->object_bank[0].graphic.acc.x++;
+    if (m_data.object_bank[0].graphic.shape.rect.p.x + m_data.object_bank[0].graphic.shape.rect.width < WINDOW_WIDTH)
+        m_data.object_bank[0].graphic.acc.x++;
     else {
-        data->object_bank[0].graphic.acc.x = 0;
+        m_data.object_bank[0].graphic.acc.x = 0;
     }
-    data->object_bank[0].graphic.shape.rect.p.x += data->object_bank[0].graphic.acc.x;
+    m_data.object_bank[0].graphic.shape.rect.p.x += m_data.object_bank[0].graphic.acc.x;
     
     //fades!!
-    obj_fade(&data->object_bank[3], 20);
-    obj_fade(&data->object_bank[7], 10);
+    obj_fade(&m_data.object_bank[3], 20);
+    obj_fade(&m_data.object_bank[7], 10);
     
     //giggly darkstar!
-        data->object_bank[8].texture.texture.position.x += PEQ_rand(-2, 3);
-        data->object_bank[8].texture.texture.position.y += PEQ_rand(-3, 2);
+        m_data.object_bank[8].texture.texture.position.x += PEQ_rand(-2, 3);
+        m_data.object_bank[8].texture.texture.position.y += PEQ_rand(-3, 2);
     
     
     return 0;
 }
 
+/*
 qbool PEQ_cycle(PEQ_DATA *data)
 {
-    data->frame_start = SDL_GetTicks();
+    m_data.frame_rate.frame_start = SDL_GetTicks();
     
     PEQ_update(data);
     PEQ_render(data);
     
-    data->frame_time = SDL_GetTicks() - data->frame_start;
-    if (data->frame_start < data->delay_time)
-        SDL_Delay((int)data->delay_time - data->frame_time);
+    m_data.frame_rate.frame_time = SDL_GetTicks() - m_data.frame_rate.frame_start;
+    if (m_data.frame_rate.frame_start < m_data.frame_rate.delay_time)
+        SDL_Delay((int)m_data.frame_rate.delay_time - m_data.frame_rate.frame_time);
     
     return 0;
 }
 
+ */
 
 //load objects in here:
-qbool load_objects(PEQ_DATA *data)
+qbool load_objects()
 {
     //todo load from file
     int count = 9;
     //graphics
-    data->object_bank[0].graphic.shape = PEQ_get_rect(makepoint(110, 100), 200, 400, PEQ_rand(0, 5));
-    data->object_bank[1].graphic.shape = PEQ_get_rect(makepoint(100, 100), 200, 400, PEQ_rand(0, 5));
-    data->object_bank[2].graphic.shape = PEQ_get_line(makepoint(50, 500), makepoint(600, 50), RED);
-    data->object_bank[7].graphic.shape = PEQ_get_circ(RED, makeSDLpoint(100, 100), 50);
-    data->object_bank[4].graphic.shape = PEQ_get_point(makepoint(PEQ_rand(0, WINDOW_WIDTH), PEQ_rand(0, WINDOW_HEIGHT)), PEQ_rand(0, 3));
-    data->object_bank[5].graphic.shape = PEQ_get_line(makepoint(100, 100), makepoint(200, 200), WHITE);
-    data->object_bank[6].graphic.shape = PEQ_get_rect(makepoint(200, 200), 150, 200, RED);
-    data->object_bank[3].graphic.shape = PEQ_get_rect(makepoint(200, 200), 200, 200, RED);
+    m_data.object_bank[0].graphic.shape = PEQ_get_rect(makepoint(110, 100), 200, 400, PEQ_rand(0, 5));
+    m_data.object_bank[1].graphic.shape = PEQ_get_rect(makepoint(100, 100), 200, 400, PEQ_rand(0, 5));
+    m_data.object_bank[2].graphic.shape = PEQ_get_line(makepoint(50, 500), makepoint(600, 50), RED);
+    m_data.object_bank[7].graphic.shape = PEQ_get_circ(RED, makeSDLpoint(100, 100), 50);
+    m_data.object_bank[4].graphic.shape = PEQ_get_point(makepoint(PEQ_rand(0, WINDOW_WIDTH), PEQ_rand(0, WINDOW_HEIGHT)), PEQ_rand(0, 3));
+    m_data.object_bank[5].graphic.shape = PEQ_get_line(makepoint(100, 100), makepoint(200, 200), WHITE);
+    m_data.object_bank[6].graphic.shape = PEQ_get_rect(makepoint(200, 200), 150, 200, RED);
+    m_data.object_bank[3].graphic.shape = PEQ_get_rect(makepoint(200, 200), 200, 200, RED);
     //textures
-    data->object_bank[8].texture.texture = PEQ_get_texture(data->renderer, "darkstar", "assets/images/darkstar.png", makepoint(300, 300), SDL_FLIP_NONE);
+    m_data.object_bank[8].texture.texture = PEQ_get_texture(m_data.renderer, "darkstar", "assets/images/darkstar.png", makepoint(300, 300), SDL_FLIP_NONE);
     
     for (int i = 0; i < count; i++) {
-        if (data->object_bank[i].texture.texture.texture != 0)
-            data->object_bank[i].texture.type = TEXTURE;
+        if (m_data.object_bank[i].texture.texture.texture != 0)
+            m_data.object_bank[i].texture.type = TEXTURE;
         //todo shape handling
     }
+    return 0;
 }
 
 /*
