@@ -7,11 +7,11 @@
 #include <stdlib.h>
 #include "PEQ_colour.h"
 
-typedef enum boolean
+typedef enum qbool
 {
     FALSE,
     TRUE
-} boolean;
+} qbool;
 
 //random int generator
 int PEQ_rand(int min, int max);
