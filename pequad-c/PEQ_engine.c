@@ -9,13 +9,13 @@
 #include "PEQ_engine.h"
 #include <stdlib.h>
 
-static qbool PEQ_init();
+static pbool PEQ_init();
 
 // application data file
 static PEQ_DATA m_data;
 
 
-qbool PEQ_exit_request()
+pbool PEQ_exit_request()
 {
     CHECK_INIT
     return m_data.window_d.is_running;
@@ -36,7 +36,7 @@ static void set_window_mode(PEQ_WINDOW_MODE m)
 
 
 
-static qbool PEQ_init()
+static pbool PEQ_init()
 {
     if (m_data.is_loaded == FALSE) {         //if renderer isn't yet active
         printf("* Pequod-C *\nWarming up...\n");
@@ -84,7 +84,7 @@ static qbool PEQ_init()
     return FALSE;
 }
 
-qbool PEQ_handle_events()
+pbool PEQ_handle_events()
 {
     CHECK_INIT
     
@@ -129,7 +129,7 @@ void PEQ_draw_render()
     if (m_data.window_d.is_running == 0) PEQ_clean(); //clean if exit
 }
 
-qbool PEQ_render()
+pbool PEQ_render()
 {
     PEQ_draw_obj(m_data.renderer, &m_data.object_bank[8]);
     
@@ -147,7 +147,7 @@ qbool PEQ_render()
     return 0;
 }
 
-qbool PEQ_clean()
+pbool PEQ_clean()
 {
     CHECK_INIT
     
@@ -164,7 +164,7 @@ qbool PEQ_clean()
     return 0;
 }
 
-qbool PEQ_update()
+pbool PEQ_update()
 {
     CHECK_INIT
     
@@ -187,8 +187,8 @@ qbool PEQ_update()
     obj_fade(&m_data.object_bank[7], 10);
     
     //giggly darkstar!
-        m_data.object_bank[8].texture.texture.position.x += PEQ_rand(-2, 3);
-        m_data.object_bank[8].texture.texture.position.y += PEQ_rand(-3, 2);
+        m_data.object_bank[8].texture.texture.position.x += uberrand(-5, 5);
+        m_data.object_bank[8].texture.texture.position.y += uberrand(-5, 5);
     
     
     return 0;
@@ -197,7 +197,7 @@ qbool PEQ_update()
 
 
 //load objects in here:
-qbool load_objects()
+pbool load_objects()
 {
     //todo load from file
     int count = 9;

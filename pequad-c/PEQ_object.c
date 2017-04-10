@@ -8,7 +8,7 @@
 
 #include "PEQ_object.h"
 
-qbool obj_fade(PEQ_OBJECT *object, Uint8 speed)
+pbool obj_fade(PEQ_OBJECT *object, Uint8 speed)
 {
     
     if (object->graphic.type == GRAPHIC) {

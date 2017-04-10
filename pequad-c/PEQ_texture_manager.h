@@ -29,6 +29,11 @@ typedef struct {
 } PEQ_TEXTURE;
 
 
+typedef struct {
+    char img_name[50];
+    char filename[255];
+};
+
 void PEQ_load_texture(SDL_Renderer *r, PEQ_TEXTURE *t);
 
 PEQ_TEXTURE PEQ_get_texture(SDL_Renderer *r, char name[], char filename[], point2D p, SDL_RendererFlip flip_flag);
