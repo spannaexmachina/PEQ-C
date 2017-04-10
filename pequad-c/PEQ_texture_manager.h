@@ -32,7 +32,11 @@ typedef struct {
 typedef struct {
     char img_name[50];
     char filename[255];
-};
+    point2D pos;
+     int width,
+        height;
+    SDL_RendererFlip flip_flag;
+} PEQ_image;
 
 void PEQ_load_texture(SDL_Renderer *r, PEQ_TEXTURE *t);
 
