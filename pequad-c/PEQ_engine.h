@@ -1,3 +1,48 @@
+/************************************************************************************
+ * Copyright (C) 2017  Michael Holmes et al.   <peqclib@gmail.com>                  *
+ *                                                                                  *
+ * This file is part of PEQUOD-C.                                                   *
+ *                                                                                  *
+ *      Redistribution and use in source and binary forms, with or                  *
+ *      without modification, are permitted provided that the                       *
+ *      following conditions are met:                                               *
+ *                                                                                  *
+ *          * Redistributions of source code must retain the above                  *
+ *            copyright notice, this list of conditions and the                     *
+ *            following disclaimer.                                                 *
+ *                                                                                  *
+ *          * Redistributions in binary form must reproduce the                     *
+ *            above copyright notice, this list of conditions and                   *
+ *            the following disclaimer in the documentation and/or                  *
+ *            other materials provided with the distribution.                       *
+ *                                                                                  *
+ *          * Neither the name of PEQUOD-C, PEQ-C, PEQ, nor the                     *
+ *            names of its contributors may be used to endorse or                   *
+ *            promote products derived from this software without                   *
+ *            specific prior written permission.                                    *
+ *                                                                                  *
+ *      THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS         *
+ *      “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT           *
+ *      LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS           *
+ *      FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE              *
+ *      COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,         *
+ *      INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,        *
+ *      BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;            *
+ *      LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER            *
+ *      CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT          *
+ *      LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY       *
+ *      WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY     *
+ *      OF SUCH DAMAGE.                                                             *
+ *                                                                                  *
+ *      * PEQUOD-C utilises the SDL framework                                       *
+ *        ( https://www.libsdl.org )                                                *
+ *                                                                                  *
+ *      * PEQUOD-C contact:                                                         *
+ *          <peqclib@gmail.com>                                                     *
+ *         ( https://github.com/spannaexmachina/pequad-c )                          *
+ *                                                                                  *
+ ************************************************************************************/
+
 
 
 #ifndef PEQ_engine_h
@@ -5,15 +50,19 @@
 
 #include <stdio.h>
 #include <SDL2/SDL.h>
+#include <SDL2_image/SDL_image.h>
 #include <string.h>
-#include "PEQ_texture_manager.h"
 #include "PEQ_colour.h"
 #include "PEQ_geometry.h"
 #include "PEQ_object.h"
 #include "PEQ_utility.h"
 #include "PEQ_text.h"
 
-//window settings
+//dirs
+#define dir_images assets/images/
+
+
+//init window settings
 #define WINDOW_X           100
 #define WINDOW_Y           100
 #define WINDOW_WIDTH       640
@@ -25,8 +74,9 @@
 #define DELAY_TIME_DEF     1000.0f / FPS_DEF
 #define MAX_TEXTURE        100
 
+#define PEQ_delay(int) (SDL_Delay((int)))
+#define PEQ_boot_if if(m_data.is_loaded == FALSE){m_data.window_d.is_running = PEQ_init();}
 
-#define CHECK_INIT if(m_data.is_loaded == FALSE){m_data.window_d.is_running = PEQ_init();}
 
 /**
  * @brief mask for window modes
@@ -65,17 +115,18 @@ typedef enum window {
  */
 typedef struct data {
     
-    qbool is_loaded;
+    pbool is_loaded;
     SDL_Renderer *renderer;     /**< pointer to application renderer */
     
     
     
     struct {
+        
         SDL_Window *window;             /**< pointer to application window */
         PEQ_COLOUR colour;            /**< background render colour (set in precompiler) */
         int window_mode;            /**< window mode (set at precompile) */
         char title[20];                 /**< application title, used for window title, etc. */
-        qbool is_running;               /**< is the application running; 0 false */
+        pbool is_running;               /**< is the application running; 0 false */
         int x,                          /**< application window x coordinate (set in precompile) */
             y,
             height,                     /**< application window height (set in precompile) */
@@ -83,20 +134,61 @@ typedef struct data {
     } window_d;                         /**< application window y coordinate (set in precompile) */
     
     struct {
+        
         Uint32 frame_start,                 /**< used to track starting frame rate */
                frame_time;
         int     FPS,                        /**< application frames per second (set in precompile) */
                 delay_time;                 /**< application delay time (set in precompile) */
     } frame_rate;                                   /**< used to track frame rate speed after loop */
     
-    PEQ_OBJECT object_bank[10]; /*FIXME: phase out*/
     
 } PEQ_DATA;
 
-qbool PEQ_exit_request();
 
-void PEQ_clear_render();
+
+ typedef struct {
+     
+    char  img_name[50];
+    char filename[255];
+    SDL_RendererFlip flip_flag;
+     point2D position;
+     int width,
+        height;
+     
+    struct {
+        
+        int src_width,
+            src_height;
+        SDL_Texture *texture;
+    } PEQ_TEXTURE;
+     
+} PEQ_IMAGE;
+
+//images
+PEQ_IMAGE PEQ_load_image(char *image_name, char *filename);
+void PEQ_draw_image(PEQ_IMAGE *image);
+
+//shapes
+void PEQ_draw_line(PEQ_LINE *line);
+void PEQ_draw_rect(PEQ_RECT *rect);
+void PEQ_draw_circle(PEQ_CIRCLE *circ);
+void PEQ_draw_point(PEQ_POINT *point);
+
+
+
+//core
+void PEQ_boot();
+pbool PEQ_exit_request();
+
+void PEQ_start_render();
 void PEQ_draw_render();
+
+int PEQ_get_window_height();
+int PEQ_get_window_width();
+int PEQ_get_window_x();
+int PEQ_get_window_y();
+char *PEQ_get_title();
+
 
 /**
  * @brief primary engine loop for handling events
@@ -105,41 +197,15 @@ void PEQ_draw_render();
  * @warning PEQ CORE FUNCTION
  * @return 0 success
  */
-qbool PEQ_handle_events();
+pbool PEQ_handle_events();
 
-/**
- * @brief primary engine loop for rendering
- * any rendering tasks should be put here.
- * @warning PEQ CORE FUNCTION
- * @return 0 success
- */
-qbool PEQ_render();
 
 /**
  * @brief destroys application
 * @warning PEQ CORE FUNCTION
  * @return 0 success; -1 fail
  */
-qbool PEQ_clean();
-
-
-/**
- * @brief main update loop
- *
- * all object updates should be here.
- * @warning PEQ CORE FUNCTION
- * @return 0 success
- */
-qbool PEQ_update();
-
-/**
- * @brief loads objects into PEQ_data
- 
- * @warning PEQ CORE FUNCTION
- */
-qbool load_objects();
-
-
+static pbool PEQ_clean();
 
 
 #endif /* PEQ_engine_h */

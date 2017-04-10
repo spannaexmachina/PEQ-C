@@ -1,47 +1,3 @@
-/************************************************************************************
- * Copyright (C) 2017  Michael Holmes et al.   <peqclib@gmail.com>                  *
- *                                                                                  *
- * This file is part of PEQUOD-C.                                                   *
- *                                                                                  *
- *      Redistribution and use in source and binary forms, with or                  *
- *      without modification, are permitted provided that the                       *
- *      following conditions are met:                                               *
- *                                                                                  *
- *          * Redistributions of source code must retain the above                  *
- *            copyright notice, this list of conditions and the                     *
- *            following disclaimer.                                                 *
- *                                                                                  *
- *          * Redistributions in binary form must reproduce the                     *
- *            above copyright notice, this list of conditions and                   *
- *            the following disclaimer in the documentation and/or                  *
- *            other materials provided with the distribution.                       *
- *                                                                                  *
- *          * Neither the name of PEQUOD-C, PEQ-C, PEQ, nor the                     *
- *            names of its contributors may be used to endorse or                   *
- *            promote products derived from this software without                   *
- *            specific prior written permission.                                    *
- *                                                                                  *
- *      THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS         *
- *      “AS IS” AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT           *
- *      LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS           *
- *      FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE              *
- *      COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,         *
- *      INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,        *
- *      BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;            *
- *      LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER            *
- *      CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT          *
- *      LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY       *
- *      WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY     *
- *      OF SUCH DAMAGE.                                                             *
- *                                                                                  *
- *      * PEQUOD-C utilises the SDL framework                                       *
- *        ( https://www.libsdl.org )                                                *
- *                                                                                  *
- *      * PEQUOD-C contact:                                                         *
- *          <peqclib@gmail.com>                                                     *
- *         ( https://github.com/spannaexmachina/pequad-c )                          *
- *                                                                                  *
- ************************************************************************************/
 
 
 #include "PEQ_engine.h"
@@ -51,15 +7,58 @@
 
 int main(int argc, char* argv[])
 {
-    while (PEQ_exit_request() != 0) {
-        PEQ_clear_render();
-        
-        PEQ_update();
-        PEQ_render();
-        
-        PEQ_draw_render();
-    }
+    PEQ_boot(); //this has to occur before any images are loaded etc.
     
+    //sample objects
+    PEQ_IMAGE image = PEQ_load_image("darkstar", "assets/images/darkstar.png");
+    PEQ_CIRCLE circ = PEQ_load_circle(makepoint(100, 300), 30, RANDOM);
+    PEQ_POINT point = PEQ_load_point(makepoint(0, 0), RED);
+    
+    //centre image
+    image.position.y = (PEQ_get_window_height() / 2) - (image.height / 2);
+    
+    
+    //main loop
+    while (PEQ_exit_request() != 0) {
+        PEQ_handle_events();
+        PEQ_start_render();
+        //loop code here
+        //
+        
+        
+        //crazy circle
+        circ.center.x += PEQ_rand(-2, 3);
+        circ.center.y += PEQ_rand(-2, 3);
+        circ.colour = PEQ_rand_colour(255);
+        PEQ_draw_circle(&circ);
+        
+        //ranbow space dust
+        for (int i = 0; i < 200; i++)
+        {
+            point.colour = PEQ_rand_colour(255);
+            point.p.x = PEQ_rand(0, WINDOW_WIDTH);
+            point.p.y = PEQ_rand(0, WINDOW_HEIGHT);
+            PEQ_draw_point(&point);
+        }
+        
+        //image line
+        while (image.position.x < WINDOW_WIDTH) {
+                PEQ_draw_image(&image);
+                image.position.x += image.width;
+            }
+        //level out line
+        image.position.x = 0;
+        
+        //jitter image line
+        image.position.y += jitterrand(-3, 4);
+        
+        
+        
+        //
+        //end of loop calls
+        PEQ_draw_render();
+        PEQ_delay(50);
+    }
     return 0;
 }
 
