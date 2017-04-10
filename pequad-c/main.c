@@ -50,8 +50,6 @@
 
 int main(int argc, char* argv[])
 {
-    PEQ_init();
-    
     while (PEQ_exit_request() != 0) {
         PEQ_clear_render();
         

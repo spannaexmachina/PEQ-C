@@ -14,7 +14,11 @@
 static PEQ_DATA m_data;
 
 
-qbool PEQ_exit_request() {return m_data.window_d.is_running;}
+qbool PEQ_exit_request()
+{
+    CHECK_INIT
+    return m_data.window_d.is_running;
+}
 
 
 static void set_window_mode(PEQ_WINDOW_MODE m)
@@ -161,6 +165,8 @@ qbool PEQ_clean()
 
 qbool PEQ_update()
 {
+    CHECK_INIT
+    
     PEQ_handle_events();
     
     //update random colours
