@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4C16A87C1E93640100CECFAE /* PEQ_texture_manager.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C16A87A1E93640100CECFAE /* PEQ_texture_manager.c */; };
 		4C2BFA751E94F6BB005EB071 /* PEQ_colour.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C2BFA741E94F6BB005EB071 /* PEQ_colour.c */; };
 		4C72C3141E97B069004C32B4 /* PEQ_geometry.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C72C3121E97B069004C32B4 /* PEQ_geometry.c */; };
 		4C814B181E9323DD00DCABBF /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C814B171E9323DD00DCABBF /* main.c */; };
@@ -33,8 +32,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4C16A87A1E93640100CECFAE /* PEQ_texture_manager.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PEQ_texture_manager.c; sourceTree = "<group>"; };
-		4C16A87B1E93640100CECFAE /* PEQ_texture_manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEQ_texture_manager.h; sourceTree = "<group>"; };
 		4C2BFA731E94F13A005EB071 /* PEQ_colour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEQ_colour.h; sourceTree = "<group>"; };
 		4C2BFA741E94F6BB005EB071 /* PEQ_colour.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PEQ_colour.c; sourceTree = "<group>"; };
 		4C72C3121E97B069004C32B4 /* PEQ_geometry.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PEQ_geometry.c; sourceTree = "<group>"; };
@@ -73,8 +70,6 @@
 			children = (
 				4CCAFD201E935CD90006FF26 /* PEQ_engine.c */,
 				4CCAFD211E935CD90006FF26 /* PEQ_engine.h */,
-				4C16A87A1E93640100CECFAE /* PEQ_texture_manager.c */,
-				4C16A87B1E93640100CECFAE /* PEQ_texture_manager.h */,
 				4C2BFA731E94F13A005EB071 /* PEQ_colour.h */,
 				4C2BFA741E94F6BB005EB071 /* PEQ_colour.c */,
 				4C72C3121E97B069004C32B4 /* PEQ_geometry.c */,
@@ -189,7 +184,6 @@
 				4CA78C031E98E9C800D23403 /* PEQ_utility.c in Sources */,
 				4C72C3141E97B069004C32B4 /* PEQ_geometry.c in Sources */,
 				4C814B181E9323DD00DCABBF /* main.c in Sources */,
-				4C16A87C1E93640100CECFAE /* PEQ_texture_manager.c in Sources */,
 				4CA78C001E98E7C900D23403 /* PEQ_object.c in Sources */,
 				4CCBDFA91E9A69D60067B153 /* PEQ_text.c in Sources */,
 				4CCAFD221E935CD90006FF26 /* PEQ_engine.c in Sources */,

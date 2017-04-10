@@ -157,6 +157,7 @@ pbool PEQ_clean()
 }
 
 
+
 /******************************************************************************************
  *
  *          TEXTURES
@@ -169,11 +170,12 @@ PEQ_IMAGE PEQ_load_image(char *image_name, char *filename)
     SDL_Surface* t_surface;
     PEQ_IMAGE t;
     
-        if ((t_surface = IMG_Load(image_name))) {
+        if ((t_surface = IMG_Load(filename))) {
             t.PEQ_TEXTURE.texture = SDL_CreateTextureFromSurface(m_data.renderer, t_surface);
             if (t.PEQ_TEXTURE.texture) {
                 t.PEQ_TEXTURE.src_width = t.width = t_surface->w;   //set image height and width to default
                 t.PEQ_TEXTURE.src_height = t.height = t_surface->h;
+                t.position.x = t.position.y = 0;    //default coordinates
                 t.flip_flag = SDL_FLIP_NONE;    //set default flip to none
                 strcpy(t.img_name, image_name);             //last thing--set image name
                 strcpy(t.filename , filename);
@@ -188,23 +190,75 @@ PEQ_IMAGE PEQ_load_image(char *image_name, char *filename)
     return t;
 }
 
-void PEQ_draw_image(PEQ_IMAGE image)
+void PEQ_draw_image(PEQ_IMAGE *image)
 {
     SDL_Rect src_r, dest_r;
     
     //assign texture data
     src_r.x = src_r.y = 0;
-    src_r.w = image.PEQ_TEXTURE.src_width;
-    src_r.h = image.PEQ_TEXTURE.src_height;
+    src_r.w = image->PEQ_TEXTURE.src_width;
+    src_r.h = image->PEQ_TEXTURE.src_height;
     
     //assign passed data
-    dest_r.x = image.position.x;
-    dest_r.y = image.position.y;
-    dest_r.w = image.width;
-    dest_r.h = image.height;
+    dest_r.x = image->position.x;
+    dest_r.y = image->position.y;
+    dest_r.w = image->width;
+    dest_r.h = image->height;
     
     //blit
-    SDL_RenderCopyEx(m_data.renderer, image.PEQ_TEXTURE.texture, &src_r, &dest_r, 0, 0, image.flip_flag);
+    SDL_RenderCopyEx(m_data.renderer, image->PEQ_TEXTURE.texture, &src_r, &dest_r, 0, 0, image->flip_flag);
+}
+
+
+
+/******************************************************************************************
+ *
+ *          SHAPES
+ *
+ ******************************************************************************************/
+
+void PEQ_draw_line(PEQ_LINE *line)
+{
+    
+    SDL_SetRenderDrawColor(m_data.renderer, line->colour.r, line->colour.g, line->colour.b, line->colour.a);
+    SDL_RenderDrawLine(m_data.renderer, line->p1.x , line->p1.y, line->p2.x, line->p2.y);
+}
+
+void PEQ_draw_rect(PEQ_RECT *rect)
+{
+    SDL_Rect t;
+    
+    t.x = rect->p.x;
+    t.y = rect->p.y;
+    t.h = rect->height;
+    t.w = rect->width;
+    
+    SDL_SetRenderDrawColor(m_data.renderer, rect->colour.r, rect->colour.g, rect->colour.b, rect->colour.a);
+    SDL_RenderDrawRect(m_data.renderer, &t);
+}
+
+void PEQ_draw_point(PEQ_POINT *point)
+{
+    SDL_SetRenderDrawColor(m_data.renderer, point->colour.r, point->colour.g, point->colour.b, point->colour.a);
+    SDL_RenderDrawPoint(m_data.renderer, point->p.x, point->p.y);
+}
+
+void PEQ_draw_circle(PEQ_CIRCLE *circ)
+{
+    SDL_SetRenderDrawColor(m_data.renderer, circ->colour.r, circ->colour.g, circ->colour.b, circ->colour.a);
+    
+    for (float w = 0; w < circ->rad * 2; w++)
+    {
+        for (float h = 0; h < circ->rad * 2; h++)
+        {
+            float dx = circ->rad - w; // horizontal offset
+            float dy = circ->rad - h; // vertical offset
+            if ((dx*dx + dy*dy) <= (circ->rad * circ->rad))
+            {
+                SDL_RenderDrawPoint(m_data.renderer, circ->center.x + dx, circ->center.y + dy);
+            }
+        }
+    }
 }
 
 
