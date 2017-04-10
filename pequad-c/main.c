@@ -52,8 +52,7 @@ extern PEQ_DATA m_data;
 
 int main(int argc, char* argv[])
 {
-    
-    m_data.window_d.is_running = PEQ_init();
+    PEQ_init();
     
     while (m_data.window_d.is_running != 0) {
         PEQ_clear_render();
@@ -63,9 +62,6 @@ int main(int argc, char* argv[])
         
         PEQ_draw_render();
     }
-    
-    
-    PEQ_clean();
     
     return 0;
 }

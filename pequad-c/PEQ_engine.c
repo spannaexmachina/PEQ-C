@@ -13,9 +13,6 @@
 // application data file
 PEQ_DATA m_data;
 
-
-
-
 static void set_window_mode(PEQ_WINDOW_MODE m)
 {
     int r;
@@ -47,8 +44,6 @@ qbool PEQ_init()
         m_data.window_d.x = WINDOW_X;
         m_data.window_d.y = WINDOW_Y;
         
-        
-        
         m_data.is_loaded = TRUE;    //set to true
         
         if (!m_data.window_d.is_running) { //if window isn't already running
@@ -64,6 +59,7 @@ qbool PEQ_init()
                         load_objects(&m_data); //FIXME: phase out
                         printf("initialisation complete!\nrunning...\n*\n\n");
                         if (m_data.window_d.colour.name != TRANSPARENT && !(SDL_SetRenderDrawColor(m_data.renderer, m_data.window_d.colour.r, m_data.window_d.colour.g, m_data.window_d.colour.b, m_data.window_d.colour.a))) {
+                            m_data.window_d.is_running = TRUE;
                             return 1;
                         } else
                             printf("Renderer colour error; colour %u not recognised or is illegal\n", m_data.window_d.colour.name);
@@ -81,6 +77,8 @@ qbool PEQ_init()
 
 qbool PEQ_handle_events()
 {
+    CHECK_INIT
+    
     SDL_Event e;
     if (SDL_PollEvent(&e)) {
         switch (e.type) {
@@ -91,11 +89,14 @@ qbool PEQ_handle_events()
                 break;
         }
     }
-    return 0;
+    
+    return TRUE;
 }
 
 void PEQ_clear_render()
 {
+    CHECK_INIT
+    
     //start frame counter
     m_data.frame_rate.frame_start = SDL_GetTicks();
     
@@ -108,12 +109,15 @@ void PEQ_clear_render()
 
 void PEQ_draw_render()
 {
+    CHECK_INIT
+    
     SDL_RenderPresent(m_data.renderer);
     
     //calculate frame rate after render
     m_data.frame_rate.frame_time = SDL_GetTicks() - m_data.frame_rate.frame_start;
     if (m_data.frame_rate.frame_start < m_data.frame_rate.delay_time)
         SDL_Delay((int)m_data.frame_rate.delay_time - m_data.frame_rate.frame_time);
+    if (m_data.window_d.is_running == 0) PEQ_clean(); //clean if exit
 }
 
 qbool PEQ_render()
@@ -136,6 +140,8 @@ qbool PEQ_render()
 
 qbool PEQ_clean()
 {
+    CHECK_INIT
+    
     printf("cleaning...\n");
     SDL_DestroyRenderer(m_data.renderer);
     printf("renderer destroyed!\n");

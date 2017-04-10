@@ -29,6 +29,8 @@
 
 #define pset(set,send) set = send
 
+#define CHECK_INIT if(m_data.is_loaded == FALSE){m_data.window_d.is_running = PEQ_init();}
+
 /**
  * @brief mask for window modes
  *
@@ -90,17 +92,6 @@ typedef struct data {
                 delay_time;                 /**< application delay time (set in precompile) */
     } frame_rate;                                   /**< used to track frame rate speed after loop */
     
-    
-    void (*PEQ_init)(void);
-    
-    //public
-    qbool (*PEQ_handle_events)();
-    qbool (*PEQ_update)();
-    void (*PEQ_clear_render)();
-    void (*PEQ_draw_render)();
-    qbool (*PEQ_render)();
-    qbool (*PEQ_clean)();
-    
     PEQ_OBJECT object_bank[10]; /*FIXME: phase out*/
     
 } PEQ_DATA;
@@ -122,7 +113,6 @@ typedef struct data {
  *
  * initialises SDL; window; and renderer
  * @warning PEQ CORE FUNCTION
- * @param data PEQ_DATA type pointer
  * @return 1 pass, 0 fail
  */
 qbool PEQ_init();
@@ -134,7 +124,6 @@ void PEQ_draw_render();
  * @brief primary engine loop for handling events
  *
  * Any input handing should be put here
- * @param data PEQ_DATA type pointer
  * @warning PEQ CORE FUNCTION
  * @return 0 success
  */
@@ -144,14 +133,12 @@ qbool PEQ_handle_events();
  * @brief primary engine loop for rendering
  * any rendering tasks should be put here.
  * @warning PEQ CORE FUNCTION
- * @param data PEQ_DATA type pointer
  * @return 0 success
  */
 qbool PEQ_render();
 
 /**
  * @brief destroys application
- * @param data PEQ_DATA type pointer
 * @warning PEQ CORE FUNCTION
  * @return 0 success; -1 fail
  */
@@ -161,7 +148,6 @@ qbool PEQ_clean();
  * @brief primary control loop
  * @par handles framerate control and application loop.
  * any tasks added here will run each frame.
- * @note primary used to call other looped functions such as
  * render, update, etc.
  * @warning PEQ CORE FUNCTION
  * @param data PEQ_DATA type pointer
@@ -174,14 +160,12 @@ qbool PEQ_cycle();
  *
  * all object updates should be here.
  * @warning PEQ CORE FUNCTION
- * @param data PEQ_DATA type pointer
  * @return 0 success
  */
 qbool PEQ_update();
 
 /**
  * @brief populates a PEQ_DATA struct
- * @param data PEQ_DATA type pointer to populate
  * @warning PEQ CORE FUNCTION
  * @return 0 success;
  */
@@ -190,7 +174,6 @@ qbool pop_main_data();
 /**
  * @brief loads objects into PEQ_data
  
- * @param data PEQ_DATA type pointer to populate
  * @warning PEQ CORE FUNCTION
  */
 qbool load_objects();
