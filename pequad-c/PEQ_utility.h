@@ -7,11 +7,18 @@
 #include <stdlib.h>
 #include "PEQ_colour.h"
 
-typedef enum qbool
-{
-    FALSE,
-    TRUE
-} qbool;
+//general calc macros
+#define pmax(a, b)      ((a)>(b)?(a):(b))
+#define pmin(a, b)      ((a)<(b)?(a):(b))
+#define pabsdiff(a, b)  ((a)>(b)?(a)-(b):(b)-(a))
+
+//paste two things together
+#define ppaste(front, back) front ## back
+
+//jitter random
+#define jitterrand(min, max) (PEQ_rand(PEQ_rand((min),(max)),PEQ_rand((min),(max))))
+
+typedef enum pbool {FALSE,TRUE} pbool;
 
 //random int generator
 int PEQ_rand(int min, int max);
