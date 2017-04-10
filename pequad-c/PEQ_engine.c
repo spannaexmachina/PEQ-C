@@ -9,6 +9,7 @@
 #include "PEQ_engine.h"
 #include <stdlib.h>
 
+static qbool PEQ_init();
 
 // application data file
 static PEQ_DATA m_data;
@@ -35,7 +36,7 @@ static void set_window_mode(PEQ_WINDOW_MODE m)
 
 
 
-qbool PEQ_init()
+static qbool PEQ_init()
 {
     if (m_data.is_loaded == FALSE) {         //if renderer isn't yet active
         printf("* Pequod-C *\nWarming up...\n");

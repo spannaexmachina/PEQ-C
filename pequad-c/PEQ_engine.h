@@ -95,25 +95,6 @@ typedef struct data {
 
 qbool PEQ_exit_request();
 
-/**
- * @brief returns an SDL window mode based on PEQ enum
- *
- * avaliabe window option are WINDOW; RESIZABLE; FULLSCREEN;
- * @warning PEQ CORE FUNCTION
- * @param w_mode PEQ enum window mode
- * @return SDL window flag
- */
-//int get_window_mode(PEQ_WINDOW_MODE w_mode);
-
-/**
- * @brief Primary initialising function
- *
- * initialises SDL; window; and renderer
- * @warning PEQ CORE FUNCTION
- * @return 1 pass, 0 fail
- */
-qbool PEQ_init();
-
 void PEQ_clear_render();
 void PEQ_draw_render();
 
@@ -150,13 +131,6 @@ qbool PEQ_clean();
  * @return 0 success
  */
 qbool PEQ_update();
-
-/**
- * @brief populates a PEQ_DATA struct
- * @warning PEQ CORE FUNCTION
- * @return 0 success;
- */
-qbool pop_main_data();
 
 /**
  * @brief loads objects into PEQ_data
