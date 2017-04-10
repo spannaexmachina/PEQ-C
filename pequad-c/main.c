@@ -48,17 +48,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+extern PEQ_DATA m_data;
+
 int main(int argc, char* argv[])
 {
-    PEQ_DATA data;
+    PEQ_init();
     
-    srand(SDL_GetTicks()); //seed random number based on milliseconds passed since init
-    pop_main_data(&data);
-    printf("* Pequod-C *\nWarming up...\n");
-    for (data.is_running = PEQ_init(&data); data.is_running != 0; PEQ_cycle(&data))
-        ;
-    PEQ_clean(&data);
-    SDL_Quit();
+    while (m_data.window_d.is_running != 0) {
+        PEQ_clear_render();
+        
+        PEQ_update();
+        PEQ_render();
+        
+        PEQ_draw_render();
+    }
     
     return 0;
 }

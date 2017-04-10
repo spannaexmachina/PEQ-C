@@ -12,17 +12,35 @@
 #include "PEQ_geometry.h"
 #include "PEQ_object.h"
 #include "PEQ_utility.h"
+#include "PEQ_text.h"
 
+//window settings
+#define WINDOW_X           100
+#define WINDOW_Y           100
+#define WINDOW_WIDTH       640
+#define WINDOW_HEIGHT      480
+#define WINDOW_TITLE       "Pequod-C"
+#define BACKGROUND_COLOUR  BLACK
+#define WINDOW_MODE        WINDOW
+#define FPS_DEF            60
+#define DELAY_TIME_DEF     1000.0f / FPS_DEF
+#define MAX_TEXTURE        100
+
+
+#define pset(set,send) set = send
+
+#define CHECK_INIT if(m_data.is_loaded == FALSE){m_data.window_d.is_running = PEQ_init();}
 
 /**
  * @brief mask for window modes
  *
  * mostly used for passing into low level SDL window functions
  */
+
 typedef enum window {
     WINDOW,                     /**< Open in a fixed size window  */
-    RESIZABLE,                  /**< Open in a resizable window */
-    FULLSCREEN                  /**< Open in fullscreen */
+   RESIZABLE,                  /**< Open in a resizable window */
+  FULLSCREEN                  /**< Open in fullscreen */
 } PEQ_WINDOW_MODE;
 
 
@@ -50,25 +68,31 @@ typedef enum window {
  */
 typedef struct data {
     
-    //PEQ default fields
+    qbool is_loaded;
     SDL_Renderer *renderer;     /**< pointer to application renderer */
-    SDL_Window *window;         /**< pointer to application window */
-    int is_running,             /**< is the application running; 0 false */
-        win_height,             /**< application window height (set in precompile) */
-        win_width,              /**< application window width (set in precompile) */
-        FPS,                    /**< application frames per second (set in precompile) */
-        delay_time,             /**< application delay time (set in precompile) */
-        x,                      /**< application window x coordinate (set in precompile) */
-        y;                      /**< application window y coordinate (set in precompile) */
-    Uint32 frame_start,         /**< used to track starting frame rate */
-           frame_time;          /**< used to track frame rate speed after loop */
-    char title[20];             /**< application title, used for window title, etc. */
-    PEQ_COLOUR r_colour;        /**< background render colour (set in precompiler) */
-    PEQ_WINDOW_MODE window_mode;/**< window mode (set at precompile) */
-    PEQ_OBJECT object_bank[10]; /**< stores objects */
-    //end PEQ default fields
     
-    /* add custom fields here */
+    
+    
+    struct {
+        SDL_Window *window;             /**< pointer to application window */
+        PEQ_COLOUR colour;            /**< background render colour (set in precompiler) */
+        int window_mode;            /**< window mode (set at precompile) */
+        char title[20];                 /**< application title, used for window title, etc. */
+        qbool is_running;               /**< is the application running; 0 false */
+        int x,                          /**< application window x coordinate (set in precompile) */
+            y,
+            height,                     /**< application window height (set in precompile) */
+            width;                     /**< application window width (set in precompile) */
+    } window_d;                         /**< application window y coordinate (set in precompile) */
+    
+    struct {
+        Uint32 frame_start,                 /**< used to track starting frame rate */
+               frame_time;
+        int     FPS,                        /**< application frames per second (set in precompile) */
+                delay_time;                 /**< application delay time (set in precompile) */
+    } frame_rate;                                   /**< used to track frame rate speed after loop */
+    
+    PEQ_OBJECT object_bank[10]; /*FIXME: phase out*/
     
 } PEQ_DATA;
 
@@ -82,82 +106,77 @@ typedef struct data {
  * @param w_mode PEQ enum window mode
  * @return SDL window flag
  */
-int get_window_mode(PEQ_WINDOW_MODE w_mode);
+//int get_window_mode(PEQ_WINDOW_MODE w_mode);
 
 /**
  * @brief Primary initialising function
  *
  * initialises SDL; window; and renderer
  * @warning PEQ CORE FUNCTION
- * @param data PEQ_DATA type pointer
  * @return 1 pass, 0 fail
  */
-int PEQ_init(PEQ_DATA *data);
+qbool PEQ_init();
+
+void PEQ_clear_render();
+void PEQ_draw_render();
 
 /**
  * @brief primary engine loop for handling events
  *
  * Any input handing should be put here
- * @param data PEQ_DATA type pointer
  * @warning PEQ CORE FUNCTION
  * @return 0 success
  */
-int PEQ_handle_events(PEQ_DATA *data);
+qbool PEQ_handle_events();
 
 /**
  * @brief primary engine loop for rendering
  * any rendering tasks should be put here.
  * @warning PEQ CORE FUNCTION
- * @param data PEQ_DATA type pointer
  * @return 0 success
  */
-int PEQ_render(PEQ_DATA *data);
+qbool PEQ_render();
 
 /**
  * @brief destroys application
- * @param data PEQ_DATA type pointer
 * @warning PEQ CORE FUNCTION
  * @return 0 success; -1 fail
  */
-int PEQ_clean(PEQ_DATA *data);
+qbool PEQ_clean();
 
 /**
  * @brief primary control loop
  * @par handles framerate control and application loop.
  * any tasks added here will run each frame.
- * @note primary used to call other looped functions such as
  * render, update, etc.
  * @warning PEQ CORE FUNCTION
  * @param data PEQ_DATA type pointer
  * @return 0 success; -1 fail
  */
-int PEQ_cycle(PEQ_DATA *data);
+qbool PEQ_cycle();
 
 /**
  * @brief main update loop
  *
  * all object updates should be here.
  * @warning PEQ CORE FUNCTION
- * @param data PEQ_DATA type pointer
  * @return 0 success
  */
-int PEQ_update(PEQ_DATA *data);
+qbool PEQ_update();
 
 /**
  * @brief populates a PEQ_DATA struct
- * @param data PEQ_DATA type pointer to populate
  * @warning PEQ CORE FUNCTION
  * @return 0 success;
  */
-int pop_main_data(PEQ_DATA *data);
+qbool pop_main_data();
 
 /**
  * @brief loads objects into PEQ_data
  
- * @param data PEQ_DATA type pointer to populate
  * @warning PEQ CORE FUNCTION
  */
-void load_objects(PEQ_DATA *data);
+qbool load_objects();
 
 
 
