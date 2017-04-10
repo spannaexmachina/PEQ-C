@@ -33,6 +33,12 @@ void PEQ_boot()
     if(m_data.is_loaded == FALSE)
         m_data.window_d.is_running = PEQ_init();
 }
+//window getters
+int PEQ_get_window_height() {return m_data.window_d.height;}
+int PEQ_get_window_width() {return m_data.window_d.width;}
+int PEQ_get_window_x() {return m_data.window_d.x;}
+int PEQ_get_window_y() {return m_data.window_d.y;}
+char *PEQ_get_title() {return m_data.window_d.title;}
 
 static void set_window_mode(PEQ_WINDOW_MODE m)
 {
@@ -67,7 +73,9 @@ static pbool PEQ_init()
         m_data.is_loaded = TRUE;    //set to true
         
         if (!m_data.window_d.is_running) { //if window isn't already running
+            
             srand(SDL_GetTicks()); //seed random number based on milliseconds passed since init
+            
             printf("initialising SDL...\n");
             if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
             printf("SDL initialised!\n");
@@ -112,7 +120,7 @@ pbool PEQ_handle_events()
     return TRUE;
 }
 
-void PEQ_clear_render()
+void PEQ_start_render()
 {
     PEQ_boot_if
     
@@ -139,7 +147,9 @@ void PEQ_draw_render()
     if (m_data.window_d.is_running == 0) PEQ_clean(); //clean if exit
 }
 
-pbool PEQ_clean()
+
+
+static pbool PEQ_clean()
 {
     PEQ_boot_if
     

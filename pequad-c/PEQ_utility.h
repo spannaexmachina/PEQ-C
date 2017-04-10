@@ -15,8 +15,8 @@
 //paste two things together
 #define ppaste(front, back) front ## back
 
-//uber random
-#define uberrand(min, max) (PEQ_rand(PEQ_rand((min),(max)),PEQ_rand((min),(max))))
+//jitter random
+#define jitterrand(min, max) (PEQ_rand(PEQ_rand((min),(max)),PEQ_rand((min),(max))))
 
 typedef enum pbool {FALSE,TRUE} pbool;
 
