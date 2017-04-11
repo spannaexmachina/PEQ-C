@@ -66,10 +66,10 @@ int PEQ_render(PEQ_DATA *data)
     
     
     
-    PEQ_draw_shape(data->renderer, &r1);
+    //PEQ_draw_shape(data->renderer, &r1);
   
-    PEQ_draw_shape(data->renderer, &l1);
-    PEQ_draw_shape(data->renderer, &c1);
+    //PEQ_draw_shape(data->renderer, &l1);
+    //PEQ_draw_shape(data->renderer, &c1);
     
     //cosmic rain
     for (int i = 0; i < 100; i++) {
