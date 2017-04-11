@@ -14,8 +14,12 @@ int main(int argc, char* argv[])
     PEQ_CIRCLE circ = PEQ_load_circle(makepoint(100, 300), 30, RANDOM);
     PEQ_POINT point = PEQ_load_point(makepoint(0, 0), RED);
     
+    PEQ_LABEL lab = PEQ_load_label("HELLO WORLD", "assets/fonts/Arial.ttf", 15, RED, BLUE, SOLID);
+    
     //centre image
     image.position.y = (PEQ_get_window_height() / 2) - (image.height / 2);
+    
+    lab.pos = makepoint(300, 300);
     
     
     //main loop
@@ -27,15 +31,16 @@ int main(int argc, char* argv[])
         //loop code here
         //
         
-        
+
+          //DEMO
         //crazy circle
-        circ.center.x += PEQ_rand(-2, 3);
-        circ.center.y += PEQ_rand(-2, 3);
+        circ.center.x += PEQ_rand(-3, 5);
+        circ.center.y += PEQ_rand(-3, 4);
         circ.colour = PEQ_rand_colour(255);
         PEQ_draw_circle(&circ);
-        
+      
         //ranbow space dust
-        for (int i = 0; i < 1000; i++)
+        for (int i = 0; i < 300; i++)
         {
             point.colour = PEQ_rand_colour(255);
             point.p.x = PEQ_rand(0, PEQ_get_window_width());
@@ -54,6 +59,7 @@ int main(int argc, char* argv[])
         //jitter image line
         image.position.y += jitterrand(-3, 4);
         
+        PEQ_draw_label(&lab);
         
         
         //

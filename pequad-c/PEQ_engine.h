@@ -51,12 +51,12 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #include <SDL2_image/SDL_image.h>
+#include <SDL2_ttf/SDL_ttf.h>
 #include <string.h>
 #include "PEQ_colour.h"
 #include "PEQ_geometry.h"
 #include "PEQ_object.h"
 #include "PEQ_utility.h"
-#include "PEQ_text.h"
 
 //dirs
 #define dir_images assets/images/
@@ -97,7 +97,14 @@ typedef enum window {
   FULLSCREEN                  /**< Open in fullscreen */
 } PEQ_WINDOW_MODE;
 
+typedef enum {
+    SOLID,
+    SHADED,
+    BLENDED
+} PEQ_TXT_BLEND;
 
+
+typedef TTF_Font PEQ_Font;
 
 /**
  * @brief main data struct for PEQUAD-C
@@ -120,6 +127,7 @@ typedef enum window {
  * core data.
  *
  */
+
 typedef struct data {
     
     pbool is_loaded;
@@ -148,6 +156,9 @@ typedef struct data {
                 delay_time;                 /**< application delay time (set in precompile) */
     } frame_rate;                                   /**< used to track frame rate speed after loop */
     
+    struct {
+        //todo
+    } input;
     
 } PEQ_DATA;
 
@@ -171,6 +182,28 @@ typedef struct data {
      
 } PEQ_IMAGE;
 
+
+typedef struct {
+
+    char          text[255];
+    PEQ_COLOUR    colour1,
+                  colour2;
+    point2D       pos;
+    int           width,
+                  height;
+    
+    struct {
+        PEQ_Font      *font;
+        SDL_Texture   *texture;
+        PEQ_TXT_BLEND blend_type;
+        SDL_RendererFlip flip_flag;
+    } render_d;
+    
+} PEQ_LABEL;
+
+
+
+
 //images
 PEQ_IMAGE PEQ_load_image(char *image_name, char *filename);
 void PEQ_draw_image(PEQ_IMAGE *image);
@@ -181,6 +214,9 @@ void PEQ_draw_rect(PEQ_RECT *rect);
 void PEQ_draw_circle(PEQ_CIRCLE *circ);
 void PEQ_draw_point(PEQ_POINT *point);
 
+//text
+PEQ_LABEL PEQ_load_label(char *text, char *font_file, int point_size, COLOUR_NAME col1, COLOUR_NAME col2, PEQ_TXT_BLEND blend);
+void PEQ_draw_label(PEQ_LABEL *label);
 
 
 //core

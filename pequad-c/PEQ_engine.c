@@ -12,9 +12,13 @@
 //forward declare
 static pbool PEQ_init();
 
+//////////DATA///////////////
+
 // application data file
 static PEQ_DATA m_data;
 
+
+/////////////////////////////
 
 /******************************************************************************************
  *
@@ -274,7 +278,7 @@ void PEQ_draw_image(PEQ_IMAGE *image)
 
 /******************************************************************************************
  *
- *          SHAPES - DRAWING
+ *          SHAPES - DRAWING            (See PEQ_geometry for other functions)
  *
  ******************************************************************************************/
 
@@ -321,5 +325,94 @@ void PEQ_draw_circle(PEQ_CIRCLE *circ)
         }
     }
 }
+
+
+/******************************************************************************************
+ *
+ *          TEXT - DRAWING & LOADING
+ *
+ ******************************************************************************************/
+
+PEQ_LABEL PEQ_load_label(char *text, char *font_file, int point_size, COLOUR_NAME col1, COLOUR_NAME col2, PEQ_TXT_BLEND blend)
+{
+    PEQ_LABEL t;
+    SDL_Surface *t_surface;
+    
+    //load font
+    t.render_d.font = TTF_OpenFont(font_file, point_size);
+    
+    //if successfull
+    if (t.render_d.font != NULL) {
+        
+        //set colours
+        t.colour1 = get_colour(col1);
+        t.colour2 = get_colour(col2);
+        SDL_Color tc1 = {t.colour1.r, t.colour1.g, t.colour1.b, t.colour1.a};
+        SDL_Color tc2 = {t.colour2.r, t.colour2.g, t.colour2.b, t.colour2.a};
+        
+        //flip default to none
+        t.render_d.flip_flag = SDL_FLIP_NONE;
+        
+        //copy text
+        strcpy(t.text, text);
+        
+        //set blend
+        t.render_d.blend_type = blend;
+        
+        //pos 0 as default
+        t.pos.x = t.pos.y = 0;
+        
+        //load as per blend option
+        switch (t.render_d.blend_type) {
+            case SOLID:
+                t_surface = TTF_RenderText_Solid(t.render_d.font, t.text, tc1);
+                break;
+            case SHADED:
+                t_surface = TTF_RenderText_Shaded(t.render_d.font, t.text, tc1, tc2);
+                break;
+            case BLENDED:
+                t_surface = TTF_RenderText_Blended(t.render_d.font, t.text, tc1);
+                break;
+            default:
+                t_surface = TTF_RenderText_Solid(t.render_d.font, t.text, tc1);
+                break;
+        }
+        //make texture
+        t.render_d.texture = SDL_CreateTextureFromSurface(m_data.renderer, t_surface);
+        
+        if (t.render_d.texture)
+            printf("label loaded! (%s)\n", t.text);
+            //get sizes before freeing
+            t.height = t_surface->h;
+            t.width = t_surface->w;
+            //free mem
+            SDL_FreeSurface(t_surface);
+        
+            return t;
+        }
+    printf("could not load text %s; %s\n", t.text, SDL_GetError());
+    return t;
+}
+
+void PEQ_draw_label(PEQ_LABEL *label)
+{
+    SDL_Rect src_r, dest_r;
+    
+    //assign texture data
+    src_r.x = src_r.y = 0;
+    src_r.w = label->width;
+    src_r.h = label->height;
+    
+    //assign passed data
+    dest_r.x = label->pos.x;
+    dest_r.y = label->pos.y;
+    dest_r.w = label->width;
+    dest_r.h = label->height;
+    
+    //blit
+    SDL_RenderCopyEx(m_data.renderer, label->render_d.texture, &src_r, &dest_r, 0, 0, label->render_d.flip_flag);
+    
+}
+
 
 
