@@ -62,6 +62,15 @@
 #define dir_images assets/images/
 
 
+/* ---Frame rate settings----
+ don't mess with these unless
+ you know what you're doing */
+
+#define FPS_DEF            60
+#define DELAY_TIME_DEF     1000.0f / FPS_DEF
+
+//  //  //  //  //  //  //  //  //  //  //
+
 //init window settings
 #define WINDOW_X           100
 #define WINDOW_Y           100
@@ -69,11 +78,9 @@
 #define WINDOW_HEIGHT      480
 #define WINDOW_TITLE       "Pequod-C"
 #define BACKGROUND_COLOUR  BLACK
-#define WINDOW_MODE        WINDOW
-#define FPS_DEF            60
-#define DELAY_TIME_DEF     1000.0f / FPS_DEF
-#define MAX_TEXTURE        100
+#define WINDOW_MODE        /* FULLSCREEN */ /* WINDOW */  RESIZABLE
 
+//macros
 #define PEQ_delay(int) (SDL_Delay((int)))
 #define PEQ_boot_if if(m_data.is_loaded == FALSE){m_data.window_d.is_running = PEQ_init();}
 
@@ -180,9 +187,15 @@ void PEQ_draw_point(PEQ_POINT *point);
 void PEQ_boot();
 pbool PEQ_exit_request();
 
-void PEQ_start_render();
+static void PEQ_checkset_render_size();
+void PEQ_clear_render();
 void PEQ_draw_render();
 
+void PEQ_frame_start();
+void PEQ_frame_end();
+
+
+//getters
 int PEQ_get_window_height();
 int PEQ_get_window_width();
 int PEQ_get_window_x();

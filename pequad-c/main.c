@@ -20,8 +20,10 @@ int main(int argc, char* argv[])
     
     //main loop
     while (PEQ_exit_request() != 0) {
+        PEQ_frame_start();
         PEQ_handle_events();
-        PEQ_start_render();
+        
+        PEQ_clear_render();
         //loop code here
         //
         
@@ -33,16 +35,16 @@ int main(int argc, char* argv[])
         PEQ_draw_circle(&circ);
         
         //ranbow space dust
-        for (int i = 0; i < 200; i++)
+        for (int i = 0; i < 1000; i++)
         {
             point.colour = PEQ_rand_colour(255);
-            point.p.x = PEQ_rand(0, WINDOW_WIDTH);
-            point.p.y = PEQ_rand(0, WINDOW_HEIGHT);
+            point.p.x = PEQ_rand(0, PEQ_get_window_width());
+            point.p.y = PEQ_rand(0, PEQ_get_window_height());
             PEQ_draw_point(&point);
         }
         
         //image line
-        while (image.position.x < WINDOW_WIDTH) {
+        while (image.position.x < PEQ_get_window_width()) {
                 PEQ_draw_image(&image);
                 image.position.x += image.width;
             }
@@ -57,7 +59,10 @@ int main(int argc, char* argv[])
         //
         //end of loop calls
         PEQ_draw_render();
-        PEQ_delay(50);
+        
+        PEQ_frame_end();
+        
+        PEQ_delay(100);
     }
     return 0;
 }

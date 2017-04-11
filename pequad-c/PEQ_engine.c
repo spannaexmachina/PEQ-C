@@ -33,6 +33,7 @@ void PEQ_boot()
     if(m_data.is_loaded == FALSE)
         m_data.window_d.is_running = PEQ_init();
 }
+
 //window getters
 int PEQ_get_window_height() {return m_data.window_d.height;}
 int PEQ_get_window_width() {return m_data.window_d.width;}
@@ -55,48 +56,77 @@ static void set_window_mode(PEQ_WINDOW_MODE m)
 
 static pbool PEQ_init()
 {
-    if (m_data.is_loaded == FALSE) {         //if renderer isn't yet active
+    //if renderer isn't yet active
+    if (m_data.is_loaded == FALSE) {
+        
+        //load  init main data
         printf("* Pequod-C *\nWarming up...\n");
-        set_window_mode(WINDOW_MODE);
         m_data.frame_rate.frame_time = 0;
         m_data.frame_rate.frame_start = 0;
         m_data.window_d.is_running = 0;
         m_data.window_d.colour = get_colour(BACKGROUND_COLOUR);
         m_data.frame_rate.FPS = FPS_DEF;
         m_data.frame_rate.delay_time = DELAY_TIME_DEF;
+        set_window_mode(WINDOW_MODE);
         m_data.window_d.height = WINDOW_HEIGHT;
         m_data.window_d.width = WINDOW_WIDTH;
+        
+        
+        //set init title
         strcpy(m_data.window_d.title, WINDOW_TITLE);
+        
+        //set init window x, y
         m_data.window_d.x = WINDOW_X;
         m_data.window_d.y = WINDOW_Y;
         
-        m_data.is_loaded = TRUE;    //set to true
+        //set data loaded flag to true
+        m_data.is_loaded = TRUE;
         
-        if (!m_data.window_d.is_running) { //if window isn't already running
+        //if window isn't already running
+        if (!m_data.window_d.is_running) {
             
-            srand(SDL_GetTicks()); //seed random number based on milliseconds passed since init
+            //seed random number based on milliseconds passed since init
+            srand(SDL_GetTicks());
             
             printf("initialising SDL...\n");
+            
+            //init SDL
             if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
             printf("SDL initialised!\n");
+                
+                //init window
                 if ((m_data.window_d.window = SDL_CreateWindow(m_data.window_d.title, m_data.window_d.x, m_data.window_d.y, m_data.window_d.width, m_data.window_d.height, m_data.window_d.window_mode))) {
                     printf("Window initialised!\n");
-                    if ((m_data.renderer = SDL_CreateRenderer(m_data.window_d.window, -1, 0))) {
+                    
+                    //init renderer
+                    if ((m_data.renderer = SDL_CreateRenderer(m_data.window_d.window, -1, SDL_RENDERER_ACCELERATED))) {
                         printf("Renderer initialised!\ninitialisint TTF\n");
                         TTF_Init(); //init text api
                         printf("initialisation complete!\nrunning...\n*\n\n");
+                        
+                        //if window is resizable or fullscreen, get h&w values
+                        if (m_data.window_d.window_mode != SDL_WINDOW_SHOWN)
+                            PEQ_checkset_render_size();
+                        
+                        //set render colour
                         if (m_data.window_d.colour.name != TRANSPARENT && !(SDL_SetRenderDrawColor(m_data.renderer, m_data.window_d.colour.r, m_data.window_d.colour.g, m_data.window_d.colour.b, m_data.window_d.colour.a))) {
                             m_data.window_d.is_running = TRUE;
                             return TRUE;
+                            
+                        //error handling
                         } else
                             printf("Renderer colour error; colour %u not recognised or is illegal\n", m_data.window_d.colour.name);
+                        
                     } else
                         printf("Renderer failed to initialise; ERROR: %s\n", SDL_GetError());
+                    
                 } else
                     printf("Window failed to initialise; ERROR: %s\n", SDL_GetError());
+                
             } else
                 printf("SDL failed to initialise; ERROR: %s\n", SDL_GetError());
         } else
+            
             printf("cannot init; PEQ already running!\n");
     }
     return FALSE;
@@ -106,11 +136,22 @@ pbool PEQ_handle_events()
 {
     PEQ_boot_if
     
+    //todo (if resize etc)
+    
+    
     SDL_Event e;
     if (SDL_PollEvent(&e)) {
         switch (e.type) {
             case SDL_QUIT:
                 m_data.window_d.is_running = 0;
+                PEQ_clean(); //clean if exit
+                break;
+            case SDL_WINDOWEVENT:
+                switch (e.window.event) {
+                    case SDL_WINDOWEVENT_SIZE_CHANGED:
+                        PEQ_checkset_render_size();
+                        break;
+                    }
                 break;
             default:
                 break;
@@ -120,18 +161,12 @@ pbool PEQ_handle_events()
     return TRUE;
 }
 
-void PEQ_start_render()
+void PEQ_clear_render()
 {
     PEQ_boot_if
     
-    //start frame counter
-    m_data.frame_rate.frame_start = SDL_GetTicks();
-    
-    if (m_data.renderer != 0) {
     SDL_SetRenderDrawColor(m_data.renderer, m_data.window_d.colour.r, m_data.window_d.colour.g, m_data.window_d.colour.b, m_data.window_d.colour.a);
     SDL_RenderClear(m_data.renderer);
-    } else
-        printf("no renderer!; init PEQ before rendering\n");
 }
 
 void PEQ_draw_render()
@@ -139,12 +174,24 @@ void PEQ_draw_render()
     PEQ_boot_if
     
     SDL_RenderPresent(m_data.renderer);
+}
+
+void PEQ_frame_start()
+{
+    PEQ_boot_if
+    
+    //start frame counter
+    m_data.frame_rate.frame_start = SDL_GetTicks();
+}
+
+void PEQ_frame_end()
+{
+    PEQ_boot_if
     
     //calculate frame rate after render
     m_data.frame_rate.frame_time = SDL_GetTicks() - m_data.frame_rate.frame_start;
     if (m_data.frame_rate.frame_start < m_data.frame_rate.delay_time)
         SDL_Delay((int)m_data.frame_rate.delay_time - m_data.frame_rate.frame_time);
-    if (m_data.window_d.is_running == 0) PEQ_clean(); //clean if exit
 }
 
 
@@ -166,11 +213,15 @@ static pbool PEQ_clean()
     return 0;
 }
 
+static void PEQ_checkset_render_size()
+{
+    SDL_GetRendererOutputSize(m_data.renderer, &m_data.window_d.width, &m_data.window_d.height);
+}
 
 
 /******************************************************************************************
  *
- *          TEXTURES
+ *          TEXTURES - LOADING & DRAWING
  *
  ******************************************************************************************/
 
@@ -223,7 +274,7 @@ void PEQ_draw_image(PEQ_IMAGE *image)
 
 /******************************************************************************************
  *
- *          SHAPES
+ *          SHAPES - DRAWING
  *
  ******************************************************************************************/
 
