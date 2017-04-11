@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4C814B131E9323DD00DCABBF"
-               BuildableName = "pequad-c"
-               BlueprintName = "pequad-c"
-               ReferencedContainer = "container:pequad-c.xcodeproj">
+               BuildableName = "Pequod-C"
+               BlueprintName = "Pequod-C"
+               ReferencedContainer = "container:Pequod-C.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4C814B131E9323DD00DCABBF"
-            BuildableName = "pequad-c"
-            BlueprintName = "pequad-c"
-            ReferencedContainer = "container:pequad-c.xcodeproj">
+            BuildableName = "Pequod-C"
+            BlueprintName = "Pequod-C"
+            ReferencedContainer = "container:Pequod-C.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -58,9 +58,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4C814B131E9323DD00DCABBF"
-            BuildableName = "pequad-c"
-            BlueprintName = "pequad-c"
-            ReferencedContainer = "container:pequad-c.xcodeproj">
+            BuildableName = "Pequod-C"
+            BlueprintName = "Pequod-C"
+            ReferencedContainer = "container:Pequod-C.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -77,9 +77,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4C814B131E9323DD00DCABBF"
-            BuildableName = "pequad-c"
-            BlueprintName = "pequad-c"
-            ReferencedContainer = "container:pequad-c.xcodeproj">
+            BuildableName = "Pequod-C"
+            BlueprintName = "Pequod-C"
+            ReferencedContainer = "container:Pequod-C.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
