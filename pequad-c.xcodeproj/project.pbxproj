@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4C16A87C1E93640100CECFAE /* PEQ_texture_manager.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C16A87A1E93640100CECFAE /* PEQ_texture_manager.c */; };
 		4C2BFA751E94F6BB005EB071 /* PEQ_colour.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C2BFA741E94F6BB005EB071 /* PEQ_colour.c */; };
 		4C72C3141E97B069004C32B4 /* PEQ_geometry.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C72C3121E97B069004C32B4 /* PEQ_geometry.c */; };
 		4C814B181E9323DD00DCABBF /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 4C814B171E9323DD00DCABBF /* main.c */; };
 		4CA78C001E98E7C900D23403 /* PEQ_object.c in Sources */ = {isa = PBXBuildFile; fileRef = 4CA78BFE1E98E7C900D23403 /* PEQ_object.c */; };
 		4CA78C031E98E9C800D23403 /* PEQ_utility.c in Sources */ = {isa = PBXBuildFile; fileRef = 4CA78C011E98E9C800D23403 /* PEQ_utility.c */; };
 		4CCAFD221E935CD90006FF26 /* PEQ_engine.c in Sources */ = {isa = PBXBuildFile; fileRef = 4CCAFD201E935CD90006FF26 /* PEQ_engine.c */; };
+		4CCBDFA61E9A67BE0067B153 /* SDL2_ttf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CCBDFA51E9A67BE0067B153 /* SDL2_ttf.framework */; };
 		CF1CE2971E976CD400865147 /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1CE2951E976CD400865147 /* SDL2_image.framework */; };
 		CF1CE2981E976CD400865147 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF1CE2961E976CD400865147 /* SDL2.framework */; };
 /* End PBXBuildFile section */
@@ -31,11 +31,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		4C16A87A1E93640100CECFAE /* PEQ_texture_manager.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PEQ_texture_manager.c; sourceTree = "<group>"; };
-		4C16A87B1E93640100CECFAE /* PEQ_texture_manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEQ_texture_manager.h; sourceTree = "<group>"; };
 		4C2BFA731E94F13A005EB071 /* PEQ_colour.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEQ_colour.h; sourceTree = "<group>"; };
 		4C2BFA741E94F6BB005EB071 /* PEQ_colour.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PEQ_colour.c; sourceTree = "<group>"; };
-		4C2BFA761E9500ED005EB071 /* PEQ_SETTINGS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEQ_SETTINGS.h; sourceTree = "<group>"; };
 		4C72C3121E97B069004C32B4 /* PEQ_geometry.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PEQ_geometry.c; sourceTree = "<group>"; };
 		4C72C3131E97B069004C32B4 /* PEQ_geometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEQ_geometry.h; sourceTree = "<group>"; };
 		4C814B141E9323DD00DCABBF /* pequad-c */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "pequad-c"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -46,6 +43,7 @@
 		4CA78C021E98E9C800D23403 /* PEQ_utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEQ_utility.h; sourceTree = "<group>"; };
 		4CCAFD201E935CD90006FF26 /* PEQ_engine.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PEQ_engine.c; sourceTree = "<group>"; };
 		4CCAFD211E935CD90006FF26 /* PEQ_engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PEQ_engine.h; sourceTree = "<group>"; };
+		4CCBDFA51E9A67BE0067B153 /* SDL2_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_ttf.framework; path = ../../../../Library/Frameworks/SDL2_ttf.framework; sourceTree = "<group>"; };
 		CF1CE2951E976CD400865147 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../../../../../Library/Frameworks/SDL2_image.framework; sourceTree = "<group>"; };
 		CF1CE2961E976CD400865147 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -55,6 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CCBDFA61E9A67BE0067B153 /* SDL2_ttf.framework in Frameworks */,
 				CF1CE2971E976CD400865147 /* SDL2_image.framework in Frameworks */,
 				CF1CE2981E976CD400865147 /* SDL2.framework in Frameworks */,
 			);
@@ -63,6 +62,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4C5D10FB1E9B50E300108CD3 /* PEQ-C */ = {
+			isa = PBXGroup;
+			children = (
+				4CCAFD201E935CD90006FF26 /* PEQ_engine.c */,
+				4CCAFD211E935CD90006FF26 /* PEQ_engine.h */,
+				4C2BFA731E94F13A005EB071 /* PEQ_colour.h */,
+				4C2BFA741E94F6BB005EB071 /* PEQ_colour.c */,
+				4C72C3121E97B069004C32B4 /* PEQ_geometry.c */,
+				4C72C3131E97B069004C32B4 /* PEQ_geometry.h */,
+				4CA78BFE1E98E7C900D23403 /* PEQ_object.c */,
+				4CA78BFF1E98E7C900D23403 /* PEQ_object.h */,
+				4CA78C011E98E9C800D23403 /* PEQ_utility.c */,
+				4CA78C021E98E9C800D23403 /* PEQ_utility.h */,
+			);
+			name = "PEQ-C";
+			sourceTree = "<group>";
+		};
 		4C814B0B1E9323DD00DCABBF = {
 			isa = PBXGroup;
 			children = (
@@ -84,19 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				4C814B171E9323DD00DCABBF /* main.c */,
-				4CCAFD201E935CD90006FF26 /* PEQ_engine.c */,
-				4CCAFD211E935CD90006FF26 /* PEQ_engine.h */,
-				4C16A87A1E93640100CECFAE /* PEQ_texture_manager.c */,
-				4C16A87B1E93640100CECFAE /* PEQ_texture_manager.h */,
-				4C2BFA731E94F13A005EB071 /* PEQ_colour.h */,
-				4C2BFA741E94F6BB005EB071 /* PEQ_colour.c */,
-				4C2BFA761E9500ED005EB071 /* PEQ_SETTINGS.h */,
-				4C72C3121E97B069004C32B4 /* PEQ_geometry.c */,
-				4C72C3131E97B069004C32B4 /* PEQ_geometry.h */,
-				4CA78BFE1E98E7C900D23403 /* PEQ_object.c */,
-				4CA78BFF1E98E7C900D23403 /* PEQ_object.h */,
-				4CA78C011E98E9C800D23403 /* PEQ_utility.c */,
-				4CA78C021E98E9C800D23403 /* PEQ_utility.h */,
+				4C5D10FB1E9B50E300108CD3 /* PEQ-C */,
 			);
 			path = "pequad-c";
 			sourceTree = "<group>";
@@ -104,6 +108,7 @@
 		4C814B1E1E93241000DCABBF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4CCBDFA51E9A67BE0067B153 /* SDL2_ttf.framework */,
 				CF1CE2951E976CD400865147 /* SDL2_image.framework */,
 				CF1CE2961E976CD400865147 /* SDL2.framework */,
 			);
@@ -174,7 +179,6 @@
 				4CA78C031E98E9C800D23403 /* PEQ_utility.c in Sources */,
 				4C72C3141E97B069004C32B4 /* PEQ_geometry.c in Sources */,
 				4C814B181E9323DD00DCABBF /* main.c in Sources */,
-				4C16A87C1E93640100CECFAE /* PEQ_texture_manager.c in Sources */,
 				4CA78C001E98E7C900D23403 /* PEQ_object.c in Sources */,
 				4CCAFD221E935CD90006FF26 /* PEQ_engine.c in Sources */,
 				4C2BFA751E94F6BB005EB071 /* PEQ_colour.c in Sources */,

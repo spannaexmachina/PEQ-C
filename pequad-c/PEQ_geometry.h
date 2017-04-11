@@ -1,13 +1,11 @@
+
+
 /**
- * Pequad-C
- * Copyright (C) all rights reserved
+ * \file PEQ_geometry.h
  *
- * authors:
  * \author Michael Holmes
  * \author Ruxandra Maritiu
- * 
  *
- * \file PEQ_geometry.h
  * \brief header file for PEQ geomemety
  *
  * \date 2017
@@ -24,15 +22,6 @@
 #include "PEQ_colour.h"
 #include <math.h>
 
-/**
- * flags for PEQ shapes
- */
-typedef enum {
-    PEQ_RECT,
-    PEQ_LINE,
-    PEQ_POINT,
-    PEQ_CIRCLE
-} PEQ_shape_type;
 
 /**
  * \brief structure representing a 2D point.
@@ -52,49 +41,37 @@ typedef struct {
     radius r;
 } circle;
 
-/**
- * \brief union for storing a type of 2D graphic
- *
- * \note avaliable shapes: rect; line; point; circle
- */
-typedef union {
-    struct rect {
-        PEQ_shape_type  type;
-        PEQ_COLOUR     colour;
-        point2D         p;
-        int             width,
-                        height;
-    } rect;
-    struct line {
-        PEQ_shape_type  type;
-        PEQ_COLOUR    colour;
-        point2D         p1,
-                        p2;
-    } line;
-    struct point {
-        PEQ_shape_type  type;
-        PEQ_COLOUR     colour;
-        point2D         p;
-    } point;
-    struct circle {
-        PEQ_shape_type type;
-        PEQ_COLOUR colour;
-        SDL_Point center;
-        float rad;
-    }circle;
-} PEQ_2D_shape;
 
-//variable shape create
-PEQ_2D_shape PEQ_get_rect(point2D p, int width, int height, COLOUR_NAME c);
-PEQ_2D_shape PEQ_get_line(point2D p1, point2D p2, COLOUR_NAME c);
-PEQ_2D_shape PEQ_get_point(point2D p, COLOUR_NAME c);
-PEQ_2D_shape PEQ_get_circ(COLOUR_NAME c, SDL_Point center, float rad);
 
-//var shape draw
-void PEQ_draw_shape(SDL_Renderer *r, PEQ_2D_shape *shape);
+typedef struct {
+    PEQ_COLOUR     colour;
+    point2D         p;
+    int             width,
+                    height;
+} PEQ_RECT;
 
-//update variable shapes function
-void scale_shape(PEQ_2D_shape s, float scaler);
+typedef struct line {
+    PEQ_COLOUR    colour;
+    point2D         p1,
+                    p2;
+} PEQ_LINE;
+
+typedef struct point {
+    PEQ_COLOUR     colour;
+    point2D         p;
+} PEQ_POINT;
+
+typedef struct circle {
+    PEQ_COLOUR colour;
+    point2D center;
+    float rad;
+} PEQ_CIRCLE;
+
+
+PEQ_RECT PEQ_load_rect(point2D p, int width, int height, COLOUR_NAME c);
+PEQ_LINE PEQ_load_line(point2D p1, point2D p2, COLOUR_NAME c);
+PEQ_POINT PEQ_load_point(point2D p, COLOUR_NAME c);
+PEQ_CIRCLE PEQ_load_circle(point2D center, float rad, COLOUR_NAME c);
 
 //circle
 circle makecircle(point2D pt, radius r);
@@ -146,12 +123,6 @@ point2D makepoint(int x, int y);
  */
 
 SDL_Point makeSDLpoint(int x, int y);
-
-//drawing
-void PEQ_draw_line(SDL_Renderer *r, PEQ_COLOUR c, point2D p1, point2D p2);
-void PEQ_draw_rect(SDL_Renderer *r, PEQ_COLOUR c, point2D p, int width, int height);
-void PEQ_draw_circle(SDL_Renderer *r, PEQ_COLOUR c, SDL_Point center, float rad);
-void PEQ_draw_point(SDL_Renderer *r, PEQ_COLOUR c, point2D p);
 
 
 
