@@ -1,4 +1,10 @@
-
+//
+//  PEQ_utility.h
+//  pequad-c
+//
+//  Created by Michael Holmes on 8/4/17.
+//  Copyright © 2017 Michael Holmes. All rights reserved.
+//
 
 #ifndef PEQ_utility_h
 #define PEQ_utility_h
@@ -7,18 +13,11 @@
 #include <stdlib.h>
 #include "PEQ_colour.h"
 
-//general calc macros
-#define pmax(a, b)      ((a)>(b)?(a):(b))
-#define pmin(a, b)      ((a)<(b)?(a):(b))
-#define pabsdiff(a, b)  ((a)>(b)?(a)-(b):(b)-(a))
-
-//paste two things together
-#define ppaste(front, back) front ## back
-
-//jitter random
-#define jitterrand(min, max) (PEQ_rand(PEQ_rand((min),(max)),PEQ_rand((min),(max))))
-
-typedef enum pbool {FALSE,TRUE} pbool;
+typedef enum boolean
+{
+    FALSE,
+    TRUE
+} boolean;
 
 //random int generator
 int PEQ_rand(int min, int max);

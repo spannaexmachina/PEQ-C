@@ -9,46 +9,67 @@
 #include "PEQ_geometry.h"
 
 //variable shapes
-PEQ_RECT PEQ_load_rect(point2D p, int width, int height, COLOUR_NAME c)
+PEQ_2D_shape PEQ_get_rect(point2D p, int width, int height, COLOUR_NAME c)
 {
-    PEQ_RECT t;
+    PEQ_2D_shape t;
     
-    t.colour = get_colour(c);
-    t.p = p;
-    t.width = width;
-    t.height = height;
+    t.rect.type = PEQ_RECT;
+    t.rect.colour = get_colour(c);
+    t.rect.p = p;
+    t.rect.width = width;
+    t.rect.height = height;
     return t;
 }
 
-PEQ_LINE PEQ_load_line(point2D p1, point2D p2, COLOUR_NAME c)
+PEQ_2D_shape PEQ_get_line(point2D p1, point2D p2, COLOUR_NAME c)
 {
-    PEQ_LINE t;
+    PEQ_2D_shape t;
     
-    t.colour = get_colour(c);
-    t.p1 = p1;
-    t.p2 = p2;
+    t.line.type = PEQ_LINE;
+    t.line.colour = get_colour(c);
+    t.line.p1 = p1;
+    t.line.p2 = p2;
     return t;
 }
 
-PEQ_POINT PEQ_load_point(point2D p, COLOUR_NAME c)
+PEQ_2D_shape PEQ_get_point(point2D p, COLOUR_NAME c)
 {
-    PEQ_POINT t;
-    t.colour = get_colour(c);
-    t.p = p;
+    PEQ_2D_shape t;
+    
+    t.point.type = PEQ_POINT;
+    t.point.colour = get_colour(c);
+    t.point.p = p;
     return t;
 }
 
-PEQ_CIRCLE PEQ_load_circle(point2D center, float rad, COLOUR_NAME c)
+PEQ_2D_shape PEQ_get_circ(COLOUR_NAME c, SDL_Point center, float rad)
 {
-    PEQ_CIRCLE t;
-
-    t.colour = get_colour(c);
-    t.center = center;
-    t.rad = rad;
+    PEQ_2D_shape t;
+    
+    t.circle.type = PEQ_CIRCLE;
+    t.circle.colour = get_colour(c);
+    t.circle.center = center;
+    t.circle.rad = rad;
     return t;
 }
 
 
+void PEQ_draw_shape(SDL_Renderer *r, PEQ_2D_shape *shape)
+{
+    if (shape->line.type == PEQ_LINE)
+        PEQ_draw_line(r, shape->line.colour, shape->line.p1, shape->line.p2);
+    else if (shape->rect.type == PEQ_RECT)
+        PEQ_draw_rect(r, shape->rect.colour, shape->rect.p, shape->rect.width, shape->rect.height);
+    else if (shape->point.type == PEQ_POINT)
+        PEQ_draw_point(r, shape->point.colour, shape->point.p);
+    else if (shape->circle.type == PEQ_CIRCLE)
+        PEQ_draw_circle(r, shape->circle.colour, shape->circle.center, shape->circle.rad);
+}
+//variable shape functions
+void scale_shape(PEQ_2D_shape s, float scaler)
+{
+    
+}
 
 //circle
 circle makecircle(point2D p, radius r)
@@ -120,7 +141,54 @@ radius makeradius(float r1, float r2)
 }
 
 
+//drawing
+void PEQ_draw_line(SDL_Renderer *r, PEQ_COLOUR c, point2D p1, point2D p2)
+{
+    //PEQ_COLOUR c = get_colour(colour);
+    
+    SDL_SetRenderDrawColor(r, c.r, c.g, c.b, c.a);
+    SDL_RenderDrawLine(r, p1.x, p1.y, p2.x, p2.y);
+}
 
+void PEQ_draw_rect(SDL_Renderer *r, PEQ_COLOUR c, point2D p, int width, int height)
+{
+    //PEQ_COLOUR c = get_colour(colour);
+    SDL_Rect rect;
+    
+    SDL_SetRenderDrawColor(r, c.r, c.g, c.b, c.a);
+    rect.x = p.x;
+    rect.y = p.y;
+    rect.w = width;
+    rect.h = height;
+    SDL_RenderDrawRect(r, &rect);
+}
+
+void PEQ_draw_circle(SDL_Renderer *r, PEQ_COLOUR c, SDL_Point center, float rad)
+{
+    //PEQ_COLOUR c = get_colour(colour);
+    SDL_SetRenderDrawColor(r, c.r, c.g, c.b, c.a);
+    
+    for (float w = 0; w < rad * 2; w++)
+    {
+        for (float h = 0; h < rad * 2; h++)
+        {
+            float dx = rad - w; // horizontal offset
+            float dy = rad - h; // vertical offset
+            if ((dx*dx + dy*dy) <= (rad * rad))
+            {
+            SDL_RenderDrawPoint(r, center.x + dx, center.y + dy);
+            }
+        }
+    }
+}
+
+void PEQ_draw_point(SDL_Renderer *r, PEQ_COLOUR c, point2D p)
+{
+    //PEQ_COLOUR c = get_colour(colour);
+    SDL_SetRenderDrawColor(r, c.r, c.g, c.b, c.a);
+    
+    SDL_RenderDrawPoint(r, p.x, p.y);
+}
 
 
 

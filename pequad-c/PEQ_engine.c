@@ -7,175 +7,64 @@
 //
 
 #include "PEQ_engine.h"
-#include <stdlib.h>
-
-//forward declare
-static pbool PEQ_init();
-
-//////////DATA///////////////
-
-// application data file
-static PEQ_DATA m_data;
 
 
-/////////////////////////////
 
-/******************************************************************************************
- *
- *          PEQ-C CORE
- *
- ******************************************************************************************/
-
-pbool PEQ_exit_request()
+int get_window_mode(PEQ_WINDOW_MODE w_mode)
 {
-    PEQ_boot_if
-    return m_data.window_d.is_running;
-}
-
-void PEQ_boot()
-{
-    if(m_data.is_loaded == FALSE)
-        m_data.window_d.is_running = PEQ_init();
-}
-
-//window getters
-int PEQ_get_window_height() {return m_data.window_d.height;}
-int PEQ_get_window_width() {return m_data.window_d.width;}
-int PEQ_get_window_x() {return m_data.window_d.x;}
-int PEQ_get_window_y() {return m_data.window_d.y;}
-char *PEQ_get_title() {return m_data.window_d.title;}
-
-static void set_window_mode(PEQ_WINDOW_MODE m)
-{
-    int r;
-    switch (m) {
-        case RESIZABLE: r = SDL_WINDOW_RESIZABLE; break;
-        case FULLSCREEN: r = SDL_WINDOW_FULLSCREEN; break;
-        case WINDOW: r = SDL_WINDOW_SHOWN; break;
-        default: r = SDL_WINDOW_SHOWN; break;
+    switch (w_mode) {
+        case RESIZABLE: return SDL_WINDOW_RESIZABLE; break;
+        case FULLSCREEN: return SDL_WINDOW_FULLSCREEN; break;
+        case WINDOW: return SDL_WINDOW_SHOWN; break;
+        default: return SDL_WINDOW_SHOWN; break;
     }
-    m_data.window_d.window_mode = r;
 }
 
-
-static pbool PEQ_init()
+int PEQ_init(PEQ_DATA *data)
 {
-    //if renderer isn't yet active
-    if (m_data.is_loaded == FALSE) {
-        
-        //load  init main data
-        printf("* Pequod-C *\nWarming up...\n");
-        m_data.frame_rate.frame_time = 0;
-        m_data.frame_rate.frame_start = 0;
-        m_data.window_d.is_running = 0;
-        m_data.window_d.colour = get_colour(BACKGROUND_COLOUR);
-        m_data.frame_rate.FPS = FPS_DEF;
-        m_data.frame_rate.delay_time = DELAY_TIME_DEF;
-        set_window_mode(WINDOW_MODE);
-        m_data.window_d.height = WINDOW_HEIGHT;
-        m_data.window_d.width = WINDOW_WIDTH;
-        
-        
-        //set init title
-        strcpy(m_data.window_d.title, WINDOW_TITLE);
-        
-        //set init window x, y
-        m_data.window_d.x = WINDOW_X;
-        m_data.window_d.y = WINDOW_Y;
-        
-        //set data loaded flag to true
-        m_data.is_loaded = TRUE;
-        
-        //if window isn't already running
-        if (!m_data.window_d.is_running) {
-            
-            //seed random number based on milliseconds passed since init
-            srand(SDL_GetTicks());
-            
-            printf("initialising SDL...\n");
-            
-            //init SDL
-            if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
-            printf("SDL initialised!\n");
-                
-                //init window
-                if ((m_data.window_d.window = SDL_CreateWindow(m_data.window_d.title, m_data.window_d.x, m_data.window_d.y, m_data.window_d.width, m_data.window_d.height, m_data.window_d.window_mode))) {
-                    printf("Window initialised!\n");
-                    
-                    //init renderer
-                    if ((m_data.renderer = SDL_CreateRenderer(m_data.window_d.window, -1, SDL_RENDERER_ACCELERATED))) {
-                        printf("Renderer initialised!\ninitialisint TTF\n");
-                        TTF_Init(); //init text api
-                        printf("initialisation complete!\nrunning...\n*\n\n");
-                        
-                        //if window is resizable or fullscreen, get h&w values
-                        if (m_data.window_d.window_mode != SDL_WINDOW_SHOWN)
-                            PEQ_checkset_render_size();
-                        
-                        //set render colour
-                        if (m_data.window_d.colour.name != TRANSPARENT && !(SDL_SetRenderDrawColor(m_data.renderer, m_data.window_d.colour.r, m_data.window_d.colour.g, m_data.window_d.colour.b, m_data.window_d.colour.a))) {
-                            m_data.window_d.is_running = TRUE;
-                            return TRUE;
-                            
-                        //error handling
-                        } else
-                            printf("Renderer colour error; colour %u not recognised or is illegal\n", m_data.window_d.colour.name);
-                        
-                    } else
-                        printf("Renderer failed to initialise; ERROR: %s\n", SDL_GetError());
-                    
+    printf("initialising SDL...\n");
+    if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
+        printf("SDL initialised!\n");
+        if ((data->window = SDL_CreateWindow(data->title, data->x, data->y, data->win_width, data->win_height, get_window_mode(data->window_mode)))) {
+            printf("Window initialised!\n");
+            if ((data->renderer = SDL_CreateRenderer(data->window, -1, 0))) {
+                printf("Renderer initialised!\nloading objects...\n");
+                load_objects(data);
+                printf("initialisation complete!\nrunning...\n*\n\n");
+                if (data->r_colour.name != TRANSPARENT && !(SDL_SetRenderDrawColor(data->renderer, data->r_colour.r, data->r_colour.g, data->r_colour.b, data->r_colour.a))) {
+                    return 1;
                 } else
-                    printf("Window failed to initialise; ERROR: %s\n", SDL_GetError());
-                
+                    printf("Renderer colour error; colour %u not recognised or is illegal\n", data->r_colour.name);
             } else
-                printf("SDL failed to initialise; ERROR: %s\n", SDL_GetError());
+                printf("Renderer failed to initialise; ERROR: %s\n", SDL_GetError());
         } else
-            
-            printf("cannot init; PEQ already running!\n");
-    }
-    return FALSE;
+            printf("Window failed to initialise; ERROR: %s\n", SDL_GetError());
+    } else
+        printf("SDL failed to initialise; ERROR: %s\n", SDL_GetError());
+    return 0;
 }
 
-pbool PEQ_handle_events()
+int PEQ_handle_events(PEQ_DATA *data)
 {
-    PEQ_boot_if
-    
-    //todo (if resize etc)
-    
-    
     SDL_Event e;
     if (SDL_PollEvent(&e)) {
         switch (e.type) {
             case SDL_QUIT:
-                m_data.window_d.is_running = 0;
-                PEQ_clean(); //clean if exit
-                break;
-            case SDL_WINDOWEVENT:
-                switch (e.window.event) {
-                    case SDL_WINDOWEVENT_SIZE_CHANGED:
-                        PEQ_checkset_render_size();
-                        break;
-                    }
+                data->is_running = 0;
                 break;
             default:
                 break;
         }
     }
-    
-    return TRUE;
+    return 0;
 }
 
-void PEQ_clear_render()
+int PEQ_render(PEQ_DATA *data)
 {
-    PEQ_boot_if
+    SDL_SetRenderDrawColor(data->renderer, data->r_colour.r, data->r_colour.g,data->r_colour.b, data->r_colour.a);
+    SDL_RenderClear(data->renderer);
     
-    SDL_SetRenderDrawColor(m_data.renderer, m_data.window_d.colour.r, m_data.window_d.colour.g, m_data.window_d.colour.b, m_data.window_d.colour.a);
-    SDL_RenderClear(m_data.renderer);
-}
-
-void PEQ_draw_render()
-{
-    PEQ_boot_if
+    
     
     //PEQ_draw_shape(data->renderer, &r1);
   
@@ -188,235 +77,109 @@ void PEQ_draw_render()
         PEQ_draw_shape(data->renderer, &data->object_bank[4].graphic.shape);
     }
     
-    //start frame counter
-    m_data.frame_rate.frame_start = SDL_GetTicks();
+    //new kind of array call
+    for (int i = 0; i < 8; i++)
+        PEQ_draw_shape(data->renderer, &data->object_bank[i].graphic.shape);
+   
+    
+    SDL_RenderPresent(data->renderer);
+    SDL_Delay(100);
+    return 0;
 }
 
-void PEQ_frame_end()
+int PEQ_clean(PEQ_DATA *data)
 {
-    PEQ_boot_if
-    
-    //calculate frame rate after render
-    m_data.frame_rate.frame_time = SDL_GetTicks() - m_data.frame_rate.frame_start;
-    if (m_data.frame_rate.frame_start < m_data.frame_rate.delay_time)
-        SDL_Delay((int)m_data.frame_rate.delay_time - m_data.frame_rate.frame_time);
-}
-
-
-
-static pbool PEQ_clean()
-{
-    PEQ_boot_if
-    
     printf("cleaning...\n");
-    SDL_DestroyRenderer(m_data.renderer);
+    SDL_DestroyRenderer(data->renderer);
     printf("renderer destroyed!\n");
-    SDL_DestroyWindow(m_data.window_d.window);
+    SDL_DestroyWindow(data->window);
     printf("window destroyed!\n");
-    printf("cleaning SDL_TTF...\n");
-    TTF_Quit();
-    printf("cleaning SDL...\n");
-    SDL_Quit();
+    
     
     return 0;
 }
 
-static void PEQ_checkset_render_size()
+int PEQ_update(PEQ_DATA *data)
 {
-    SDL_GetRendererOutputSize(m_data.renderer, &m_data.window_d.width, &m_data.window_d.height);
+    PEQ_handle_events(data);
+    
+    //update random colours
+    data->object_bank[0].graphic.shape.rect.colour = PEQ_rand_colour(255);
+    data->object_bank[1].graphic.shape.rect.colour = PEQ_rand_colour(0);
+    
+    //move rectangle
+    if (data->object_bank[0].graphic.shape.rect.p.x + data->object_bank[0].graphic.shape.rect.width < WINDOW_WIDTH)
+        data->object_bank[0].graphic.acc.x++;
+    else {
+        data->object_bank[0].graphic.acc.x = 0;
+    }
+    data->object_bank[0].graphic.shape.rect.p.x += data->object_bank[0].graphic.acc.x;
+    
+    //fades!!
+    obj_fade(&data->object_bank[3], 20);
+    obj_fade(&data->object_bank[7], 10);
+    
+    //giggly darkstar!
+        data->object_bank[8].texture.texture.position.x += PEQ_rand(-2, 3);
+        data->object_bank[8].texture.texture.position.y += PEQ_rand(-3, 2);
+    
+    
+    return 0;
+}
+
+int PEQ_cycle(PEQ_DATA *data)
+{
+    data->frame_start = SDL_GetTicks();
+    
+    PEQ_update(data);
+    PEQ_render(data);
+    
+    data->frame_time = SDL_GetTicks() - data->frame_start;
+    if (data->frame_start < data->delay_time)
+        SDL_Delay((int)data->delay_time - data->frame_time);
+    
+    return 0;
 }
 
 
-/******************************************************************************************
- *
- *          TEXTURES - LOADING & DRAWING
- *
- ******************************************************************************************/
-
-
-PEQ_IMAGE PEQ_load_image(char *image_name, char *filename)
+//load objects in here:
+void load_objects(PEQ_DATA *data)
 {
-    SDL_Surface* t_surface;
-    PEQ_IMAGE t;
+    //todo load from file
+    int count = 9;
+    //graphics
+    data->object_bank[0].graphic.shape = PEQ_get_rect(makepoint(110, 100), 200, 400, PEQ_rand(0, 5));
+    data->object_bank[1].graphic.shape = PEQ_get_rect(makepoint(100, 100), 200, 400, PEQ_rand(0, 5));
+    data->object_bank[2].graphic.shape = PEQ_get_line(makepoint(50, 500), makepoint(600, 50), RED);
+    data->object_bank[7].graphic.shape = PEQ_get_circ(RED, makeSDLpoint(100, 100), 50);
+    data->object_bank[4].graphic.shape = PEQ_get_point(makepoint(PEQ_rand(0, WINDOW_WIDTH), PEQ_rand(0, WINDOW_HEIGHT)), PEQ_rand(0, 3));
+    data->object_bank[5].graphic.shape = PEQ_get_line(makepoint(100, 100), makepoint(200, 200), WHITE);
+    data->object_bank[6].graphic.shape = PEQ_get_rect(makepoint(200, 200), 150, 200, RED);
+    data->object_bank[3].graphic.shape = PEQ_get_rect(makepoint(200, 200), 200, 200, RED);
+    //textures
+    data->object_bank[8].texture.texture = PEQ_get_texture(data->renderer, "darkstar", "assets/images/darkstar.png", makepoint(300, 300), SDL_FLIP_NONE);
     
-        if ((t_surface = IMG_Load(filename))) {
-            t.PEQ_TEXTURE.texture = SDL_CreateTextureFromSurface(m_data.renderer, t_surface);
-            if (t.PEQ_TEXTURE.texture) {
-                t.PEQ_TEXTURE.src_width = t.width = t_surface->w;   //set image height and width to default
-                t.PEQ_TEXTURE.src_height = t.height = t_surface->h;
-                t.position.x = t.position.y = 0;    //default coordinates
-                t.flip_flag = SDL_FLIP_NONE;    //set default flip to none
-                strcpy(t.img_name, image_name);             //last thing--set image name
-                strcpy(t.filename , filename);
-                
-                printf("%s (%s) loaded!\n", t.img_name, t.filename);
-                SDL_FreeSurface(t_surface);
-                
-                return t;
-            }
-        }
-    printf("skipped: %s. ERROR: %s\n", t.img_name, SDL_GetError());
-    return t;
-}
-
-void PEQ_draw_image(PEQ_IMAGE *image)
-{
-    SDL_Rect src_r, dest_r;
-    
-    //assign texture data
-    src_r.x = src_r.y = 0;
-    src_r.w = image->PEQ_TEXTURE.src_width;
-    src_r.h = image->PEQ_TEXTURE.src_height;
-    
-    //assign passed data
-    dest_r.x = image->position.x;
-    dest_r.y = image->position.y;
-    dest_r.w = image->width;
-    dest_r.h = image->height;
-    
-    //blit
-    SDL_RenderCopyEx(m_data.renderer, image->PEQ_TEXTURE.texture, &src_r, &dest_r, 0, 0, image->flip_flag);
-}
-
-
-
-/******************************************************************************************
- *
- *          SHAPES - DRAWING            (See PEQ_geometry for other functions)
- *
- ******************************************************************************************/
-
-void PEQ_draw_line(PEQ_LINE *line)
-{
-    
-    SDL_SetRenderDrawColor(m_data.renderer, line->colour.r, line->colour.g, line->colour.b, line->colour.a);
-    SDL_RenderDrawLine(m_data.renderer, line->p1.x , line->p1.y, line->p2.x, line->p2.y);
-}
-
-void PEQ_draw_rect(PEQ_RECT *rect)
-{
-    SDL_Rect t;
-    
-    t.x = rect->p.x;
-    t.y = rect->p.y;
-    t.h = rect->height;
-    t.w = rect->width;
-    
-    SDL_SetRenderDrawColor(m_data.renderer, rect->colour.r, rect->colour.g, rect->colour.b, rect->colour.a);
-    SDL_RenderDrawRect(m_data.renderer, &t);
-}
-
-void PEQ_draw_point(PEQ_POINT *point)
-{
-    SDL_SetRenderDrawColor(m_data.renderer, point->colour.r, point->colour.g, point->colour.b, point->colour.a);
-    SDL_RenderDrawPoint(m_data.renderer, point->p.x, point->p.y);
-}
-
-void PEQ_draw_circle(PEQ_CIRCLE *circ)
-{
-    SDL_SetRenderDrawColor(m_data.renderer, circ->colour.r, circ->colour.g, circ->colour.b, circ->colour.a);
-    
-    for (float w = 0; w < circ->rad * 2; w++)
-    {
-        for (float h = 0; h < circ->rad * 2; h++)
-        {
-            float dx = circ->rad - w; // horizontal offset
-            float dy = circ->rad - h; // vertical offset
-            if ((dx*dx + dy*dy) <= (circ->rad * circ->rad))
-            {
-                SDL_RenderDrawPoint(m_data.renderer, circ->center.x + dx, circ->center.y + dy);
-            }
-        }
+    for (int i = 0; i < count; i++) {
+        if (data->object_bank[i].texture.texture.texture != 0)
+            data->object_bank[i].texture.type = TEXTURE;
+        //todo shape handling
     }
 }
 
 
-/******************************************************************************************
- *
- *          TEXT - DRAWING & LOADING
- *
- ******************************************************************************************/
-
-PEQ_LABEL PEQ_load_label(char *text, char *font_file, int point_size, COLOUR_NAME col1, COLOUR_NAME col2, PEQ_TXT_BLEND blend)
+int pop_main_data(PEQ_DATA *data)
 {
-    PEQ_LABEL t;
-    SDL_Surface *t_surface;
-    
-    //load font
-    t.render_d.font = TTF_OpenFont(font_file, point_size);
-    
-    //if successfull
-    if (t.render_d.font != NULL) {
-        
-        //set colours
-        t.colour1 = get_colour(col1);
-        t.colour2 = get_colour(col2);
-        SDL_Color tc1 = {t.colour1.r, t.colour1.g, t.colour1.b, t.colour1.a};
-        SDL_Color tc2 = {t.colour2.r, t.colour2.g, t.colour2.b, t.colour2.a};
-        
-        //flip default to none
-        t.render_d.flip_flag = SDL_FLIP_NONE;
-        
-        //copy text
-        strcpy(t.text, text);
-        
-        //set blend
-        t.render_d.blend_type = blend;
-        
-        //pos 0 as default
-        t.pos.x = t.pos.y = 0;
-        
-        //load as per blend option
-        switch (t.render_d.blend_type) {
-            case SOLID:
-                t_surface = TTF_RenderText_Solid(t.render_d.font, t.text, tc1);
-                break;
-            case SHADED:
-                t_surface = TTF_RenderText_Shaded(t.render_d.font, t.text, tc1, tc2);
-                break;
-            case BLENDED:
-                t_surface = TTF_RenderText_Blended(t.render_d.font, t.text, tc1);
-                break;
-            default:
-                t_surface = TTF_RenderText_Solid(t.render_d.font, t.text, tc1);
-                break;
-        }
-        //make texture
-        t.render_d.texture = SDL_CreateTextureFromSurface(m_data.renderer, t_surface);
-        
-        if (t.render_d.texture)
-            printf("label loaded! (%s)\n", t.text);
-            //get sizes before freeing
-            t.height = t_surface->h;
-            t.width = t_surface->w;
-            //free mem
-            SDL_FreeSurface(t_surface);
-        
-            return t;
-        }
-    printf("could not load text %s; %s\n", t.text, SDL_GetError());
-    return t;
+    data->frame_start = data->frame_time = data->is_running = 0;
+    data->renderer = 0;
+    data->window = 0;
+    data->r_colour = get_colour(BACKGROUND_COLOUR);
+    data->FPS = FPS_DEF;
+    data->delay_time = DELAY_TIME_DEF;
+    data->win_height = WINDOW_HEIGHT;
+    data->win_width = WINDOW_WIDTH;
+    strcpy(data->title, WINDOW_TITLE);
+    data->x = WINDOW_WIDTH;
+    data->y = WINDOW_Y;
+    data->window_mode = WINDOW_MODE;
+    return 0;
 }
-
-void PEQ_draw_label(PEQ_LABEL *label)
-{
-    SDL_Rect src_r, dest_r;
-    
-    //assign texture data
-    src_r.x = src_r.y = 0;
-    src_r.w = label->width;
-    src_r.h = label->height;
-    
-    //assign passed data
-    dest_r.x = label->pos.x;
-    dest_r.y = label->pos.y;
-    dest_r.w = label->width;
-    dest_r.h = label->height;
-    
-    //blit
-    SDL_RenderCopyEx(m_data.renderer, label->render_d.texture, &src_r, &dest_r, 0, 0, label->render_d.flip_flag);
-    
-}
-
-
-
